@@ -7,7 +7,7 @@ export default {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    path: resolve(__dirname, "../public"),
+    path: resolve(__dirname, "../public/bundle"),
     filename: "bundle.js",
   },
   devServer: {
