@@ -11,31 +11,73 @@
 </head>
 
 <body>
-  <h1
-    class="underline bg-darkCyan text-limeGreen">
-    Hello from public</h1>
-  <h2
-    class="underline bg-darkCyan text-limeGreen">
-    Hello from public</h2>
-  <h3
-    class="underline bg-darkCyan text-limeGreen">
-    Hello from public</h3>
-  <h4
-    class="underline bg-darkCyan text-limeGreen">
-    Hello from public</h4>
-  <h5
-    class="underline bg-darkCyan text-limeGreen">
-    Hello from public</h5>
-  <h6
-    class="underline bg-darkCyan text-limeGreen">
-    Hello from public</h6>
-  <p class=" bg-slate-500">Lorem ipsum
-    dolor sit amet consectetur adipisicing elit.
-    Doloremque neque expedita, repellendus
-    nesciunt eveniet voluptatibus reprehenderit
-    aliquid assumenda aspernatur inventore velit
-    nulla impedit? Iure id incidunt aliquam! Ut,
-    nobis perspiciatis!</p>
+  <!-- NAVIGATION -->
+  <nav
+    class="relative flex flex-wrap items-center justify-between px-2 py-3 bg-darkCyan">
+    <div
+      class="container px-4 mx-auto flex flex-wrap items-center justify-between">
+      <!-- LEFT: LOGO -->
+      <div
+        class="w-full relative flex justify-between px-4 order-1 lg:order-2 lg:w-auto lg:static lg:block">
+        <!-- left logo -->
+        <a href="/">
+          <img
+            src="./logo/HighStreetGym-6-transparentWhite_1200x600.png"
+            alt="logo" class="h-14 w-auto py-2">
+        </a>
+        <!-- right nav toggle on mobile -->
+        <button type="button"
+          class="text-limeGreen cursor-pointer lg:hidden"
+          id="navbarToggle">
+          <svg xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor" class="size-9">
+            <path fill-rule="evenodd"
+              d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+              clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+      <!-- MIDDLE: MENU ITEMS -->
+      <div
+        class="items-center hidden order-2 lg:order-1 lg:flex lg:flex-row"
+        id="collapse-navbar">
+        <ul
+          class="flex flex-col list-none lg:order-1 lg:flex-row lg:ml-auto">
+          <li class="group nav-item">
+            <a href="/classes"
+              class="px-3 py-2 leading-4 text-white group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen">Classes</a>
+          </li>
+          <li class="group nav-item">
+            <a href="/timetable"
+              class="px-3 py-2 leading-4 text-white group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen">Timetable</a>
+          </li>
+          <li class="group nav-item">
+            <a href="/Blog"
+              class="px-3 py-2 leading-4 text-white group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen">Blog</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- RIGHT: LOGIN/SIGNUP -->
+      <div
+        class="items-center hidden order-3 lg:flex lg:flex-row"
+        id="collapse-navbar">
+        <ul
+          class="flex flex-col list-none lg:order-3 lg:flex-row lg:ml-auto">
+          <li class="group nav-item">
+            <a href="/Login"
+              class="px-3 py-2 leading-4 text-white group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen">Login</a>
+          </li>
+          <li class="group nav-item">
+            <a href="/timetable"
+              class="px-3 py-2 leading-4 text-white group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen">Sign
+              Up</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
 
   <script type="module"
