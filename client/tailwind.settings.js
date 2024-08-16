@@ -8,6 +8,7 @@ export default {
   },
   screensRem: {
     min: 20,
+    xs: 30,
     sm: 40,
     md: 48,
     lg: 64,

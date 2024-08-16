@@ -3,6 +3,7 @@ import settings from "./tailwind.settings.js";
 const remToPx = (rem) => `${rem * 16}px`;
 
 export default {
+  xs: remToPx(settings.screensRem.xs),
   sm: remToPx(settings.screensRem.sm),
   md: remToPx(settings.screensRem.md),
   lg: remToPx(settings.screensRem.lg),
