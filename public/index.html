@@ -10,10 +10,10 @@
   <title>Hello from public</title>
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen">
   <!-- NAVIGATION -->
   <nav
-    class="relative flex flex-wrap items-center justify-between px-2 py-3 bg-darkCyan">
+    class="sticky top-0 flex flex-wrap items-center justify-between px-2 py-3 bg-darkCyan">
     <div
       class="container px-4 mx-auto flex flex-wrap items-center justify-between">
       <!-- LEFT: LOGO -->
@@ -93,8 +93,9 @@
           class="object-cover h-96 rounded-xl shadow-inner">
         <!-- CONTENT -->
         <div
-          class="flex flex-row flex-wrap items-center justify-between space-y-3">
-          <div class="basis-full">
+          class="flex flex-wrap items-center justify-between space-y-3">
+          <div
+            class="basis-full text-center md:text-left">
             <h2>Yoga</h2>
             <p>Lorem ipsum dolor sit amet
               consectetur adipisicing elit.
@@ -129,7 +130,8 @@
               </svg>
             </a>
           </div>
-          <div class="basis-full">
+          <div
+            class="basis-full flex items-center justify-center space-x-1 md:justify-start">
             <span
               class="text-xs text-center font-semibold inline-block py-1 px-2 max-w-fit uppercase rounded-full  bg-sky-700 text-white min-w-14">Mon</span>
             <span
@@ -143,7 +145,7 @@
     </div>
   </main>
 
-  <footer>
+  <footer class="mt-auto">
     <div
       class="flex flex-col mx-auto p-6 items-center justify-between text-xs bg-cadetBlue lg:flex-row">
       <p>High Street Gym Copyright &copy; 2024.
