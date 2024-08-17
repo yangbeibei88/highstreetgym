@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line import/no-extraneous-dependencies, node/no-unpublished-import
+import forms from "@tailwindcss/forms";
 import settingScreens from "./tailwind.settings.screens.js";
 import settingsFontSizes from "./tailwind.settings.fontSizes.js";
 
@@ -25,5 +27,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [forms],
 };
