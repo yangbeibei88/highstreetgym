@@ -72,10 +72,10 @@
 
 @layer components {
   .btn {
-    @apply text-base px-4 py-3 font-semibold inline-flex w-fit items-center transition ease-in-out delay-100 hover:underline;
+    @apply text-base px-4 py-3 font-semibold inline-flex w-fit items-center justify-center transition ease-in-out delay-100 hover:underline;
   }
   .btn-bullet {
-    @apply text-base px-4 py-3 rounded-full font-semibold inline-flex w-fit items-center transition ease-in-out delay-100 hover:underline;
+    @apply text-base px-4 py-3 rounded-full font-semibold inline-flex justify-center w-fit items-center transition ease-in-out delay-100 hover:underline;
   }
   .btn-sm {
     @apply text-xs px-3 py-2 font-semibold;
