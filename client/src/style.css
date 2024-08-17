@@ -57,6 +57,39 @@
     @apply text-base;
   }
   p {
-    @apply text-sm;
+    @apply text-sm my-4;
+  }
+
+  th,
+  td {
+    @apply p-2 md:p-4;
+  }
+
+  tr:nth-of-type(2n) {
+    @apply bg-gray-100;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply text-base px-4 py-3 font-semibold inline-flex w-fit items-center transition ease-in-out delay-100 hover:underline;
+  }
+  .btn-bullet {
+    @apply text-base px-4 py-3 rounded-full font-semibold inline-flex w-fit items-center transition ease-in-out delay-100 hover:underline;
+  }
+  .btn-sm {
+    @apply text-xs px-3 py-2 font-semibold;
+  }
+  .btn-white {
+    @apply bg-white shadow text-darkCyan hover:brightness-90;
+  }
+  .btn-darkCyan {
+    @apply bg-darkCyan text-white hover:brightness-125;
+  }
+  .btn-limeGreen {
+    @apply bg-limeGreen text-midnightBlue hover:brightness-90;
+  }
+  .btn-lemonGreen {
+    @apply bg-lemonGreen text-midnightBlue hover:brightness-90;
   }
 }

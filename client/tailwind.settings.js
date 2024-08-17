@@ -1,6 +1,6 @@
 export default {
   typography: {
-    fontSizeMin: 1.125,
+    fontSizeMin: 1,
     fontSizeMax: 1.25,
     msFactorMin: 1.125,
     msFactorMax: 1.2,

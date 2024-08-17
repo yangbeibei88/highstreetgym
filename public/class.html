@@ -13,7 +13,7 @@
 <body class="flex flex-col min-h-screen">
   <!-- NAVIGATION -->
   <nav
-    class="sticky top-0 flex flex-wrap items-center justify-between px-2 py-3 bg-darkCyan">
+    class="sticky top-0 flex flex-wrap items-center justify-between px-2 py-3 bg-darkCyan shadow">
     <div
       class="container px-4 mx-auto flex flex-wrap items-center justify-between">
       <!-- LEFT: LOGO -->
@@ -43,7 +43,7 @@
         class="items-center hidden order-2 lg:order-1 lg:flex lg:flex-row"
         id="collapse-navbar">
         <ul
-          class="font-medium flex flex-col list-none lg:order-1 lg:flex-row lg:ml-auto">
+          class="font-medium flex flex-col list-none lg:order-1 lg:flex-row lg:flex-wrap lg:ml-auto">
           <li class="group nav-item">
             <a href="/classes"
               class="px-3 py-2 leading-4 text-lemonGreen group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen">Classes</a>
@@ -55,7 +55,7 @@
           <li class="group nav-item">
             <a href="/Blog"
               class="px-3 py-2 leading-4 text-lemonGreen group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen">Blog</a>
-          </li>
+
         </ul>
       </div>
 
@@ -82,20 +82,22 @@
   <!-- MAIN CONTENT -->
   <main id="class">
     <!-- 1) CLASS INTRO -->
-    <section class="bg-darkCyan"
+    <section class="bg-darkCyan text-white"
       id="class-header">
       <div
-        class="container flex flex-col items-center justify-center mx-auto py-6 lg:flex-row lg:space-x-5">
+        class="container flex flex-col items-center justify-center mx-auto pt-6 pb-10 lg:flex-row lg:space-x-8">
         <!-- 1.1) image -->
         <div class="basis-full lg:basis-1/2">
           <img src="./images/classes/yoga.jpg"
             alt="yoga"
-            class="object-cover rounded-lg shadow">
+            class="object-cover rounded-lg shadow-lg">
         </div>
         <!-- 1.2) content -->
         <div class="basis-full lg:basis-1/2">
-          <h1>Yoga</h1>
-          <h2 class="text-lg">Lorem ipsum dolor
+          <h1 class="text-lemonGreen">Yoga</h1>
+          <h2 class="text-lg text-lemonGreen">
+            Lorem
+            ipsum dolor
             sit amet consectetur adipisicing elit.
             Adipisci, possimus.</h2>
           <p>Lorem ipsum dolor sit amet
@@ -119,10 +121,94 @@
             nihil iusto quo! Vel itaque provident
             placeat sed nulla, veritatis beatae ea
             deleniti rerum natus eum nostrum?</p>
+          <a href=""
+            class="btn btn-limeGreen"><span>View
+              Timetable And Book</span><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6">
+              <path stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m4.5 4.5 15 15m0 0V8.25m0 11.25H8.25" />
+            </svg>
+          </a>
         </div>
       </div>
     </section>
     <!-- 2) CLASS TIMETABLE -->
+    <section id="view-dates-and-book">
+      <div
+        class="flex flex-col py-4 px-4 items-center justify-center lg:px-10">
+        <table
+          class="w-full table-auto border-collapse border border-darkCyan my-4">
+          <caption class="text-2xl font-bold">
+            Yoga Timetable
+          </caption>
+          <thead
+            class="text-sm text-white bg-darkCyan">
+            <tr>
+              <th class="hidden md:table-cell">
+                Date
+              </th>
+              <th class="hidden md:table-cell">
+                Time</th>
+              <th class="hidden md:table-cell">
+                Class</th>
+              <th class="hidden md:table-cell">
+                Duration
+              </th>
+              <th class="hidden md:table-cell">
+                Level</th>
+              <th class="hidden md:table-cell">
+                Trainer</th>
+              <th class="hidden md:table-cell">
+                Vacancy</th>
+              <th class="hidden md:table-cell">
+                Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-cell="date"
+                class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none">
+                2024-09-01</td>
+              <td
+                class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
+                data-cell="time">
+                10:30</td>
+              <td
+                class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
+                data-cell="class">
+                Yoga</td>
+              <td
+                class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
+                data-cell="duration">
+                30 mins</td>
+              <td
+                class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
+                data-cell="level">
+                Intermediate</td>
+              <td
+                class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
+                data-cell="trainer">
+                Lucy</td>
+              <td
+                class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
+                data-cell="vacancy">
+                5</td>
+              <td
+                class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
+                data-cell="action">
+                <a class="btn-bullet btn-limeGreen btn-sm"
+                  href="#">Book Now</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </main>
 
   <footer class="mt-auto">
