@@ -79,7 +79,6 @@
       </div>
     </div>
   </nav>
-  <!-- 1) HEADER -->
   <div
     class="wrapper overflow-hidden bg-[url('/images/blog/my-journey-to-a-yoga-master.jpg')] bg-cover bg-no-repeat bg-center bg-scroll">
     <div
@@ -179,6 +178,41 @@
       </main>
     </div>
   </div>
+
+  <section id="comments" class="bg-slate-100">
+    <div class="container mx-auto py-6">
+      <h2>Comments</h2>
+      <form id="form-comment" class="mb-4">
+        <textarea name="comment" id="commentInput"
+          placeholder="Write your comment here"></textarea>
+        <button type="submit"
+          class="btn-bullet btn-limeGreen btn-sm">Submit</button>
+      </form>
+      <section id="member-comments" class="mb-6">
+        <article
+          class="flex items-center bg-white border px-4 py-2 space-x-3">
+          <!-- left -->
+          <img
+            src="./images/users/default-avatar-10.png"
+            alt=""
+            class="size-14 rounded-full border">
+          <!-- right -->
+          <div class="">
+            <p class="my-0">Lorem ipsum dolor sit
+              amet,
+              consectetur adipisicing elit.
+              Assumenda saepe quisquam, ipsam
+              voluptatum repellendus incidunt cum
+              nobis praesentium enim dolorem?</p>
+            <span class="space-x-2"><small>Nick
+                Diamond</small><time
+                datetime="2024-03-01 09:29:35"><small>2024-03-01
+                  09:29:35</small></time></span>
+          </div>
+        </article>
+      </section>
+    </div>
+  </section>
 
   <footer class="mt-auto">
     <div
