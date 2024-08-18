@@ -62,7 +62,7 @@
 
   th,
   td {
-    @apply p-2 md:p-4;
+    @apply p-2 md:p-3;
   }
   tr:nth-of-type(2n) {
     @apply bg-gray-100;
