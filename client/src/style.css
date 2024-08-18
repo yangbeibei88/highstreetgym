@@ -8,24 +8,24 @@
     font-weight: normal;
     font-style: normal;
     src:
-      url("./fonts/oxygen-bold-webfont.woff2") format("woff2"),
-      url("./fonts/oxygen-bold-webfont.woff") format("woff");
+      url("/fonts/oxygen-bold-webfont.woff2") format("woff2"),
+      url("/fonts/oxygen-bold-webfont.woff") format("woff");
   }
   @font-face {
     font-family: "oxygen-light";
     font-weight: normal;
     font-style: normal;
     src:
-      url("./fonts/oxygen-light-webfont.woff2") format("woff2"),
-      url("./fonts/oxygen-light-webfont.woff") format("woff");
+      url("/fonts/oxygen-light-webfont.woff2") format("woff2"),
+      url("/fonts/oxygen-light-webfont.woff") format("woff");
   }
   @font-face {
     font-family: "oxygen-regular";
     font-weight: normal;
     font-style: normal;
     src:
-      url("./fonts/oxygen-regular-webfont.woff2") format("woff2"),
-      url("./fonts/oxygen-regular-webfont.woff") format("woff");
+      url("/fonts/oxygen-regular-webfont.woff2") format("woff2"),
+      url("/fonts/oxygen-regular-webfont.woff") format("woff");
   }
   html {
     font-family: "oxygen-regular", system-ui, sans-serif;

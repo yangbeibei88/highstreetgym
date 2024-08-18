@@ -81,108 +81,14 @@
   </nav>
   <!-- 1) HEADER -->
   <!-- TODO: ADD BACKGROUND IMAGE -->
-  <header class="bg-darkCyan text-white">
+  <header
+    class="text-white bg-[url('/images/blog/my-journey-to-a-yoga-master.jpg')]">
     <div
       class="container mx-auto px-4 pt-3 md:px-0 md:py-4">
       <h1>Blog</h1>
       <p>Read articles from our gym members!</p>
     </div>
   </header>
-  <div class="wrapper bg-slate-100">
-    <div
-      class="container grid grid-cols-1 gap-4 py-5 px-4 mx-auto md:px-0 md:grid-cols-3">
-      <!-- 2) MAIN CONTENT -->
-      <main id="blog"
-        class="col-span-1 md:col-span-2 order-2">
-        <div class="flex flex-col space-y-4">
-          <article
-            class="flex flex-col rounded-lg bg-white shadow md:flex-row md:space-x-4">
-            <img
-              src="./images/blog/my-journey-to-a-yoga-master.jpg"
-              alt=""
-              class="max-h-52 object-cover rounded-t-lg md:max-h-full md:rounded-tr-none md:rounded-l-lg md:w-1/3">
-            <div
-              class="w-full py-4 px-2 flex flex-col md:w-2/3">
-              <small
-                class="text-xs font-semibold bg-orange-700 text-white rounded-full w-fit px-3 py-1">Yoga</small>
-              <h2 class="text-xl">My Journey to a
-                Yoga Master</h2>
-              <p>Lorem ipsum dolor sit, amet
-                consectetur adipisicing elit. Sit
-                ullam assumenda dolores tempore
-                maiores neque praesentium esse
-                nobis
-                a totam.</p>
-              <div
-                class="basis-full flex flex-col items-center justify-between md:flex-row">
-                <div
-                  class="flex items-center space-x-2 mr-auto">
-                  <img
-                    src="./images/users/default-avatar.jpg"
-                    alt=""
-                    class="size-8 rounded-full object-cover md:size-12">
-                  <small class="text-xs">John
-                    Doe</small>
-                  <small
-                    class="text-xs">2023-10-10</small>
-                </div>
-                <a class="btn-bullet btn-limeGreen btn-sm ml-auto"
-                  href="#">
-                  Read
-                  More >></a>
-              </div>
-            </div>
-          </article>
-          <article>card1</article>
-          <article>card1</article>
-          <article>card1</article>
-        </div>
-      </main>
-      <!-- 3) FILTER -->
-      <aside class="order-1">
-        <div class="space-y-4">
-          <!-- SORT SELECT DROPDOWN -->
-          <section id="sortBy">
-            <h2 class="text-sm font-semibold">
-              Sort</h2>
-            <select name="sort" id="topic-select">
-              <option value="0">--Sort---</option>
-              <option value="1">Newest to Oldest
-              </option>
-              <option value="2">Oldest to Newest
-              </option>
-            </select>
-          </section>
-          <!-- FILTER CHECKBOX -->
-          <!-- TODO: add js to close filter on mobile -->
-          <section class="filterBy">
-            <h2 class="text-sm font-semibold">
-              Filters</h2>
-            <details open
-              class="bg-white p-2 border rounded border-gray-300">
-              <summary class="font-semibold pb-1">
-                By Topic</summary>
-              <div class="space-x-1">
-                <input type="checkbox" name="yoga"
-                  id="yoga">
-                <label for="yoga">Yoga</label>
-              </div>
-              <div class="space-x-1">
-                <input type="checkbox" name="yoga"
-                  id="yoga">
-                <label for="yoga">Yoga</label>
-              </div>
-              <div class="space-x-1">
-                <input type="checkbox" name="yoga"
-                  id="yoga">
-                <label for="yoga">Yoga</label>
-              </div>
-            </details>
-          </section>
-        </div>
-      </aside>
-    </div>
-  </div>
 
   <footer class="mt-auto">
     <div

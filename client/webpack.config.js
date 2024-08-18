@@ -9,6 +9,7 @@ export default {
   output: {
     path: resolve(__dirname, "../public/bundle"),
     filename: "bundle.js",
+    publicPath: "/", // ensure all urls in css file are treated as absolute (absolute to public folder)
   },
   devServer: {
     static: {
@@ -25,7 +26,12 @@ export default {
       {
         test: /\.css$/i,
         include: resolve(__dirname, "./src"),
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: [
+          "style-loader",
+          // I previous have issue that webpack laaded the wrong path for font-face and background image, disable url so that webpack won't process url
+          { loader: "css-loader", options: { url: false } },
+          "postcss-loader",
+        ],
       },
     ],
   },
