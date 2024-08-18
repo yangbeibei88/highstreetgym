@@ -7,7 +7,7 @@
     content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="./favicon.ico"
     type="image/x-icon">
-  <title>Booking</title>
+  <title>Booking Confirmation</title>
 </head>
 
 <body
@@ -82,18 +82,25 @@
   <!-- Want to change layout to left iamge, right login form, hide nav menu -->
   <!-- NEED TO ADD A BACKGROUND IMAGE TO LOGIN PAGE -->
   <!-- MAIN CONTENT -->
-  <main id="booking"
+  <main id="booking-confirmation"
     class="flex items-center justify-center flex-grow bg-gray-300">
     <div
       class="container mx-auto flex flex-col rounded-xl bg-white max-w-2xl px-6 py-10 md:p-16">
-      <h1 class="text-2xl text-center">Class
-        Booking</h1>
+      <h1 class="text-2xl text-center">✅Booking
+        Confirmation</h1>
+      <p class="text-center">Thank you! We have
+        received your booking!👏
+      </p>
       <table
         class="table-auto border-y border-slate-300">
         <caption
           class="text-sm italic text-left font-semibold">
-          Class Information
+          Booking Summary
         </caption>
+        <tr>
+          <th>Booking ID</th>
+          <td>123</td>
+        </tr>
         <tr>
           <th>Class</th>
           <td>Yoga</td>
@@ -115,27 +122,20 @@
           <th>Trainer</th>
           <td>Lucy</td>
         </tr>
+        <tr>
+          <th>Participant</th>
+          <td>Beibei</td>
+        </tr>
       </table>
-      <!-- TODO: disable buttons if checkbox is unchecked -->
-      <form class="flex flex-col">
-        <div class="py-4 space-x-1">
-          <input type="checkbox"
-            name="bookingConfirm"
-            id="bookingConfirm">
-          <label for="bookingConfirm text-sm">By
-            checking
-            the checkbox, I am committed to attend
-            the class.</label>
-        </div>
-        <div class="btn-group">
-          <a href="/timetable"
-            class="btn bg-gray-300 btn-sm">&laquo;
-            Cancel</a>
-          <button type="submit"
-            class="btn btn-limeGreen btn-sm">Submit
-            &raquo;</button>
-        </div>
-      </form>
+      <div
+        class="btn-group mx-auto pt-4 space-y-4 lg:space-y-0 lg:space-x-4">
+        <a href="/"
+          class="btn bg-gray-300 btn-sm">&laquo;
+          Back to Homepage</a>
+        <a href="/my-bookings"
+          class="btn btn-limeGreen btn-sm">
+          Manage My Bookings &raquo;</a>
+      </div>
     </div>
   </main>
 
