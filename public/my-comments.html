@@ -7,7 +7,7 @@
     content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="./favicon.ico"
     type="image/x-icon">
-  <title>My Articles</title>
+  <title>My Comments</title>
 </head>
 
 <body
@@ -97,7 +97,7 @@
     <header class="bg-darkCyan text-white">
       <div
         class="container mx-auto px-4 pt-3 md:px-0 md:py-4">
-        <h1>My Articles</h1>
+        <h1>My Comments</h1>
       </div>
     </header>
     <!-- 2) MAIN CCONTENT -->
@@ -105,11 +105,11 @@
       <div
         class="max-w-screen-xl grid grid-cols-1 gap-4 py-5 px-4 mx-auto md:px-0 md:grid-cols-4 lg:mx-20">
         <!-- 2) MAIN CONTENT -->
-        <main id="my-articles"
+        <main id="my-comments"
           class="col-span-1 md:col-span-3 order-2">
           <!-- Search & Filter -->
           <!-- 1) FILTER -->
-          <div
+          <!-- <div
             class="flex flex-col items-center justify-between p-4 space-y-3 lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10">
             <div class="w-full lg:w-1/2">
               <label
@@ -119,24 +119,8 @@
                 id="search-article"
                 placeholder="Search my articles">
             </div>
-            <div class="lg:justify-self-end">
-              <a href="/create-post"
-                class="btn btn-limeGreen btn-sm space-x-1">
-                <span>Create
-                  Post</span><span><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6">
-                    <path stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                  </svg></span></a>
-            </div>
-          </div>
-          <!-- my articles table -->
+          </div> -->
+          <!-- my comment table -->
           <table
             class="w-full table-auto border-collapse border border-darkCyan my-4">
             <caption class="text-sm">
@@ -146,16 +130,17 @@
               class="text-sm text-white bg-darkCyan">
               <tr>
                 <th class="hidden md:table-cell">
-                  Date Created
+                  Date Published
                 </th>
                 <th class="hidden md:table-cell">
-                  Date Updated</th>
+                  Date Updated
+                </th>
                 <th class="hidden md:table-cell">
-                  Title</th>
+                  Article</th>
                 <th class="hidden md:table-cell">
-                  Topic</th>
+                  Author</th>
                 <th class="hidden md:table-cell">
-                  Visibility</th>
+                  Comment</th>
                 <th class="hidden md:table-cell">
                   Edit
                 </th>
@@ -178,12 +163,17 @@
                   My Journey to a Yoga Master</td>
                 <td
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
-                  data-cell="topic">
-                  Yoga</td>
+                  data-cell="author">
+                  Song</td>
                 <td
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
-                  data-cell="visibility">
-                  Public</td>
+                  data-cell="comment">
+                  <p>Lorem ipsum dolor sit amet
+                    consectetur adipisicing elit.
+                    Nostrum aliquam nihil rerum
+                    beatae labore reprehenderit
+                    eos iste fugit ea odit.</p>
+                </td>
                 <td
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
                   data-cell="edit">
@@ -214,11 +204,11 @@
                 class="block p-4 hover:bg-limeGreen hover:underline">My
                 Bookings</a>
             </li>
-            <li data-active="true"><a href="#"
-                class="block p-4 bg-limeGreen">My
-                Articles</a></li>
             <li data-active="false"><a href="#"
                 class="block p-4 hover:bg-limeGreen hover:underline">My
+                Articles</a></li>
+            <li data-active="true"><a href="#"
+                class="block p-4 bg-limeGreen">My
                 Comments</a></li>
             <li data-active="false"><a href="#"
                 class="block p-4 hover:bg-limeGreen hover:underline">My
