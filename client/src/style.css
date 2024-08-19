@@ -62,7 +62,7 @@
 
   th,
   td {
-    @apply p-1 md:p-2;
+    @apply text-sm p-1 md:p-2;
   }
   tr:nth-of-type(2n) {
     @apply bg-gray-100;
@@ -98,7 +98,7 @@
     @apply text-base px-4 py-3 rounded-full font-semibold inline-flex items-center justify-center w-fit transition ease-in-out hover:underline;
   }
   .btn-sm {
-    @apply text-xs px-3 py-2 font-semibold;
+    @apply text-xs px-3 py-1 font-semibold;
   }
   .btn-white {
     @apply bg-white shadow text-darkCyan hover:brightness-90;
@@ -111,6 +111,9 @@
   }
   .btn-lemonGreen {
     @apply bg-lemonGreen text-midnightBlue hover:brightness-90;
+  }
+  .btn-red {
+    @apply bg-red-600 text-white hover:brightness-90;
   }
   .page-wrapper {
     @apply flex flex-col w-full grow bg-slate-100;

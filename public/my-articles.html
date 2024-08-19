@@ -7,7 +7,7 @@
     content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="./favicon.ico"
     type="image/x-icon">
-  <title>My Bookings</title>
+  <title>My Articles</title>
 </head>
 
 <body
@@ -97,7 +97,7 @@
     <header class="bg-darkCyan text-white">
       <div
         class="container mx-auto px-4 pt-3 md:px-0 md:py-4">
-        <h1>My Bookings</h1>
+        <h1>My Articles</h1>
       </div>
     </header>
     <!-- 2) MAIN CCONTENT -->
@@ -110,30 +110,33 @@
           <!-- Search & Filter -->
           <!-- 1) FILTER -->
           <div
-            class="form flex flex-col items-center justify-between p-4 space-y-3 lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10">
-            <div class="w-full lg:w-1/2">
-              <label for="year">Filter by
-                year</label>
-              <select name="year" id="year">
-                <option value="2024" selected>2024
-                </option>
-                <option value="2023">2023</option>
-                <option value="2022">2022
-                </option>
-                <option value="2021">2021
-                </option>
-              </select>
-            </div>
+            class="flex flex-col items-center justify-between p-4 space-y-3 lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10">
             <div class="w-full lg:w-1/2">
               <label
-                for="search-booking">Search</label>
+                for="search-article">Search</label>
               <input type="search"
-                name="search-booking"
-                id="search-booking"
-                placeholder="Search your booked classes">
+                name="search-article"
+                id="search-article"
+                placeholder="Search my articles">
+            </div>
+            <div class="lg:justify-self-end">
+              <a href="/create-post"
+                class="btn btn-limeGreen btn-sm space-x-1">
+                <span>Create
+                  Post</span><span><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6">
+                    <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  </svg></span></a>
             </div>
           </div>
-          <!-- my bookings table -->
+          <!-- my articles table -->
           <table
             class="w-full table-auto border-collapse border border-darkCyan my-4">
             <caption class="text-sm">
@@ -143,58 +146,55 @@
               class="text-sm text-white bg-darkCyan">
               <tr>
                 <th class="hidden md:table-cell">
-                  ID#
+                  Date Created
                 </th>
                 <th class="hidden md:table-cell">
-                  Class Booked</th>
+                  Date Updated</th>
                 <th class="hidden md:table-cell">
-                  Class Started</th>
+                  Title</th>
                 <th class="hidden md:table-cell">
-                  Class</th>
+                  Topic</th>
                 <th class="hidden md:table-cell">
-                  Duration
+                  Visibility</th>
+                <th class="hidden md:table-cell">
+                  Edit
                 </th>
                 <th class="hidden md:table-cell">
-                  Level</th>
-                <th class="hidden md:table-cell">
-                  Trainer</th>
-                <th class="hidden md:table-cell">
-                  Status</th>
+                  Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td data-cell="id"
+                <td data-cell="date_created"
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none">
-                  101</td>
+                  2023-11-10 18:29:59 Sun</td>
                 <td
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
-                  data-cell="booking_date">
-                  2024-02-05 14:48 Mon</td>
+                  data-cell="date_updated">
+                  2023-11-12 10:21:15 Tue</td>
                 <td
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
-                  data-cell="class_datetime">
-                  2024-02-07 10:30 Wed</td>
+                  data-cell="article_title">
+                  My Journey to a Yoga Master</td>
                 <td
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
-                  data-cell="class">
+                  data-cell="topic">
                   Yoga</td>
                 <td
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
-                  data-cell="duration">
-                  30 mins</td>
+                  data-cell="visibility">
+                  Public</td>
                 <td
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
-                  data-cell="level">
-                  Intermediate</td>
+                  data-cell="edit">
+                  <a href="/edit"
+                    class="btn btn-sm btn-limeGreen">Edit</a>
+                </td>
                 <td
                   class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
-                  data-cell="trainer">
-                  Lucy</td>
-                <td
-                  class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none"
-                  data-cell="status">
-                  Finished
+                  data-cell="delete">
+                  <a href="/delete"
+                    class="btn btn-sm btn-red">Delete</a>
                 </td>
               </tr>
             </tbody>
@@ -203,19 +203,19 @@
         <!-- 3) SIDE MENU -->
         <nav class="order-1">
           <ul id="account-menu-list"
-            class="text-midnightBlue flex flex-col font-semibold">
+            class="text-midnightBlue text-sm flex flex-col font-semibold">
             <li data-active="fase">
               <a href="#"
                 class="block p-4 hover:bg-limeGreen hover:underline">My
                 Dashboard</a>
             </li>
-            <li data-active="true">
+            <li data-active="false">
               <a href="#"
-                class="block p-4 bg-limeGreen">My
+                class="block p-4 hover:bg-limeGreen hover:underline">My
                 Bookings</a>
             </li>
-            <li data-active="false"><a href="#"
-                class="block p-4 hover:bg-limeGreen hover:underline">My
+            <li data-active="true"><a href="#"
+                class="block p-4 bg-limeGreen">My
                 Articles</a></li>
             <li data-active="false"><a href="#"
                 class="block p-4 hover:bg-limeGreen hover:underline">My
