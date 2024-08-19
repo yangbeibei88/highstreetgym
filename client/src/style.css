@@ -112,4 +112,7 @@
   .btn-lemonGreen {
     @apply bg-lemonGreen text-midnightBlue hover:brightness-90;
   }
+  .page-wrapper {
+    @apply flex flex-col w-full grow bg-slate-100;
+  }
 }
