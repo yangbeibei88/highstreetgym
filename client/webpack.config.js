@@ -33,6 +33,26 @@ export default {
           "postcss-loader",
         ],
       },
+      {
+        test: /\.css$/i,
+        include: resolve(__dirname, "node_modules/quill"), // For Quill's CSS, allow URL processing
+        use: [
+          "style-loader",
+          // I previous have issue that webpack laaded the wrong path for font-face and background image, disable url so that webpack won't process url
+          { loader: "css-loader", options: { url: false } },
+          "postcss-loader",
+        ],
+      },
+      {
+        test: /\.(j|t)s$/,
+        include: resolve(__dirname, "./src"),
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+          },
+        },
+      },
     ],
   },
 };
