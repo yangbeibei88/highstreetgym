@@ -5,7 +5,11 @@ import settingScreens from "./tailwind.settings.screens.js";
 import settingsFontSizes from "./tailwind.settings.fontSizes.js";
 
 export default {
-  content: ["../public/**/*.{html,js}"],
+  content: [
+    "../public/**/*.{html,js}",
+    "./src/**/*.{js,ts}",
+    "../views/**/*.pug",
+  ],
   theme: {
     screens: {
       xs: "475px",

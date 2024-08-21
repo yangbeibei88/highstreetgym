@@ -1,0 +1,27 @@
+nav.sticky.top-0.z-50.flex.flex-wrap.items-center.justify-between.px-2.py-3.bg-darkCyan.shadow
+  .container.mx-auto.flex.flex-wrap.items-center.justify-between
+    // LEFT: LOGO
+    .w-full.relative.flex.justify-between.px-4.order-1(class='lg:order-2 lg:w-auto lg:static lg:block')
+      // left logo
+      a(href='/')
+        img.h-14.w-auto.py-2(src='/logo/HighStreetGym-6-transparentWhite_1200x600.png' alt='logo')
+      // right nav toggle on mobile
+      button#navbarToggle.text-limeGreen.cursor-pointer(type='button' class='lg:hidden')
+        svg.size-9(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor')
+          path(fill-rule='evenodd' d='M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z' clip-rule='evenodd')
+    // MIDDLE: MENU ITEMS
+    #collapse-navbar.items-center.hidden.order-2(class='lg:order-1 lg:flex lg:flex-row')
+      ul.font-medium.flex.flex-col.list-none(class='lg:order-1 lg:flex-row lg:ml-auto')
+        li.group.nav-item
+          a.px-3.py-2.leading-4.text-lemonGreen(href='/classes' class='group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen') Classes
+        li.group.nav-item
+          a.px-3.py-2.leading-4.text-lemonGreen(href='/timetable' class='group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen') Timetable
+        li.group.nav-item
+          a.px-3.py-2.leading-4.text-lemonGreen(href='/blog' class='group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen') Blog
+    // RIGHT: LOGIN/SIGNUP
+    #collapse-navbar.items-center.hidden.order-3(class='lg:flex lg:flex-row')
+      ul.font-medium.flex.flex-col.list-none(class='lg:order-3 lg:flex-row lg:ml-auto')
+        li.group.nav-item
+          a.px-3.py-2.leading-4.text-lemonGreen(href='/login' class='group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen') Login
+        li.group.nav-item
+          a.px-3.py-2.leading-4.text-lemonGreen(href='/signup' class='group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen') Sign Up
