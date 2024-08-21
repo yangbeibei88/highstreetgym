@@ -32,3 +32,9 @@ app.get("/classes", (req, res) => {
 app.get("/my-profile", (req, res) => {
   res.render("my-profile", { title: "My Profile" });
 });
+app.get("/blog", (req, res) => {
+  res.render("blog", { title: "Blog" });
+});
+app.get("/article", (req, res) => {
+  res.render("article", { title: "Article" });
+});

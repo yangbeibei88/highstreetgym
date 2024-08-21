@@ -1,0 +1,118 @@
+extends layout.pug
+
+block content 
+  .wrapper.overflow-hidden.bg-cover.bg-no-repeat.bg-center.bg-scroll(class="bg-[url('/images/blog/my-journey-to-a-yoga-master.jpg')]")
+    .container.mx-auto.bg-white.px-6.pb-10.my-6.mb-10.shadow-lg
+      // 1) HEADER
+      header.text-midnightBlue
+        .container.mx-auto.px-4.pt-3.mb-4(class='md:px-0 md:py-4')
+          // 0) BADGE
+          small.text-xs.font-semibold.bg-orange-700.text-white.rounded-full.w-fit.px-3.py-1 Yoga
+          h1 My Journey To A Yoga Master
+          .flex.items-center.space-x-2.mr-auto
+            img.size-8.rounded-full.object-cover(src='/images/users/default-avatar.jpg' alt='' class='md:size-12')
+            small.text-xs
+              | John
+              | Doe
+            small.text-xs 2023-10-10
+        img.w-full.h-96.rounded-lg.shadow-lg.object-cover(src='/images/blog/my-journey-to-a-yoga-master.jpg' alt='')
+      main#article-content
+      p
+        | Lorem ipsum dolor sit amet consectetur
+        | adipisicing elit. Unde provident numquam
+        | quisquam beatae doloribus vel tempora,
+        | voluptates sed, perspiciatis nam maiores
+        | deserunt cum minima blanditiis
+        | voluptatum amet iusto voluptatibus
+        | quibusdam nesciunt officiis ut, eius
+        | tenetur eum! Dolor odio suscipit error
+        | neque sint aperiam laudantium
+        | consequuntur corporis aliquam laborum,
+        | atque sequi.
+      p
+        | Lorem ipsum dolor sit amet consectetur
+        | adipisicing elit. Unde provident numquam
+        | quisquam beatae doloribus vel tempora,
+        | voluptates sed, perspiciatis nam maiores
+        | deserunt cum minima blanditiis
+        | voluptatum amet iusto voluptatibus
+        | quibusdam nesciunt officiis ut, eius
+        | tenetur eum! Dolor odio suscipit error
+        | neque sint aperiam laudantium
+        | consequuntur corporis aliquam laborum,
+        | atque sequi.
+      p
+        | Lorem ipsum dolor sit amet consectetur
+        | adipisicing elit. Unde provident numquam
+        | quisquam beatae doloribus vel tempora,
+        | voluptates sed, perspiciatis nam maiores
+        | deserunt cum minima blanditiis
+        | voluptatum amet iusto voluptatibus
+        | quibusdam nesciunt officiis ut, eius
+        | tenetur eum! Dolor odio suscipit error
+        | neque sint aperiam laudantium
+        | consequuntur corporis aliquam laborum,
+        | atque sequi.
+      p
+        | Lorem ipsum dolor sit amet consectetur
+        | adipisicing elit. Unde provident numquam
+        | quisquam beatae doloribus vel tempora,
+        | voluptates sed, perspiciatis nam maiores
+        | deserunt cum minima blanditiis
+        | voluptatum amet iusto voluptatibus
+        | quibusdam nesciunt officiis ut, eius
+        | tenetur eum! Dolor odio suscipit error
+        | neque sint aperiam laudantium
+        | consequuntur corporis aliquam laborum,
+        | atque sequi.
+      p
+        | Lorem ipsum dolor sit amet consectetur
+        | adipisicing elit. Unde provident numquam
+        | quisquam beatae doloribus vel tempora,
+        | voluptates sed, perspiciatis nam maiores
+        | deserunt cum minima blanditiis
+        | voluptatum amet iusto voluptatibus
+        | quibusdam nesciunt officiis ut, eius
+        | tenetur eum! Dolor odio suscipit error
+        | neque sint aperiam laudantium
+        | consequuntur corporis aliquam laborum,
+        | atque sequi.
+      p
+        | Lorem ipsum dolor sit amet consectetur
+        | adipisicing elit. Unde provident numquam
+        | quisquam beatae doloribus vel tempora,
+        | voluptates sed, perspiciatis nam maiores
+        | deserunt cum minima blanditiis
+        | voluptatum amet iusto voluptatibus
+        | quibusdam nesciunt officiis ut, eius
+        | tenetur eum! Dolor odio suscipit error
+        | neque sint aperiam laudantium
+        | consequuntur corporis aliquam laborum,
+        | atque sequi.
+  section#comments.bg-slate-100
+    .container.mx-auto.py-6
+      h2 Comments
+      form#form-comment.mb-4
+        textarea#commentInput(name='comment' placeholder='Write your comment here')
+        button.btn-bullet.btn-limeGreen.btn-sm(type='submit') Submit
+      section#member-comments.mb-6
+        article.flex.items-center.bg-white.border.px-4.py-2.space-x-3
+          // left
+          img.size-14.rounded-full.border(src='./images/users/default-avatar-10.png' alt='')
+          // right
+          div
+            p.my-0
+              | Lorem ipsum dolor sit
+              | amet,
+              | consectetur adipisicing elit.
+              | Assumenda saepe quisquam, ipsam
+              | voluptatum repellendus incidunt cum
+              | nobis praesentium enim dolorem?
+            span.space-x-2
+              small
+                | Nick
+                | Diamond
+              time(datetime='2024-03-01 09:29:35')
+                small
+                  | 2024-03-01
+                  | 09:29:35
