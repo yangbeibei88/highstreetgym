@@ -1,0 +1,130 @@
+extends layout.pug 
+
+block content 
+  .page-wrapper
+    // 1) HEADER
+    header.bg-darkCyan.text-white
+      .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
+        h1 My Profile
+    // 2) MAIN CCONTENT
+    .wrapper.bg-slate-100
+      .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+        // 2) MAIN CONTENT
+        main#my-profile.col-span-1.order-2(class='md:col-span-3')
+          // my profile form
+          form#form-profile.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='firstname')
+                | First
+                | Name
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 320 512' fill='currentColor')
+                  // !Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
+                  path(d='M64 32C28.7 32 0 60.7 0 96L0 256 0 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 224 64 96l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 32z')
+                input#firstname.pl-11(type='text' name='firstname' placeholder='John' required='')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='surname')
+                | Last
+                | Name
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 320 512' fill='currentColor')
+                  // !Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
+                  path(d='M64 32c17.7 0 32 14.3 32 32l0 352 192 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L64 480c-17.7 0-32-14.3-32-32L32 64c0-17.7 14.3-32 32-32z')
+                input#surname.pl-11(type='text' name='surname' placeholder='Doe' required='')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='mobilenumber')
+                | Mobile
+                | Number
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
+                  path(stroke-linecap='round' stroke-linejoin='round' d='M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z')
+                input#mobilenumber.pl-11(type='tel' name='mobilenumber' placeholder='0400123456' required='')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='email')
+                | Email
+                | Address
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
+                  path(stroke-linecap='round' stroke-linejoin='round' d='M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75')
+                input#email.pl-11(type='email' name='email' placeholder='name@example.com' required='')
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='address') Address
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
+                  path(stroke-linecap='round' stroke-linejoin='round' d='M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z')
+                  path(stroke-linecap='round' stroke-linejoin='round' d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z')
+                input#address.pl-11(type='text' name='address' placeholder='123 Main Road')
+            .space-y-1.col-span-1(class='md:col-span-2')
+              label.block.text-sm.font-semibold.text-darkCyan(for='suburb') Suburb
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 640 512' fill='currentColor')
+                  // !Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
+                  path(d='M480 48c0-26.5-21.5-48-48-48L336 0c-26.5 0-48 21.5-48 48l0 48-64 0 0-72c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 72-64 0 0-72c0-13.3-10.7-24-24-24S64 10.7 64 24l0 72L48 96C21.5 96 0 117.5 0 144l0 96L0 464c0 26.5 21.5 48 48 48l256 0 32 0 96 0 160 0c26.5 0 48-21.5 48-48l0-224c0-26.5-21.5-48-48-48l-112 0 0-144zm96 320l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16zM240 416l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16zM128 400c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32zM560 256c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0zM256 176l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16zM112 160c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0zM256 304c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32zM112 320l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16zm304-48l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16zM400 64c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0zm16 112l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16z')
+                input#suburb.pl-11(type='text' name='suburb')
+            .space-y-1.col-span-1(class='md:col-span-2')
+              label.block.text-sm.font-semibold.text-darkCyan(for='postcode') Postcode
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 384 512' fill='currentColor')
+                  // !Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
+                  path(d='M64 464c-8.8 0-16-7.2-16-16L48 64c0-8.8 7.2-16 16-16l48 0c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l48 0 0 80c0 17.7 14.3 32 32 32l80 0 0 288c0 8.8-7.2 16-16 16L64 464zM64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-293.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0L64 0zm48 112c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm0 64c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm-6.3 71.8L82.1 335.9c-1.4 5.4-2.1 10.9-2.1 16.4c0 35.2 28.8 63.7 64 63.7s64-28.5 64-63.7c0-5.5-.7-11.1-2.1-16.4l-23.5-88.2c-3.7-14-16.4-23.8-30.9-23.8l-14.8 0c-14.5 0-27.2 9.7-30.9 23.8zM128 336l32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z')
+                input#postcode.pl-11(type='text' name='postcode')
+            .space-y-1.col-span-1(class='md:col-span-2')
+              label.block.text-sm.font-semibold.text-darkCyan(for='state') State
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 640 512' fill='currentColor')
+                  // !Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
+                  path(d='M480 48c0-26.5-21.5-48-48-48L336 0c-26.5 0-48 21.5-48 48l0 48-64 0 0-72c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 72-64 0 0-72c0-13.3-10.7-24-24-24S64 10.7 64 24l0 72L48 96C21.5 96 0 117.5 0 144l0 96L0 464c0 26.5 21.5 48 48 48l256 0 32 0 96 0 160 0c26.5 0 48-21.5 48-48l0-224c0-26.5-21.5-48-48-48l-112 0 0-144zm96 320l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16zM240 416l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16zM128 400c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32zM560 256c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0zM256 176l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16zM112 160c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0zM256 304c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32zM112 320l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16zm304-48l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16zM400 64c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0zm16 112l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16z')
+                select#state.text-center(name='state')
+                  option(value='ACT') ACT
+                  option(value='QLD' selected='')
+                    | QLD
+                  option(value='NSW') NSW
+                  option(value='NT') NT
+                  option(value='SA') SA
+                  option(value='TAS') TAS
+                  option(value='VIC') VIC
+                  option(value='WA') WA
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='bio') Bio
+              .relative.flex.items-center
+                svg.size-6.absolute.text-gray-500.left-3.top-3(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
+                  path(stroke-linecap='round' stroke-linejoin='round' d='M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z')
+                textarea#bio.pl-11(name='bio' placeholder='Short intro about yourself...')
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='avatar') Avatar
+              .relative.flex.items-center
+                input#avatar(type='file' name='avatar')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/dashboard') Back
+            .space-y-1.col-span-1(class='md:col-span-3')
+              button.btn-bullet.btn-limeGreen.my-5.space-x-1.w-full(type='submit')
+                span Save
+        // 3) SIDE MENU
+        nav.order-1
+          ul#account-menu-list.text-midnightBlue.flex.flex-col.font-semibold
+            li(data-active='fase')
+              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
+                | My
+                | Dashboard
+            li(data-active='false')
+              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
+                | My
+                | Bookings
+            li(data-active='false')
+              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
+                | My
+                | Articles
+            li(data-active='false')
+              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
+                | My
+                | Comments
+            li(data-active='true')
+              a.block.p-4.bg-limeGreen(href='#')
+                | My
+                | Profile
+            li(data-active='false')
+              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
+                | Change
+                | Password
+            li(data-active='false')
+              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline') Logout

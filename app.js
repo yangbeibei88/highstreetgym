@@ -23,6 +23,12 @@ if (process.env.NODE_ENV === "development") {
 app.get("/login", (req, res) => {
   res.render("login", { title: "Login" });
 });
+app.get("/signup", (req, res) => {
+  res.render("signup", { title: "Signup" });
+});
 app.get("/classes", (req, res) => {
   res.render("classes", { title: "All Classes" });
+});
+app.get("/my-profile", (req, res) => {
+  res.render("my-profile", { title: "My Profile" });
 });
