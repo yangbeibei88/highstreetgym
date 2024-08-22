@@ -20,6 +20,10 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("common"));
 }
 
+app.get("/", (req, res) => {
+  res.render("index", { title: "Home" });
+});
+
 app.get("/login", (req, res) => {
   res.render("login", { title: "Login" });
 });
