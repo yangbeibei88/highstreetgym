@@ -11,8 +11,16 @@
       url("/fonts/oxygen-regular-webfont.woff2") format("woff2"),
       url("/fonts/oxygen-regular-webfont.woff") format("woff");
   }
+  @font-face {
+    font-family: "inter-regular";
+    font-weight: normal;
+    font-style: normal;
+    src:
+      url("/fonts/inter-regular-webfont.woff2") format("woff2"),
+      url("/fonts/inter-regular-webfont.woff") format("woff");
+  }
   html {
-    font-family: "oxygen-regular", system-ui, sans-serif;
+    font-family: "inter-regular", system-ui, sans-serif;
   }
   h1,
   h2,
