@@ -48,8 +48,12 @@
   h6 {
     @apply text-base;
   }
+  p,
+  span {
+    @apply text-sm;
+  }
   p {
-    @apply text-sm my-4;
+    @apply my-4;
   }
 
   th,
