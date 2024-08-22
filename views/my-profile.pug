@@ -100,31 +100,4 @@ block content
               button.btn-bullet.btn-limeGreen.my-5.space-x-1.w-full(type='submit')
                 span Save
         // 3) SIDE MENU
-        nav.order-1
-          ul#account-menu-list.text-midnightBlue.flex.flex-col.font-semibold
-            li(data-active='fase')
-              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
-                | My
-                | Dashboard
-            li(data-active='false')
-              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
-                | My
-                | Bookings
-            li(data-active='false')
-              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
-                | My
-                | Articles
-            li(data-active='false')
-              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
-                | My
-                | Comments
-            li(data-active='true')
-              a.block.p-4.bg-limeGreen(href='#')
-                | My
-                | Profile
-            li(data-active='false')
-              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline')
-                | Change
-                | Password
-            li(data-active='false')
-              a.block.p-4(href='#' class='hover:bg-limeGreen hover:underline') Logout
+        include partials/_accountSideNav.pug

@@ -38,3 +38,30 @@ app.get("/blog", (req, res) => {
 app.get("/article", (req, res) => {
   res.render("article", { title: "Article" });
 });
+app.get("/timetable", (req, res) => {
+  res.render("timetable", { title: "Timetable" });
+});
+app.get("/booking", (req, res) => {
+  res.render("booking", { title: "Booking" });
+});
+app.get("/booking-confirm", (req, res) => {
+  res.render("booking-confirm", { title: "Booking Confirm" });
+});
+app.get("/dashboard", (req, res) => {
+  res.render("dashboard", { title: "My Dashboard" });
+});
+app.get("/my-bookings", (req, res) => {
+  res.render("my-bookings", { title: "My Bookings" });
+});
+app.get("/my-articles", (req, res) => {
+  res.render("my-articles", { title: "My Articles" });
+});
+app.get("/my-comments", (req, res) => {
+  res.render("my-comments", { title: "My Comments" });
+});
+app.get("/change-password", (req, res) => {
+  res.render("change-password", { title: "Change Password" });
+});
+app.get("/create-article", (req, res) => {
+  res.render("create-article", { title: "Create Article" });
+});

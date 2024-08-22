@@ -1,0 +1,70 @@
+extends layout.pug 
+
+block content 
+  .page-wrapper
+    // 1) HEADER
+    header.bg-darkCyan.text-white
+      .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
+        h1 Create Article
+    // 2) MAIN CCONTENT
+    .wrapper.bg-slate-100
+      .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+        // 2) MAIN CONTENT
+        main#create-article.col-span-1.order-2(class='md:col-span-3')
+          // my profile form
+          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4')
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='article-title') Title
+              .relative.flex.items-center
+                svg.absolute.size-6.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 448 512' fill='currentColor')
+                  // !Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
+                  path(d='M0 64C0 46.3 14.3 32 32 32l48 0 48 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-16 0 0 112 224 0 0-112-16 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l48 0 48 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-16 0 0 144 0 176 16 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-48 0-48 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l16 0 0-144-224 0 0 144 16 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-48 0-48 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l16 0 0-176L48 96 32 96C14.3 96 0 81.7 0 64z')
+                input#article-title.pl-11(type='text' name='article-title' placeholder='Enter an article name' required='')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='topic') Topic
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
+                  path(stroke-linecap='round' stroke-linejoin='round' d='M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z')
+                  path(stroke-linecap='round' stroke-linejoin='round' d='M6 6h.008v.008H6V6Z')
+                select#topic.text-center(name='topic')
+                  option(value='')
+                    | ------Select a
+                    | topic------
+                  option(value='yoga')
+                    | Yoga
+                  option(value='zumba')
+                    | Zumba
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='visibility') Visibility
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
+                  path(stroke-linecap='round' stroke-linejoin='round' d='M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z')
+                  path(stroke-linecap='round' stroke-linejoin='round' d='M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z')
+                select#visibility.text-center(name='visibility')
+                  option(value='private' selected='')
+                    | Private:
+                    | visible to myself
+                  option(value='member-only')
+                    | Member only: visible to gym
+                    | members
+                  option(value='public')
+                    | Public:
+                    | visible to everyone
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='cover-image')
+                | Cover
+                | Image
+              .relative.flex.items-center
+                input#cover-image(type='file' name='cover-image')
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='content') Content
+              #article-editor.h-96
+            .space-y-1.col-span-1(class='md:col-span-3')
+              a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/dashboard') Back
+            .space-y-1.col-span-1(class='md:col-span-3')
+              button.btn-bullet.btn-limeGreen.my-5.space-x-1.w-full(type='submit')
+                span Save
+        // 3) COVER IMAGE PREVIEW
+        section.order-1
+          img(src="/images/blog/default-article-cover.jpg", alt="article-cover", class="object-cover")
+

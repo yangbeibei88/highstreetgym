@@ -1,0 +1,68 @@
+extends layout 
+
+block content 
+  header.bg-darkCyan.text-white
+    .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
+      h1 Timetable
+      p Book a class that suits your time!
+  .wrapper.bg-slate-100
+    .max-w-screen-xl.mx-20.my-10.bg-white.rounded.border
+      // 1) FILTER
+      .form.flex.flex-col.items-center.justify-between.p-4.space-y-3(class='lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10')
+        .w-full(class='lg:w-1/3')
+          label(for='class') Class
+          select#class(name='class')
+            option(value='')
+              | ---Select a class----
+            option(value='yoga') yoga
+            option(value='zumba') zumba
+        .w-full(class='lg:w-1/3')
+          label(for='fromDate') From
+          input#fromDate(type='date' name='from')
+        .w-full(class='lg:w-1/3')
+          label(for='toDate') To
+          input#toDate(type='date' name='to')
+      // 2) TABLE
+      // TODO: ADD PAGINATION
+      .flex.flex-col.py-4.px-4.items-center.justify-center(class='lg:px-10')
+        table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
+          //
+            <caption class="text-2xl font-bold">
+            Timetable
+            </caption>
+          thead.text-sm.text-white.bg-darkCyan
+            tr
+              th.hidden(class='md:table-cell')
+                | Date
+              th.hidden(class='md:table-cell')
+                | Time
+              th.hidden(class='md:table-cell')
+                | Class
+              th.hidden(class='md:table-cell')
+                | Duration
+              th.hidden(class='md:table-cell')
+                | Level
+              th.hidden(class='md:table-cell')
+                | Trainer
+              th.hidden(class='md:table-cell')
+                | Vacancy
+              th.hidden(class='md:table-cell')
+                | Action
+          tbody
+            tr
+              td.grid.grid-cols-2(data-cell='date' class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none')
+                | 2024-09-01
+              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='time')
+                | 10:30
+              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='class')
+                | Yoga
+              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='duration')
+                | 30 mins
+              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='level')
+                | Intermediate
+              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='trainer')
+                | Lucy
+              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='vacancy')
+                | 5
+              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='action')
+                a.btn-bullet.btn-limeGreen.btn-sm(href='#') Book Now

@@ -4,22 +4,6 @@
 
 @layer base {
   @font-face {
-    font-family: "oxygen-bold";
-    font-weight: normal;
-    font-style: normal;
-    src:
-      url("/fonts/oxygen-bold-webfont.woff2") format("woff2"),
-      url("/fonts/oxygen-bold-webfont.woff") format("woff");
-  }
-  @font-face {
-    font-family: "oxygen-light";
-    font-weight: normal;
-    font-style: normal;
-    src:
-      url("/fonts/oxygen-light-webfont.woff2") format("woff2"),
-      url("/fonts/oxygen-light-webfont.woff") format("woff");
-  }
-  @font-face {
     font-family: "oxygen-regular";
     font-weight: normal;
     font-style: normal;
@@ -36,7 +20,7 @@
   h4,
   h5,
   h6 {
-    font-family: "oxygen-bold", system-ui, sans-serif;
+    font-weight: 700;
   }
   h1 {
     @apply text-4xl;

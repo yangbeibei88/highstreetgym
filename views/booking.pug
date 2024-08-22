@@ -1,0 +1,44 @@
+extends layout.pug 
+
+block content 
+  main#booking.flex.items-center.justify-center.flex-grow.bg-gray-300
+    .container.mx-auto.flex.flex-col.rounded-xl.bg-white.max-w-2xl.px-6.py-10(class='md:p-16')
+      h1.text-2xl.text-center
+        | Class
+        | Booking
+      table.table-auto.border-y.border-slate-300
+        caption.text-sm.italic.text-left.font-semibold
+          | Class Information
+        tr
+          th Class
+          td Yoga
+        tr
+          th Start Time
+          td
+            | Monday, 10:30am,
+            | 2024-09-01
+        tr
+          th Duration
+          td 30 minutes
+        tr
+          th Level
+          td Intermediate
+        tr
+          th Trainer
+          td Lucy
+      // TODO: disable buttons if checkbox is unchecked
+      form.flex.flex-col
+        .py-4.space-x-1
+          input#bookingConfirm(type='checkbox' name='bookingConfirm')
+          label(for='bookingConfirm' class="text-xs")
+            | By
+            | checking
+            | the checkbox, I am committed to attend
+            | the class.
+        .btn-group.space-x-2
+          a.btn.bg-gray-300.btn-sm(href='/timetable')
+            | &laquo;
+            | Cancel
+          button.btn.btn-limeGreen.btn-sm(type='submit')
+            | Submit
+            | &raquo;
