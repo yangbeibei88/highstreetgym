@@ -6,6 +6,7 @@ import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { classRouter } from "./routes/classRoutes.js";
 import { timetableRouter } from "./routes/timetableRoutes.js";
+import { articleRouter } from "./routes/articleRoutes.js";
 
 export const app = express();
 
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 });
 app.use("/classes", classRouter);
 app.use("/timetable", timetableRouter);
+app.use("/blog", articleRouter);
 
 // app.get("/login", (req, res) => {
 //   res.render("login", { title: "Login" });

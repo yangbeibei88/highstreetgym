@@ -53,7 +53,7 @@
     @apply text-sm;
   }
   p {
-    @apply my-4;
+    @apply my-2;
   }
 
   th,

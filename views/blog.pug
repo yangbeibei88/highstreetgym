@@ -11,35 +11,25 @@ block content
         // 2) MAIN CONTENT
         main#blog.col-span-1.order-2(class='md:col-span-2')
           .flex.flex-col.space-y-4
-            article.flex.flex-col.rounded-lg.bg-white.shadow(class='md:flex-row md:space-x-4')
-              img.max-h-52.object-cover.rounded-t-lg(src='./images/blog/my-journey-to-a-yoga-master.jpg' alt='' class='md:max-h-full md:rounded-tr-none md:rounded-l-lg md:w-1/3')
-              .w-full.py-4.px-2.flex.flex-col(class='md:w-2/3')
-                small.text-xs.font-semibold.bg-orange-700.text-white.rounded-full.w-fit.px-3.py-1 Yoga
-                h2.text-xl
-                  | My Journey to
-                  | a
-                  | Yoga Master
-                p
-                  | Lorem ipsum dolor sit, amet
-                  | consectetur adipisicing elit.
-                  | Sit
-                  | ullam assumenda dolores tempore
-                  | maiores neque praesentium esse
-                  | nobis
-                  | a totam.
-                .basis-full.flex.flex-col.items-center.justify-between(class='md:flex-row')
-                  .flex.items-center.space-x-2.mr-auto
-                    img.size-8.rounded-full.object-cover(src='/images/users/default-avatar.jpg' alt='' class='md:size-12')
-                    small.text-xs
-                      | John
-                      | Doe
-                    small.text-xs 2023-10-10
-                  a.btn-bullet.btn-limeGreen.btn-sm.ml-auto(href='/article')
-                    | Read
-                    | More &gt;&gt;
-            article card1
-            article card1
-            article card1
+            -for(let item of articles)
+              article.flex.flex-col.rounded-lg.bg-white.shadow(class='md:flex-row md:space-x-4')
+                img.max-h-52.object-cover.rounded-t-lg(src=`/images/blog/${item.imageCover}` alt=`${item.articleTitle}` class='md:max-h-full md:rounded-tr-none md:rounded-l-lg md:w-1/3')
+                .w-full.py-4.px-2.flex.flex-col(class='md:w-2/3')
+                  small.text-xs.font-semibold.bg-orange-700.text-white.rounded-full.w-fit.px-3.py-1 #{item.topicName}
+                  h2.text-xl
+                    | #{item.articleTitle}
+                  p.line-clamp-3
+                    | #{item.articleContent}
+                  .w-full.flex.flex-col.items-center.justify-between(class='lg:flex-row')
+                    .flex.items-center.space-x-2.mr-auto
+                      img.size-8.rounded-full.object-cover(src=`/images/users/${item.avatar}` alt=`${item.firstName}` class='md:size-12')
+                      small.text-xs
+                        | #{item.firstName}
+                        | #{item.lastName}
+                      small.text-xs #{item.createdAt.toLocaleDateString('en-AU')}
+                    a.btn-bullet.btn-limeGreen.btn-sm.ml-auto(href=`/blog/${item.articleId}`)
+                      | Read
+                      | More &gt;&gt;
         // 3) FILTER
         aside.order-1
           .space-y-4
@@ -62,12 +52,7 @@ block content
               details.bg-white.p-2.border.rounded.border-gray-300(open='')
                 summary.font-semibold.pb-1
                   | By Topic
-                .space-x-1
-                  input#yoga(type='checkbox' name='yoga')
-                  label(for='yoga') Yoga
-                .space-x-1
-                  input#yoga(type='checkbox' name='yoga')
-                  label(for='yoga') Yoga
-                .space-x-1
-                  input#yoga(type='checkbox' name='yoga')
-                  label(for='yoga') Yoga
+                - for(let t of topics)
+                  .space-x-1
+                    input(type='checkbox' name='topic' id=`${t.topicId}`)
+                    label(for=`${t.topicId}`) #{t.topicName} (#{t.count})
