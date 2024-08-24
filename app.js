@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { classRouter } from "./routes/classRoutes.js";
 import { timetableRouter } from "./routes/timetableRoutes.js";
 import { articleRouter } from "./routes/articleRoutes.js";
+import { authRouter } from "./routes/authRoutes.js";
 
 export const app = express();
 
@@ -29,16 +30,17 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
+app.use("/", authRouter);
 app.use("/classes", classRouter);
 app.use("/timetable", timetableRouter);
 app.use("/blog", articleRouter);
 
-app.get("/login", (req, res) => {
-  res.render("login", { title: "Login" });
-});
-app.get("/signup", (req, res) => {
-  res.render("signup", { title: "Signup" });
-});
+// app.get("/login", (req, res) => {
+//   res.render("login", { title: "Login" });
+// });
+// app.get("/signup", (req, res) => {
+//   res.render("signup", { title: "Signup" });
+// });
 // app.get("/classes", (req, res) => {
 //   res.render("classes", { title: "All Classes" });
 // });
