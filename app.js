@@ -1,6 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import express from "express";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import morgan from "morgan";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -35,12 +33,12 @@ app.use("/classes", classRouter);
 app.use("/timetable", timetableRouter);
 app.use("/blog", articleRouter);
 
-// app.get("/login", (req, res) => {
-//   res.render("login", { title: "Login" });
-// });
-// app.get("/signup", (req, res) => {
-//   res.render("signup", { title: "Signup" });
-// });
+app.get("/login", (req, res) => {
+  res.render("login", { title: "Login" });
+});
+app.get("/signup", (req, res) => {
+  res.render("signup", { title: "Signup" });
+});
 // app.get("/classes", (req, res) => {
 //   res.render("classes", { title: "All Classes" });
 // });

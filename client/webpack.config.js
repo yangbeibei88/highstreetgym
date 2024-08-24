@@ -16,7 +16,7 @@ export default {
       directory: resolve(__dirname, "../public"),
     },
     port: 3000,
-    open: true,
+    open: false,
     hot: true,
     compress: true,
     historyApiFallback: true,
