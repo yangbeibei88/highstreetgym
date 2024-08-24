@@ -1,94 +1,24 @@
 extends layout.pug
 
 block content 
-  .wrapper.overflow-hidden.bg-cover.bg-no-repeat.bg-center.bg-scroll(class="bg-[url('/images/blog/my-journey-to-a-yoga-master.jpg')]")
+  .wrapper.overflow-hidden.bg-cover.bg-no-repeat.bg-center.bg-scroll(style=`background-image: linear-gradient(to bottom, var(--tw-gradient-from), var(--tw-gradient-to)), url('/images/blog/${article[0].imageCover}')` class='bg-gradient-to-b from-limeGreen')
     .container.mx-auto.bg-white.px-6.pb-10.my-6.mb-10.shadow-lg
       // 1) HEADER
       header.text-midnightBlue
         .container.mx-auto.px-4.pt-3.mb-4(class='md:px-0 md:py-4')
           // 0) BADGE
-          small.text-xs.font-semibold.bg-orange-700.text-white.rounded-full.w-fit.px-3.py-1 Yoga
-          h1 My Journey To A Yoga Master
+          small.text-xs.font-semibold.bg-orange-700.text-white.rounded-full.w-fit.px-3.py-1 #{article[0].topicName}
+          h1 #{article[0].articleTitle}
           .flex.items-center.space-x-2.mr-auto
-            img.size-8.rounded-full.object-cover(src='/images/users/default-avatar.jpg' alt='' class='md:size-12')
+            img.size-8.rounded-full.object-cover(src=`/images/users/${article[0].avatar}` alt=`${article[0].firstName} ${article[0].lastName}` class='md:size-12')
             small.text-xs
-              | John
-              | Doe
-            small.text-xs 2023-10-10
-        img.w-full.h-96.rounded-lg.shadow-lg.object-cover(src='/images/blog/my-journey-to-a-yoga-master.jpg' alt='')
+              | #{article[0].firstName}
+              | #{article[0].lastName}
+            small.text-xs #{article[0].createdAt.toLocaleDateString('en-AU')}
+        img.w-full.h-96.rounded-lg.shadow-lg.object-cover(src=`/images/blog/${article[0].imageCover}` alt=`${article[0].articleTitle}`)
       main#article-content
       p
-        | Lorem ipsum dolor sit amet consectetur
-        | adipisicing elit. Unde provident numquam
-        | quisquam beatae doloribus vel tempora,
-        | voluptates sed, perspiciatis nam maiores
-        | deserunt cum minima blanditiis
-        | voluptatum amet iusto voluptatibus
-        | quibusdam nesciunt officiis ut, eius
-        | tenetur eum! Dolor odio suscipit error
-        | neque sint aperiam laudantium
-        | consequuntur corporis aliquam laborum,
-        | atque sequi.
-      p
-        | Lorem ipsum dolor sit amet consectetur
-        | adipisicing elit. Unde provident numquam
-        | quisquam beatae doloribus vel tempora,
-        | voluptates sed, perspiciatis nam maiores
-        | deserunt cum minima blanditiis
-        | voluptatum amet iusto voluptatibus
-        | quibusdam nesciunt officiis ut, eius
-        | tenetur eum! Dolor odio suscipit error
-        | neque sint aperiam laudantium
-        | consequuntur corporis aliquam laborum,
-        | atque sequi.
-      p
-        | Lorem ipsum dolor sit amet consectetur
-        | adipisicing elit. Unde provident numquam
-        | quisquam beatae doloribus vel tempora,
-        | voluptates sed, perspiciatis nam maiores
-        | deserunt cum minima blanditiis
-        | voluptatum amet iusto voluptatibus
-        | quibusdam nesciunt officiis ut, eius
-        | tenetur eum! Dolor odio suscipit error
-        | neque sint aperiam laudantium
-        | consequuntur corporis aliquam laborum,
-        | atque sequi.
-      p
-        | Lorem ipsum dolor sit amet consectetur
-        | adipisicing elit. Unde provident numquam
-        | quisquam beatae doloribus vel tempora,
-        | voluptates sed, perspiciatis nam maiores
-        | deserunt cum minima blanditiis
-        | voluptatum amet iusto voluptatibus
-        | quibusdam nesciunt officiis ut, eius
-        | tenetur eum! Dolor odio suscipit error
-        | neque sint aperiam laudantium
-        | consequuntur corporis aliquam laborum,
-        | atque sequi.
-      p
-        | Lorem ipsum dolor sit amet consectetur
-        | adipisicing elit. Unde provident numquam
-        | quisquam beatae doloribus vel tempora,
-        | voluptates sed, perspiciatis nam maiores
-        | deserunt cum minima blanditiis
-        | voluptatum amet iusto voluptatibus
-        | quibusdam nesciunt officiis ut, eius
-        | tenetur eum! Dolor odio suscipit error
-        | neque sint aperiam laudantium
-        | consequuntur corporis aliquam laborum,
-        | atque sequi.
-      p
-        | Lorem ipsum dolor sit amet consectetur
-        | adipisicing elit. Unde provident numquam
-        | quisquam beatae doloribus vel tempora,
-        | voluptates sed, perspiciatis nam maiores
-        | deserunt cum minima blanditiis
-        | voluptatum amet iusto voluptatibus
-        | quibusdam nesciunt officiis ut, eius
-        | tenetur eum! Dolor odio suscipit error
-        | neque sint aperiam laudantium
-        | consequuntur corporis aliquam laborum,
-        | atque sequi.
+        | #{article[0].articleContent}
   section#comments.bg-slate-100
     .container.mx-auto.py-6
       h2 Comments
@@ -96,23 +26,26 @@ block content
         textarea#commentInput(name='comment' placeholder='Write your comment here')
         button.btn-bullet.btn-limeGreen.btn-sm(type='submit') Submit
       section#member-comments.mb-6
-        article.flex.items-center.bg-white.border.px-4.py-2.space-x-3
-          // left
-          img.size-14.rounded-full.border(src='./images/users/default-avatar-10.png' alt='')
-          // right
-          div
-            p.my-0
-              | Lorem ipsum dolor sit
-              | amet,
-              | consectetur adipisicing elit.
-              | Assumenda saepe quisquam, ipsam
-              | voluptatum repellendus incidunt cum
-              | nobis praesentium enim dolorem?
-            span.space-x-2
-              small
-                | Nick
-                | Diamond
-              time(datetime='2024-03-01 09:29:35')
+        - for(let c of comments)
+          article.flex.items-center.bg-white.border.px-4.py-2.space-x-3
+            // left
+            .flex.flex-col.justify-center.items-center
+              img.size-14.rounded-full.border(src=`/images/users/${c.avatar}` alt=`${c.firstName} ${c.lastName}`)
+            // right
+            div
+              p.my-0
+                | #{c.comment}
+              span.space-x-2
+                small.px-2.py-1.rounded-full(class=`${c.userRole === 'member' ? 'bg-yellow-500' : 'bg-sky-500'}`) #{c.userRole}
                 small
-                  | 2024-03-01
-                  | 09:29:35
+                  | #{c.firstName}
+                  | #{c.lastName}
+                time(datetime=`${c.createdAt.toLocaleString('en-AU', {hour12: false})}`)
+                  small
+                    | Posted At:
+                    | #{c.createdAt.toLocaleString('en-AU', {hour12: false})}
+                if c.updatedAt
+                  time(datetime=`${c.updatedAt.toLocaleString('en-AU', {hour12: false})}`)
+                    small
+                      | Updated At:
+                      | #{c.updatedAt.toLocaleString('en-AU', {hour12: false})}
