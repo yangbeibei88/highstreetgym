@@ -1,5 +1,9 @@
 extends layout.pug 
 
+mixin timetableItem(field, value)
+  td.grid.grid-cols-2(data-cell=`${field}` class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none')
+    | #{value}
+
 block content 
   main#class
     // 1) CLASS INTRO
@@ -7,7 +11,7 @@ block content
       .container.flex.flex-col.items-center.justify-center.mx-auto.pt-6.pb-10(class='lg:flex-row lg:space-x-8')
         // 1.1) image
         .basis-full(class='lg:basis-1/2')
-          img.object-cover.rounded-lg.shadow-lg(src='./images/classes/yoga.jpg' alt='yoga')
+          img.object-cover.rounded-lg.shadow-lg(src=`/images/classes/${course[0].imageCover}` alt='yoga')
         // 1.2) content
         .basis-full(class='lg:basis-1/2')
           h1.uppercase.text-lemonGreen #{course[0].className}
@@ -25,11 +29,13 @@ block content
       .flex.flex-col.py-4.px-4.items-center.justify-center(class='lg:px-10')
         table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
           caption.text-2xl.font-bold
-            | Yoga Timetable
+            | #{course[0].className} Timetable
           thead.text-sm.text-white.bg-darkCyan
             tr
               th.hidden(class='md:table-cell')
                 | Date
+              th.hidden(class='md:table-cell')
+                | Weekday
               th.hidden(class='md:table-cell')
                 | Time
               th.hidden(class='md:table-cell')
@@ -41,24 +47,19 @@ block content
               th.hidden(class='md:table-cell')
                 | Trainer
               th.hidden(class='md:table-cell')
-                | Vacancy
+                | Availability
               th.hidden(class='md:table-cell')
                 | Action
           tbody
+          - for(let s of course)
             tr
-              td.grid.grid-cols-2(data-cell='date' class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none')
-                | 2024-09-01
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='time')
-                | 10:30
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='class')
-                | Yoga
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='duration')
-                | 30 mins
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='level')
-                | Intermediate
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='trainer')
-                | Lucy
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='vacancy')
-                | 5
+              +timetableItem('date', s.startDateTime.toLocaleDateString('en-AU'))
+              +timetableItem('weekday', s.startDateTime.toLocaleDateString('en-AU', {weekday: 'short'}))
+              +timetableItem('time', s.startDateTime.toLocaleTimeString('en-AU', {timeStyle: 'short', hour12: false}))
+              +timetableItem('class', s.className)
+              +timetableItem('duration', s.duration)
+              +timetableItem('level', s.level)
+              +timetableItem('trainer', s.trainerFirstName)
+              +timetableItem('availability', s.availability)
               td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='action')
-                a.btn-bullet.btn-limeGreen.btn-sm(href='#') Book Now
+                a.btn-bullet.btn-limeGreen.btn-sm(href='/auth/book-class') Book Now

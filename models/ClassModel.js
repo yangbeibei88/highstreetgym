@@ -19,7 +19,7 @@ export const getClass = async (id) => {
   const conn = await dbPool.getConnection();
   try {
     const sql =
-      "SELECT cl.*, tt.*, u.firstName, u.lastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId WHERE cl.classId = ? ORDER BY tt.startDateTime";
+      "SELECT cl.*, tt.*, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId WHERE cl.classId = ? ORDER BY tt.startDateTime";
     return await conn.execute(sql, [id]);
   } catch (error) {
     console.log(error);
