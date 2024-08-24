@@ -1,4 +1,5 @@
 import { getAllClasses, getClass } from "../models/ClassModel.js";
+import { getClassTimetable } from "../models/TimetableModel.js";
 
 export const classListAction = async (req, res) => {
   try {
@@ -17,10 +18,12 @@ export const classListAction = async (req, res) => {
 export const classShowAction = async (req, res) => {
   try {
     const [course] = await getClass(+req.params.classId);
+    const [timetables] = await getClassTimetable(+req.params.classId);
     console.log(course);
     res.status(200).render("class", {
       title: course[0].className,
       course,
+      timetables,
     });
   } catch (error) {
     console.log(error);

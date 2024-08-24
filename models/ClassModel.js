@@ -5,7 +5,7 @@ const dbPool = await pool();
 export const getAllClasses = async () => {
   const conn = await dbPool.getConnection();
   try {
-    const sql = "SELECT * FROM `classes`";
+    const sql = "SELECT * FROM classes";
     return await conn.execute(sql);
   } catch (error) {
     console.log(error);
@@ -17,9 +17,9 @@ export const getAllClasses = async () => {
 
 export const getClass = async (id) => {
   const conn = await dbPool.getConnection();
+  // TODO: two parts: class & timetable
   try {
-    const sql =
-      "SELECT cl.*, tt.*, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId WHERE cl.classId = ? ORDER BY tt.startDateTime";
+    const sql = "SELECT * FROM classes WHERE classId = ?";
     return await conn.execute(sql, [id]);
   } catch (error) {
     console.log(error);

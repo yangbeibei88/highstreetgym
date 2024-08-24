@@ -1,4 +1,6 @@
 extends layout 
+include partials/_tableHeaderItem.pug
+include partials/_tableCellItem.pug
 
 block content 
   header.bg-darkCyan.text-white
@@ -14,8 +16,8 @@ block content
           select#class(name='class')
             option(value='')
               | ---Select a class----
-            option(value='yoga') yoga
-            option(value='zumba') zumba
+            - for(let c of classes)
+              option(value=`${c.classId}`) #{c.className}
         .w-full(class='lg:w-1/3')
           label(for='fromDate') From
           input#fromDate(type='date' name='from')
@@ -32,37 +34,25 @@ block content
             </caption>
           thead.text-sm.text-white.bg-darkCyan
             tr
-              th.hidden(class='md:table-cell')
-                | Date
-              th.hidden(class='md:table-cell')
-                | Time
-              th.hidden(class='md:table-cell')
-                | Class
-              th.hidden(class='md:table-cell')
-                | Duration
-              th.hidden(class='md:table-cell')
-                | Level
-              th.hidden(class='md:table-cell')
-                | Trainer
-              th.hidden(class='md:table-cell')
-                | Vacancy
-              th.hidden(class='md:table-cell')
-                | Action
+              +tableHeaderItem('Date')
+              +tableHeaderItem('Weekday')
+              +tableHeaderItem('Time')
+              +tableHeaderItem('Class')
+              +tableHeaderItem('Duration')
+              +tableHeaderItem('Level')
+              +tableHeaderItem('Trainer')
+              +tableHeaderItem('Availability')
+              +tableHeaderItem('Action')
           tbody
+          - for(let s of timetables)
             tr
-              td.grid.grid-cols-2(data-cell='date' class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none')
-                | 2024-09-01
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='time')
-                | 10:30
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='class')
-                | Yoga
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='duration')
-                | 30 mins
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='level')
-                | Intermediate
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='trainer')
-                | Lucy
-              td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='vacancy')
-                | 5
+              +tableCellItem('date', s.startDateTime.toLocaleDateString('en-AU'))
+              +tableCellItem('weekday', s.startDateTime.toLocaleDateString('en-AU', {weekday: 'short'}))
+              +tableCellItem('time', s.startDateTime.toLocaleTimeString('en-AU', {timeStyle: 'short', hour12: false}))
+              +tableCellItem('class', s.className)
+              +tableCellItem('duration', s.duration)
+              +tableCellItem('level', s.level)
+              +tableCellItem('trainer', s.trainerFirstName)
+              +tableCellItem('availability', s.availability)
               td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='action')
                 a.btn-bullet.btn-limeGreen.btn-sm(href='#') Book Now

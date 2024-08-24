@@ -1,8 +1,6 @@
 extends layout.pug 
-
-mixin timetableItem(field, value)
-  td.grid.grid-cols-2(data-cell=`${field}` class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none')
-    | #{value}
+include partials/_tableHeaderItem.pug
+include partials/_tableCellItem.pug
 
 block content 
   main#class
@@ -11,7 +9,7 @@ block content
       .container.flex.flex-col.items-center.justify-center.mx-auto.pt-6.pb-10(class='lg:flex-row lg:space-x-8')
         // 1.1) image
         .basis-full(class='lg:basis-1/2')
-          img.object-cover.rounded-lg.shadow-lg(src=`/images/classes/${course[0].imageCover}` alt='yoga')
+          img.object-cover.rounded-lg.shadow-lg(src=`/images/classes/${course[0].imageCover}` alt=`${course[0].className}`)
         // 1.2) content
         .basis-full(class='lg:basis-1/2')
           h1.uppercase.text-lemonGreen #{course[0].className}
@@ -24,42 +22,33 @@ block content
             svg.size-6(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
               path(stroke-linecap='round' stroke-linejoin='round' d='m4.5 4.5 15 15m0 0V8.25m0 11.25H8.25')
     // 2) CLASS TIMETABLE
-    // optimise responsive table, refer to https://adrianroselli.com/2017/11/a-responsive-accessible-table.html
+    //- optimise responsive table, refer to https://adrianroselli.com/2017/11/a-responsive-accessible-table.html
     section#view-dates-and-book
       .flex.flex-col.py-4.px-4.items-center.justify-center(class='lg:px-10')
         table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
-          caption.text-2xl.font-bold
+          caption.text-2xl.font-bold.capitalize
             | #{course[0].className} Timetable
           thead.text-sm.text-white.bg-darkCyan
             tr
-              th.hidden(class='md:table-cell')
-                | Date
-              th.hidden(class='md:table-cell')
-                | Weekday
-              th.hidden(class='md:table-cell')
-                | Time
-              th.hidden(class='md:table-cell')
-                | Class
-              th.hidden(class='md:table-cell')
-                | Duration
-              th.hidden(class='md:table-cell')
-                | Level
-              th.hidden(class='md:table-cell')
-                | Trainer
-              th.hidden(class='md:table-cell')
-                | Availability
-              th.hidden(class='md:table-cell')
-                | Action
+              +tableHeaderItem('Date')
+              +tableHeaderItem('Weekday')
+              +tableHeaderItem('Time')
+              +tableHeaderItem('Class')
+              +tableHeaderItem('Duration')
+              +tableHeaderItem('Level')
+              +tableHeaderItem('Trainer')
+              +tableHeaderItem('Availability')
+              +tableHeaderItem('Action')
           tbody
-          - for(let s of course)
+          - for(let s of timetables)
             tr
-              +timetableItem('date', s.startDateTime.toLocaleDateString('en-AU'))
-              +timetableItem('weekday', s.startDateTime.toLocaleDateString('en-AU', {weekday: 'short'}))
-              +timetableItem('time', s.startDateTime.toLocaleTimeString('en-AU', {timeStyle: 'short', hour12: false}))
-              +timetableItem('class', s.className)
-              +timetableItem('duration', s.duration)
-              +timetableItem('level', s.level)
-              +timetableItem('trainer', s.trainerFirstName)
-              +timetableItem('availability', s.availability)
+              +tableCellItem('date', s.startDateTime.toLocaleDateString('en-AU'))
+              +tableCellItem('weekday', s.startDateTime.toLocaleDateString('en-AU', {weekday: 'short'}))
+              +tableCellItem('time', s.startDateTime.toLocaleTimeString('en-AU', {timeStyle: 'short', hour12: false}))
+              +tableCellItem('class', s.className)
+              +tableCellItem('duration', s.duration)
+              +tableCellItem('level', s.level)
+              +tableCellItem('trainer', s.trainerFirstName)
+              +tableCellItem('availability', s.availability)
               td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='action')
                 a.btn-bullet.btn-limeGreen.btn-sm(href='/auth/book-class') Book Now

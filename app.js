@@ -5,6 +5,7 @@ import morgan from "morgan";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { classRouter } from "./routes/classRoutes.js";
+import { timetableRouter } from "./routes/timetableRoutes.js";
 
 export const app = express();
 
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
 app.use("/classes", classRouter);
+app.use("/timetable", timetableRouter);
 
 // app.get("/login", (req, res) => {
 //   res.render("login", { title: "Login" });
