@@ -27,3 +27,16 @@ export const getUser = async (id) => {
     conn.release();
   }
 };
+
+export const findUserByEmail = async (email) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql = "SELECT * FROM users WHERE emailAddress = ?";
+    return await conn.execute(sql, [email]);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
