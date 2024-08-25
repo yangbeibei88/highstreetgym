@@ -64,8 +64,21 @@ export const validatePassword = (name, value, required = true) => {
   const re =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   if (!re.test(value)) {
-    return `Invalid password. Your password must 8 at least 8 characters long, containing uppercase(s), lowercase(s), number(s) and special chars.`;
+    return `Invalid password. Your password must be at least 8 characters long, containing uppercase(s), lowercase(s), number(s) and special chars.`;
   }
 
   return null;
+};
+
+// compare password
+export const compareString = (name, str1, str2) => {
+  str1 = str1.trim();
+  str2 = str2.trim();
+
+  if (str1.length > 0 || str2.length > 0) {
+    if (str1 !== str2) {
+      return `${name} do not match.`;
+    }
+    return null;
+  }
 };
