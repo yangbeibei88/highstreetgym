@@ -12,6 +12,7 @@ import {
   validateText,
 } from "../utils/validation.js";
 import { findUserByEmail, insertUser } from "../models/UserModel.js";
+import { createSendToken } from "../utils/jwtToken.js";
 
 export const renderSignupAction = (req, res, next) => {
   res.status(200).render("signup", { title: "Sign Up" });
@@ -41,30 +42,32 @@ export const authenticateSignupAction = asyncHandler(async (req, res, next) => {
   console.log(errors);
 
   // 3) EXTRACT VALIDATED AND SANITIZED INPUT DATA EXCEPT PASSWORD
-  const inputData = {
-    firstname: req.body.register_firstname,
-    surname: req.body.register_surname,
-    email: req.body.register_email,
+  const newUser = {
+    firstName: req.body.register_firstname,
+    lastName: req.body.register_surname,
+    emailAddress: req.body.register_email,
     phoneNumber: req.body.register_mobilenumber,
   };
 
-  console.log(`input: ${inputData}`);
+  console.log(`input: ${newUser}`);
 
   // If any errors, re-render signup page again with sanitised values & error message
   if (!errors.isEmpty()) {
     return res.status(400).render("signup", {
-      inputData,
+      newUser,
       errors: errors.array(),
     });
   }
   // 4) HASH PASSWORD
   const password = await bcrypt.hash(req.body.register_password, 12);
-  inputData.password = password;
+  newUser.password = password;
   // 5) EXTRACT VALUES
-  // order: firstName, lastName, emailAddress, phoneNumber, password
-  const valueArr = Object.values(inputData);
+  // order: userId, firstName, lastName, emailAddress, phoneNumber, password
+  // const valueArr = Object.values(newUser);
 
-  await insertUser(valueArr);
+  const newUserData = await insertUser(newUser);
+
+  createSendToken(res, newUserData);
 
   res.redirect("/");
 });

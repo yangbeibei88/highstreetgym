@@ -41,12 +41,21 @@ export const findUserByEmail = async (email) => {
   }
 };
 
-export const insertUser = async (valuesArr) => {
+export const insertUser = async (user) => {
   const conn = await dbPool.getConnection();
   try {
     const sql =
       "INSERT INTO users (firstName, lastName, emailAddress, phoneNumber, password) VALUES (?, ?, ?, ?, ?)";
-    return await conn.execute(sql, valuesArr);
+    // return await conn.execute(sql, valuesArr);
+    const [result] = await conn.execute(sql, [
+      user.firstName,
+      user.lastName,
+      user.emailAddress,
+      user.phoneNumber,
+      user.password,
+    ]);
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    return { ...user, userId: result.insertId };
   } catch (error) {
     console.log(error);
     throw error;
