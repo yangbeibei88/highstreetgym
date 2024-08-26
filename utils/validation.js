@@ -90,7 +90,7 @@ export const validatePassword = (name, required = true) => {
 
   chain = chain
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
     )
     .withMessage(
       "Invalid password. Your password must be at least 8 characters long, containing uppercase(s), lowercase(s), number(s) and special chars.",

@@ -23,15 +23,22 @@ export const renderLoginAction = (req, res, next) => {
 
 export const authenticateSignupAction = asyncHandler(async (req, res, next) => {
   // 1) VALIDATE & SANITISE FIELDS
-  validateText("register_firstname", 2, 20, true);
-  validateText("register_surname", 2, 20, true);
-  validateEmail("register_email", true, findUserByEmail, true);
-  validatePhoneNumber("register_mobilenumber", true);
-  validatePassword("register_password", true);
-  compareString("Passwords", "register_password", "register_confirmPassword");
+  await Promise.all([
+    validateText("register_firstname", 2, 20, true).run(req),
+    validateText("register_surname", 2, 20, true).run(req),
+    validateEmail("register_email", true, findUserByEmail, true).run(req),
+    validatePhoneNumber("register_mobilenumber", true).run(req),
+    validatePassword("register_password", true).run(req),
+    compareString(
+      "Passwords",
+      "register_password",
+      "register_confirmPassword",
+    ).run(req),
+  ]);
 
   // 2) EXTRACT VALIDATION ERRORS
   const errors = validationResult(req);
+  console.log(errors);
 
   // 3) EXTRACT VALIDATED AND SANITIZED INPUT DATA EXCEPT PASSWORD
   const inputData = {
@@ -41,24 +48,25 @@ export const authenticateSignupAction = asyncHandler(async (req, res, next) => {
     phoneNumber: req.body.register_mobilenumber,
   };
 
+  console.log(`input: ${inputData}`);
+
   // If any errors, re-render signup page again with sanitised values & error message
   if (!errors.isEmpty()) {
-    res.render("signup", {
+    return res.status(400).render("signup", {
       inputData,
-      errors,
+      errors: errors.array(),
     });
-  } else {
-    // 1) HASH PASSWORD
-    const password = await bcrypt.hash(req.body.register_password, 12);
-    inputData.password = password;
-    // 2) EXTRACT VALUES
-    // order: firstName, lastName, emailAddress, phoneNumber, password
-    const valueArr = Object.values(inputData);
-
-    await insertUser(valueArr);
-
-    res.redirect("/");
   }
+  // 4) HASH PASSWORD
+  const password = await bcrypt.hash(req.body.register_password, 12);
+  inputData.password = password;
+  // 5) EXTRACT VALUES
+  // order: firstName, lastName, emailAddress, phoneNumber, password
+  const valueArr = Object.values(inputData);
+
+  await insertUser(valueArr);
+
+  res.redirect("/");
 });
 
 export const authenticateLoginAction = async (req, res, next) => {
