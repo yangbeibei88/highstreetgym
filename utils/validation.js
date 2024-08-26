@@ -100,12 +100,12 @@ export const validatePassword = (name, required = true) => {
 };
 
 // compare password
-export const compareString = (plural, str1Name, str2Name) => {
-  const chain1 = body(str1Name).trim();
-
-  let chain2 = body(str2Name).trim();
-
-  chain2 = chain2.equals(chain1).withMessage(`${plural} do not match.`);
-
-  return chain2;
-};
+export const compareString = (plural, str1Name, str2Name) =>
+  body(str2Name)
+    .trim()
+    .custom((value, { req }) => {
+      if (value !== req.body[str1Name]) {
+        throw new Error(`${plural} do not match.`);
+      }
+      return true;
+    });

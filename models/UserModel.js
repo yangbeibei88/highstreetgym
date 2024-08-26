@@ -40,3 +40,17 @@ export const findUserByEmail = async (email) => {
     conn.release();
   }
 };
+
+export const insertUser = async (valuesArr) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql =
+      "INSERT INTO users (firstName, lastName, emailAddress, phoneNumber, password) VALUES (?, ?, ?, ?, ?)";
+    return await conn.execute(sql, valuesArr);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
