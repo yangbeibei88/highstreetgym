@@ -61,10 +61,11 @@ export const authenticateSignupAction = asyncHandler(async (req, res, next) => {
   // 4) HASH PASSWORD
   const password = await bcrypt.hash(req.body.register_password, 12);
   newUser.password = password;
-  // 5) EXTRACT VALUES
-  // order: userId, firstName, lastName, emailAddress, phoneNumber, password
-  // const valueArr = Object.values(newUser);
 
+  // 5) EXTRACT VALUES
+  // order: firstName, lastName, emailAddress, phoneNumber, password
+
+  // 6) GET NEW DATA ENTRY ESPECIALLY GET `insertId` FOR PASSING IN `createSendToken`
   const newUserData = await insertUser(newUser);
 
   createSendToken(res, newUserData);
@@ -72,6 +73,43 @@ export const authenticateSignupAction = asyncHandler(async (req, res, next) => {
   res.redirect("/");
 });
 
-export const authenticateLoginAction = async (req, res, next) => {
-  console.log(req.body);
-};
+export const authenticateLoginAction = asyncHandler(async (req, res, next) => {
+  // 1) VALIDATE & SANITISE FIELDS
+  await Promise.all([
+    validateEmail("login_email", false, undefined, true).run(req),
+    validatePassword("login_password", true).run(req),
+  ]);
+
+  // 2) EXTRACT VALIDATION ERRORS
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).render("login", {
+      login_email: req.body.login_email,
+      errors: errors.array(),
+    });
+  }
+
+  // 3) CHECK IF LOGIN EMAIL & PASSWORD ARE CORRECT
+  const [user] = await findUserByEmail(req.body.login_email);
+  const verifyPasswordPromise = await bcrypt.compare(
+    req.body.login_password,
+    user[0].password,
+  );
+
+  // console.log(user.length);
+  console.log(verifyPasswordPromise);
+
+  if (!user.length || !verifyPasswordPromise) {
+    return res.status(401).render("login", {
+      credentialError: "Incorrect credentials",
+    });
+  }
+
+  // 4) IF LOGIN CREDENTIALS CORRECT, SEND TOKEN TO CLIENT
+  // pass in user.pop() as an object so that token function can grab userId
+  createSendToken(res, user.pop());
+
+  // redirect to Home page
+  res.redirect("/");
+});

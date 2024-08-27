@@ -1,0 +1,4 @@
+mixin fieldErrorMsg(fieldName)
+  .block.text-red-500 
+    small#registerFirstNameError(class=`${errors && errors.find((obj) => obj.path === fieldName) ? 'block' : 'hidden'}`) 
+      | #{errors && errors.find((obj) => obj.path === fieldName) ? errors.find((obj) => obj.path === fieldName).msg : ''}

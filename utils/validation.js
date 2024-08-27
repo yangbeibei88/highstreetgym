@@ -52,6 +52,15 @@ export const validateEmail = (
     });
   }
 
+  // if (runExist === true && typeof cb === "function") {
+  //   chain = chain.custom(async (value) => {
+  //     const [rows] = await cb(value);
+  //     if (rows.length === 0) {
+  //       throw new Error("Email not exist.");
+  //     }
+  //   });
+  // }
+
   // DON'T ESCAPE EMAIL, BECAUSE A VALIDATE EMAIL ALREADY ESCAPED UNALLOWED CHARACTERS BASED ON RFC 5322
   // chain = chain.escape();
   return chain;

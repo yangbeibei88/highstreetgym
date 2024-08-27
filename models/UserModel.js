@@ -32,6 +32,8 @@ export const findUserByEmail = async (email) => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM users WHERE emailAddress = ?";
+    // const [data] = await conn.execute(sql, [email]);
+    // return data.pop(); // return object
     return await conn.execute(sql, [email]);
   } catch (error) {
     console.log(error);
