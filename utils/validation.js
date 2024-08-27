@@ -93,17 +93,22 @@ export const validatePassword = (name, required = true) => {
     chain = chain.notEmpty().withMessage(`${name} is required.`);
   }
 
-  chain = chain
-    .isLength({ max: 254 })
-    .withMessage(`${name} must not exceed 254 characters.`);
+  chain = chain.custom((value) => {
+    const isValid =
+      value.length >= 8 &&
+      value.length <= 254 &&
+      /[A-Z]/.test(value) &&
+      /[a-z]/.test(value) &&
+      /[0-9]/.test(value) &&
+      /[\W_]/.test(value);
 
-  chain = chain
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
-    )
-    .withMessage(
-      "Invalid password. Your password must be at least 8 characters long, containing uppercase(s), lowercase(s), number(s) and special chars.",
-    );
+    if (!isValid) {
+      throw new Error(
+        "Invalid password. Your password must be at least 8 characters long, at most 254 characters long, containing uppercase(s), lowercase(s), number(s), and special characters.",
+      );
+    }
+    return true;
+  });
 
   return chain;
 };

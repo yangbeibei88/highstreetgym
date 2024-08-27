@@ -113,3 +113,10 @@ export const authenticateLoginAction = asyncHandler(async (req, res, next) => {
   // redirect to Home page
   res.redirect("/");
 });
+
+export const logout = (req, res) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+};
