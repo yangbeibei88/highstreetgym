@@ -19,7 +19,7 @@ export const classShowAction = async (req, res) => {
   try {
     const [course] = await getClass(+req.params.classId);
     const [timetables] = await getClassTimetable(+req.params.classId);
-    console.log(course);
+    // console.log(course);
     res.status(200).render("class", {
       title: course[0].className,
       course,

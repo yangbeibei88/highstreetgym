@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import jwt from "jsonwebtoken";
+import { promisify } from "node:util";
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -19,13 +20,8 @@ export const createSendToken = (res, user) => {
   // cookieOption.secure = process.env.NODE_ENV === "production";
 
   res.cookie("jwt", token, cookieOption);
-
-  // remove password from output
-  // user.password = undefined;
-
-  // res.status(statusCode).json({
-  //   success: true,
-  //   token,
-  //   data: { user },
-  // });
 };
+
+// DECODE JWT TOEKEN
+export const decodeJwt = async (toeken, secret) =>
+  await promisify(jwt.verify)(toeken, secret);

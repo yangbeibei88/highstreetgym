@@ -11,8 +11,8 @@ import {
   validatePhoneNumber,
   validateText,
 } from "../utils/validation.js";
-import { findUserByEmail, insertUser } from "../models/UserModel.js";
-import { createSendToken } from "../utils/jwtToken.js";
+import { findUserByEmail, getUser, insertUser } from "../models/UserModel.js";
+import { createSendToken, decodeJwt } from "../utils/jwtToken.js";
 
 export const renderSignupAction = (req, res, next) => {
   res.status(200).render("signup", { title: "Sign Up" });
@@ -119,4 +119,31 @@ export const logout = (req, res) => {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
   });
+};
+
+export const isLoggedIn = async (req, res, next) => {
+  // 1) TO CHECK IF A USER IS A LOGGED-IN USER OR NOT, CHECK IF JWT TOKEN EXISTS IN COOKIES
+  if (req.cookies.jwt) {
+    try {
+      // 1) VERIFY TOKEN
+      const decoded = await decodeJwt(req.cookies.jwt, process.env.JWT_SECRET);
+
+      // 2) CHECK IF USER STILL EXISTS
+      const [user] = await getUser(decoded.id);
+      console.log(decoded);
+      console.log(user);
+      // 3) IF USER NOT EXIST, RETURN NEXT??
+      if (!user.length) {
+        return next();
+      }
+      // 4) TODO: CHECK IF USER CHANGED PASSWORD AFTER JWT TOKEN WAS ISSUED
+
+      // IF PASSED ALL, THEN AUTHORIZE TO VIEW PAGES
+      res.locals.user = user.pop();
+      return next();
+    } catch (error) {
+      return next();
+    }
+  }
+  next();
 };

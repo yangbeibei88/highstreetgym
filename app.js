@@ -2,6 +2,8 @@ import express from "express";
 import morgan from "morgan";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import cookieParser from "cookie-parser";
 import { classRouter } from "./routes/classRoutes.js";
 import { timetableRouter } from "./routes/timetableRoutes.js";
 import { articleRouter } from "./routes/articleRoutes.js";
@@ -25,6 +27,9 @@ if (process.env.NODE_ENV === "development") {
 // BODY PARSER MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// COOKIE PARSER
+app.use(cookieParser());
 
 // ROUTES
 app.get("/", (req, res) => {
