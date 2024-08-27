@@ -139,7 +139,8 @@ export const isLoggedIn = async (req, res, next) => {
       // 4) TODO: CHECK IF USER CHANGED PASSWORD AFTER JWT TOKEN WAS ISSUED
 
       // IF PASSED ALL, THEN AUTHORIZE TO VIEW PAGES
-      res.locals.user = user.pop();
+      // req.user = user.pop();
+      res.locals.user = user;
       return next();
     } catch (error) {
       return next();
