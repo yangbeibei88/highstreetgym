@@ -114,11 +114,13 @@ export const authenticateLoginAction = asyncHandler(async (req, res, next) => {
   res.redirect("/");
 });
 
-export const logout = (req, res) => {
-  res.cookie("jwt", "loggedout", {
-    expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true,
-  });
+export const logoutAction = (req, res) => {
+  res
+    .cookie("jwt", "loggedout", {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true,
+    })
+    .redirect(301, "/");
 };
 
 export const isLoggedIn = async (req, res, next) => {
@@ -142,7 +144,7 @@ export const isLoggedIn = async (req, res, next) => {
       const loggedInUser = user.pop();
       res.locals.loggedInUser = loggedInUser;
       console.log(loggedInUser);
-      next();
+      return next();
     } catch (error) {
       return next();
     }

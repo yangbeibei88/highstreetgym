@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { isLoggedIn } from "../controllers/AuthController.js";
+import { isLoggedIn, logoutAction } from "../controllers/AuthController.js";
 import {
   renderMydashboardAction,
   renderMybookingsAction,
@@ -19,3 +19,4 @@ userRouter.get("/my-articles", renderMyarticlesAction);
 userRouter.get("/my-comments", renderMycommentsAction);
 userRouter.get("/my-profile", renderMyprofileAction);
 userRouter.get("/change-password", renderChangePasswordAction);
+userRouter.get("/logout", logoutAction);
