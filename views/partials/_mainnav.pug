@@ -29,7 +29,7 @@ nav.sticky.top-0.z-50.flex.flex-wrap.items-center.justify-between.px-2.py-3.bg-d
               svg.size-6 
                 use(xlink:href='/icons/sprites/regular.svg#pen-to-square' fill='currentColor')
           li.group.nav-item 
-            a(href='/auth/my-dashboard')
+            a(href=`/auth/${loggedInUser.userRole === 'admin' ? 'admin' : 'user'}/my-dashboard`)
               img.size-10.rounded-full(src=`/images/users/${loggedInUser.avatar}` alt='')
         else
           +navItem('login', '/login')

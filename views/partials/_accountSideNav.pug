@@ -1,6 +1,6 @@
 mixin sideNavItem(name, slug, active)
   li(data-active=`${active}`)
-    a.block.p-4.capitalize(href=`/auth/${slug}` class=`${active === true ? 'bg-limeGreen' : 'hover:bg-limeGreen hover:underline'}`)
+    a.block.p-4.capitalize(href=`/auth/${loggedInUser.userRole === 'admin' ? 'admin' : 'user'}/${slug}` class=`${active === true ? 'bg-limeGreen' : 'hover:bg-limeGreen hover:underline'}`)
       | #{name}
 
 nav.order-1

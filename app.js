@@ -4,11 +4,12 @@ import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import cookieParser from "cookie-parser";
-import { classRouter } from "./routes/classRoutes.js";
-import { timetableRouter } from "./routes/timetableRoutes.js";
-import { articleRouter } from "./routes/articleRoutes.js";
+// import { classRouter } from "./routes/classRoutes.js";
+// import { timetableRouter } from "./routes/timetableRoutes.js";
+// import { articleRouter } from "./routes/articleRoutes.js";
+import { publicRouter } from "./routes/publicRoutes.js";
 import { authRouter } from "./routes/authRoutes.js";
-import { userRouter } from "./routes/userRoutes.js";
+// import { userRouter } from "./routes/userRoutes.js";
 
 export const app = express();
 
@@ -33,14 +34,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // ROUTES
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
-});
-app.use("/", authRouter);
-app.use("/classes", classRouter);
-app.use("/timetable", timetableRouter);
-app.use("/blog", articleRouter);
-app.use("/auth", userRouter);
+app.use("/", publicRouter);
+// app.use("/classes", classRouter);
+// app.use("/timetable", timetableRouter);
+// app.use("/blog", articleRouter);
+app.use("/auth", authRouter);
 
 // app.get("/booking", (req, res) => {
 //   res.render("booking", { title: "Booking" });

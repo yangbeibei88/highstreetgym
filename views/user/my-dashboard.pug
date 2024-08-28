@@ -1,6 +1,6 @@
-extends layout.pug 
-include partials/_dashLinkItem.pug
-include partials/_dashStatsItem.pug
+extends ../layouts/main.pug 
+include ../partials/_dashLinkItem.pug
+include ../partials/_dashStatsItem.pug
 
 block content 
   .page-wrapper
@@ -27,4 +27,4 @@ block content
             +dashStatsItem('total articles', 2)
             +dashStatsItem('total comments', 2)
         // 3) SIDE MENU
-        include partials/_accountSideNav.pug
+        include ../partials/_accountSideNav.pug

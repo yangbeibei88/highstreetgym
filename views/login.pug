@@ -13,7 +13,7 @@ block content
         | Account
       if credentialError
         .block.text-red-500.text-lg.text-center #{credentialError}
-      form#form-login.flex.flex-col.py-4.my-4(method='POST' action='/login' novalidate)
+      form#form-login.flex.flex-col.py-4.my-4(method='POST' action='/auth/login' novalidate)
         .space-y-1.my-4
           label.block.text-sm.font-semibold.text-darkCyan(for='login_email')
             | Email

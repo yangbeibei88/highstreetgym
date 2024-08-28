@@ -7,7 +7,7 @@ export const renderMydashboardAction = async (req, res, next) =>
 export const renderMybookingsAction = asyncHandler(async (req, res, next) => {
   // req.user.userId comes from isLoggedIn middleware
   const [bookings] = await getBookingByUser(req.user.userId);
-  return res.status(200).render("my-bookings", {
+  return res.status(200).render("user/my-bookings", {
     title: "My Bookings",
     bookings,
   });
