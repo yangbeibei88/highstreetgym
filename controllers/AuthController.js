@@ -132,15 +132,16 @@ export const isLoggedIn = async (req, res, next) => {
       const [user] = await getUser(decoded.id);
       console.log(decoded);
       console.log(user);
-      // 3) IF USER NOT EXIST, RETURN NEXT??
+      // 3) IF USER NOT EXIST, RETURN NEXT MIDDLEWARE
       if (!user.length) {
         return next();
       }
       // 4) TODO: CHECK IF USER CHANGED PASSWORD AFTER JWT TOKEN WAS ISSUED
 
       // IF PASSED ALL, THEN AUTHORIZE TO VIEW PAGES
-      // req.user = user.pop();
-      res.locals.user = user;
+      const loggedInUser = user.pop();
+      res.locals.loggedInUser = loggedInUser;
+      console.log(loggedInUser);
       return next();
     } catch (error) {
       return next();

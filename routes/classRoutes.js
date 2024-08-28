@@ -7,6 +7,8 @@ import { isLoggedIn } from "../controllers/AuthController.js";
 
 export const classRouter = Router();
 
+classRouter.use(isLoggedIn);
+
 classRouter.get("/", classListAction);
 
-classRouter.get("/:classId", isLoggedIn, classShowAction);
+classRouter.get("/:classId", classShowAction);

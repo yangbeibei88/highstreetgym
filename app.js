@@ -8,6 +8,7 @@ import { classRouter } from "./routes/classRoutes.js";
 import { timetableRouter } from "./routes/timetableRoutes.js";
 import { articleRouter } from "./routes/articleRoutes.js";
 import { authRouter } from "./routes/authRoutes.js";
+import { userRouter } from "./routes/userRoutes.js";
 
 export const app = express();
 
@@ -39,49 +40,15 @@ app.use("/", authRouter);
 app.use("/classes", classRouter);
 app.use("/timetable", timetableRouter);
 app.use("/blog", articleRouter);
+app.use("/auth", userRouter);
 
-// app.get("/login", (req, res) => {
-//   res.render("login", { title: "Login" });
-// });
-// app.get("/signup", (req, res) => {
-//   res.render("signup", { title: "Signup" });
-// });
-// app.get("/classes", (req, res) => {
-//   res.render("classes", { title: "All Classes" });
-// });
-// app.get("/my-profile", (req, res) => {
-//   res.render("my-profile", { title: "My Profile" });
-// });
-// app.get("/blog", (req, res) => {
-//   res.render("blog", { title: "Blog" });
-// });
-// app.get("/article", (req, res) => {
-//   res.render("article", { title: "Article" });
-// });
-// app.get("/timetable", (req, res) => {
-//   res.render("timetable", { title: "Timetable" });
-// });
 // app.get("/booking", (req, res) => {
 //   res.render("booking", { title: "Booking" });
 // });
 // app.get("/booking-confirm", (req, res) => {
 //   res.render("booking-confirm", { title: "Booking Confirm" });
 // });
-// app.get("/dashboard", (req, res) => {
-//   res.render("dashboard", { title: "My Dashboard" });
-// });
-// app.get("/my-bookings", (req, res) => {
-//   res.render("my-bookings", { title: "My Bookings" });
-// });
-// app.get("/my-articles", (req, res) => {
-//   res.render("my-articles", { title: "My Articles" });
-// });
-// app.get("/my-comments", (req, res) => {
-//   res.render("my-comments", { title: "My Comments" });
-// });
-// app.get("/change-password", (req, res) => {
-//   res.render("change-password", { title: "Change Password" });
-// });
+
 // app.get("/create-article", (req, res) => {
 //   res.render("create-article", { title: "Create Article" });
 // });
