@@ -131,7 +131,7 @@ export const isLoggedIn = async (req, res, next) => {
       // 2) CHECK IF USER STILL EXISTS
       const [user] = await getUser(decoded.id);
       console.log(decoded);
-      console.log(user);
+      // console.log(user);
       // 3) IF USER NOT EXIST, RETURN NEXT MIDDLEWARE
       if (!user.length) {
         return next();
@@ -142,7 +142,7 @@ export const isLoggedIn = async (req, res, next) => {
       const loggedInUser = user.pop();
       res.locals.loggedInUser = loggedInUser;
       console.log(loggedInUser);
-      return next();
+      next();
     } catch (error) {
       return next();
     }

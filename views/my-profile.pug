@@ -20,7 +20,7 @@ block content
               .relative.flex.items-center
                 svg.size-6.absolute.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/solid.svg#f' fill='currentColor')
-                input#firstname.pl-11(type='text' name='firstname' placeholder='John' required='')
+                input#firstname.pl-11(type='text' name='firstname' placeholder='John' required='' value=loggedInUser.firstName)
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='surname')
                 | Last
@@ -28,7 +28,7 @@ block content
               .relative.flex.items-center
                 svg.size-6.absolute.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/solid.svg#l' fill='currentColor')
-                input#surname.pl-11(type='text' name='surname' placeholder='Doe' required='')
+                input#surname.pl-11(type='text' name='surname' placeholder='Doe' required='' value=loggedInUser.lastName)
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='mobilenumber')
                 | Mobile
@@ -36,7 +36,7 @@ block content
               .relative.flex.items-center
                 svg.size-6.absolute.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/solid.svg#mobile-screen' fill='currentColor')
-                input#mobilenumber.pl-11(type='tel' name='mobilenumber' placeholder='0400123456' required='')
+                input#mobilenumber.pl-11(type='tel' name='mobilenumber' placeholder='0400123456' required='' value=loggedInUser.lastName)
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='email')
                 | Email
@@ -44,25 +44,25 @@ block content
               .relative.flex.items-center
                 svg.size-6.absolute.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/regular.svg#envelope' fill='currentColor')
-                input#email.pl-11(type='email' name='email' placeholder='name@example.com' required='')
+                input#email.pl-11(type='email' name='email' placeholder='name@example.com' required='' value=loggedInUser.emailAddress)
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='address') Address
               .relative.flex.items-center
                 svg.size-6.absolute.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/regular.svg#map' fill='currentColor')
-                input#address.pl-11(type='text' name='address' placeholder='123 Main Road')
+                input#address.pl-11(type='text' name='address' placeholder='123 Main Road' value=loggedInUser.address)
             .space-y-1.col-span-1(class='md:col-span-2')
               label.block.text-sm.font-semibold.text-darkCyan(for='suburb') Suburb
               .relative.flex.items-center
                 svg.size-6.absolute.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/solid.svg#city' fill='currentColor')
-                input#suburb.pl-11(type='text' name='suburb')
+                input#suburb.pl-11(type='text' name='suburb' value=loggedInUser.suburb)
             .space-y-1.col-span-1(class='md:col-span-2')
               label.block.text-sm.font-semibold.text-darkCyan(for='postcode') Postcode
               .relative.flex.items-center
                 svg.size-6.absolute.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/regular.svg#file-zipper' fill='currentColor')
-                input#postcode.pl-11(type='text' name='postcode')
+                input#postcode.pl-11(type='text' name='postcode' value=loggedInUser.postcode)
             .space-y-1.col-span-1(class='md:col-span-2')
               label.block.text-sm.font-semibold.text-darkCyan(for='state') State
               .relative.flex.items-center
@@ -84,10 +84,12 @@ block content
                 svg.size-6.absolute.text-gray-500.left-3.top-3
                   use(xlink:href='/icons/sprites/regular.svg#sun' fill='currentColor')
                 textarea#bio.pl-11(name='bio' placeholder='Short intro about yourself...')
+                  | #{loggedInUser.bio}
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='avatar') Avatar
               .relative.flex.items-center
                 input#avatar(type='file' name='avatar')
+                img.size-16.rounded-full(src=`/images/users/${loggedInUser.avatar}` alt=loggedInUser.firstName)  
             .space-y-1.col-span-1(class='md:col-span-3')
               a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/dashboard') Back
             .space-y-1.col-span-1(class='md:col-span-3')
