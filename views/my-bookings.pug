@@ -46,14 +46,15 @@ block content
                 +tableHeaderItem('trainer')
                 +tableHeaderItem('status')
             tbody
-              tr
-                +tableCellItem('id', '101')
-                +tableCellItem('booking_date', '2024-02-05 14:48 Mon')
-                +tableCellItem('class_datetime', '2024-02-07 10:30 Wed')
-                +tableCellItem('class', 'Yoga')
-                +tableCellItem('duration', '30 mins')
-                +tableCellItem('level', 'Intermediate')
-                +tableCellItem('trainer', 'Lucy')
-                +tableCellItem('status', 'Finished')
+              - for(let b of bookings)
+                tr
+                  +tableCellItem('id', b.bookingId)
+                  +tableCellItem('booking_date', b.createdAt.toLocaleString('en-AU', {hour12: false}))
+                  +tableCellItem('class_datetime', new Intl.DateTimeFormat('en-GB', {dateStyle: 'full', timeStyle: 'long', timeZone: 'Australia/Brisbane'}).format(b.startDateTime))
+                  +tableCellItem('class', b.className)
+                  +tableCellItem('duration', b.duration+' mins')
+                  +tableCellItem('level', b.level)
+                  +tableCellItem('trainer', b.trainerFirstName)
+                  +tableCellItem('status', b.status)
         // 3) SIDE MENU
         include partials/_accountSideNav.pug
