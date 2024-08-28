@@ -13,6 +13,7 @@ import {
 } from "../utils/validation.js";
 import { findUserByEmail, getUser, insertUser } from "../models/UserModel.js";
 import { createSendToken, decodeJwt } from "../utils/jwtToken.js";
+import { AppErrorHandler } from "../utils/AppErrorHandler.js";
 
 export const renderSignupAction = (req, res, next) => {
   res.status(200).render("signup", { title: "Sign Up" });
@@ -152,3 +153,14 @@ export const isLoggedIn = async (req, res, next) => {
   }
   next();
 };
+
+export const authorisedTo =
+  (...roles) =>
+  (req, res, next) => {
+    if (!roles.includes(req.user.userRole)) {
+      return next(
+        new AppErrorHandler("Sorry, you are not authorised for this resource."),
+      );
+    }
+    next();
+  };
