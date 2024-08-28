@@ -14,9 +14,8 @@ block content
           | First
           | Name
         .relative.flex.items-center
-          svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 320 512' fill='currentColor')
-            // !Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
-            path(d='M64 32C28.7 32 0 60.7 0 96L0 256 0 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 224 64 96l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 32z')
+          svg.size-6.absolute.left-3.text-gray-500
+            use(xlink:href='/icons/sprites/solid.svg#f' fill='currentColor')
           input#register_firstname.pl-11(type='text' name='register_firstname' placeholder='John' required autocomplete='given-name' value=(newUser && newUser.firstname || ''))
         +fieldErrorMsg('register_firstname')
       .space-y-1.col-span-1(class='md:col-span-1')
@@ -24,9 +23,8 @@ block content
           | Last
           | Name
         .relative.flex.items-center
-          svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 320 512' fill='currentColor')
-            // !Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
-            path(d='M64 32c17.7 0 32 14.3 32 32l0 352 192 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L64 480c-17.7 0-32-14.3-32-32L32 64c0-17.7 14.3-32 32-32z')
+          svg.size-6.absolute.left-3.text-gray-500
+            use(xlink:href='/icons/sprites/solid.svg#l' fill='currentColor')
           input#register_surname.pl-11(type='text' name='register_surname' placeholder='Doe' required='' autocomplete='family-name' value=(newUser && newUser.surname || ''))
         +fieldErrorMsg('register_surname')
       .space-y-1.col-span-1(class='md:col-span-2')
@@ -34,8 +32,8 @@ block content
           | Email
           | Address
         .relative.flex.items-center
-          svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
-            path(stroke-linecap='round' stroke-linejoin='round' d='M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75')
+          svg.size-6.absolute.left-3.text-gray-500
+            use(xlink:href='/icons/sprites/regular.svg#envelope' fill='currentColor')
           input#register_email.pl-11(type='email' name='register_email' placeholder='name@example.com' required='' autocomplete='username' value=(newUser && newUser.email || ''))
         +fieldErrorMsg('register_email')
       .space-y-1.col-span-1(class='md:col-span-2')
@@ -43,15 +41,15 @@ block content
           | Mobile
           | Number
         .relative.flex.items-center
-          svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
-            path(stroke-linecap='round' stroke-linejoin='round' d='M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z')
+          svg.size-6.absolute.left-3.text-gray-500
+            use(xlink:href='/icons/sprites/solid.svg#mobile-screen' fill='currentColor')
           input#register_mobilenumber.pl-11(type='tel' name='register_mobilenumber' placeholder='0400123456' required='' autocomplete='tel-national' value=(newUser && newUser.phoneNumber || ''))
         +fieldErrorMsg('register_mobilenumber')
       .space-y-1.col-span-1(class='md:col-span-2')
         label.block.text-sm.font-semibold.text-darkCyan(for='register_password') Password
         .relative.flex.items-center
-          svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
-            path(stroke-linecap='round' stroke-linejoin='round' d='M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z')
+          svg.size-6.absolute.left-3.text-gray-500
+            use(xlink:href='/icons/sprites/solid.svg#lock' fill='currentColor')
           input#register_password.pl-11(type='password' name='register_password' required='' autocomplete='new-password')
         +fieldErrorMsg('register_password')
       .space-y-1.col-span-1(class='md:col-span-2')
@@ -59,8 +57,8 @@ block content
           | Confirm
           | Password
         .relative.flex.items-center
-          svg.size-6.absolute.left-3.text-gray-500(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
-            path(stroke-linecap='round' stroke-linejoin='round' d='M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z')
+          svg.size-6.absolute.left-3.text-gray-500
+            use(xlink:href='/icons/sprites/solid.svg#lock' fill='currentColor')
           input#register_confirmPassword.pl-11(type='password' name='register_confirmPassword' required='')
         +fieldErrorMsg('register_confirmPassword')
       .space-y-1.col-span-1(class='md:col-span-2')
@@ -68,8 +66,8 @@ block content
           span
             | Sign
             | Up
-          svg.size-6(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
-            path(stroke-linecap='round' stroke-linejoin='round' d='M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25')
+          svg.size-6
+            use(xlink:href='/icons/sprites/solid.svg#right-to-bracket' fill='currentColor')
     p
       | Existing gym member? 
       a.text-sm.text-darkCyan.underline.underline-offset-2.decoration-dotted(href='/login' class='hover:brightness-125 hover:decoration-solid')
