@@ -1,5 +1,9 @@
 import asyncHandler from "express-async-handler";
-import { getBookingByUser } from "../../models/BookingModel.js";
+import {
+  getBookingById,
+  getBookingByUser,
+  insertBookingTrans,
+} from "../../models/BookingModel.js";
 import { getTimetableById } from "../../models/TimetableModel.js";
 import { AppErrorHandler } from "../../utils/AppErrorHandler.js";
 
@@ -24,3 +28,31 @@ export const showBookingFormAction = asyncHandler(async (req, res, next) => {
     timetable,
   });
 });
+
+export const createBookingAction = asyncHandler(async (req, res, next) => {
+  const newBookingData = {
+    timetableId: +req.body.timetableId,
+    userId: req.user.userId,
+  };
+
+  const newBooking = await insertBookingTrans(newBookingData);
+
+  res.redirect(
+    `auth/${req.user.userRole === "admin" ? "admin" : "user"}/booking-confirmation/${newBooking.bookingId}`,
+  );
+});
+
+export const showBookingConfirmAction = async (req, res, next) => {
+  const [result] = await getBookingById(req.params.bookingId);
+
+  if (!result) {
+    return next(new AppErrorHandler("Booking Confirmation Not Found", 404));
+  }
+
+  const booking = await result[0];
+
+  res.render("user/booking-confirm", {
+    title: "Booking Confirmation",
+    booking,
+  });
+};

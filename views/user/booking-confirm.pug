@@ -1,4 +1,4 @@
-extends layout 
+extends ../layouts/main.pug 
 
 block content 
   main#booking-confirmation.flex.items-center.justify-center.flex-grow.bg-gray-300
@@ -14,30 +14,29 @@ block content
           | Booking Summary
         tr
           th Booking ID
-          td 123
+          td #{booking.bookingId}
         tr
           th Class
-          td Yoga
+          td #{booking.className}
         tr
           th Start Time
           td
-            | Monday, 10:30am,
-            | 2024-09-01
+            | #{booking.startDateTime}
         tr
           th Duration
-          td 30 minutes
+          td #{booking.duration} minutes
         tr
           th Level
-          td Intermediate
+          td #{booking.level}
         tr
           th Trainer
-          td Lucy
+          td #{booking.trainerFirstName} #{booking.trainerLastName}
         tr
           th Participant
-          td Beibei
+          td #{booking.userFirstName} #{booking.userLastName}
       .btn-group.mx-auto.pt-4.space-y-4(class='lg:space-y-0 lg:space-x-4')
         a.btn.bg-gray-300.btn-sm(href='/')
           | &laquo;
           | Back to Homepage
-        a.btn.btn-limeGreen.btn-sm(href='/my-bookings')
+        a.btn.btn-limeGreen.btn-sm(href=`/auth/${loggedInUser.userRole === 'admin' ? 'admin' : 'user'}/my-bookings`)
           | Manage My Bookings &raquo;
