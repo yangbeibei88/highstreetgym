@@ -43,3 +43,17 @@ export const getTimetableById = async (timetableId) => {
     conn.release();
   }
 };
+
+export const getTimetableByUserId = async (userId) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql =
+      "SELECT tt.timetableId, b.bookingId, u.userId FROM timetables tt INNER JOIN bookings b ON tt.timetableId = b.timetableId INNER JOIN users u ON u.userId = b.userId WHERE u.userId = ?";
+    return await conn.execute(sql, [userId]);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};

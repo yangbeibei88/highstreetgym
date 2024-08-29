@@ -55,4 +55,6 @@ block content
               +tableCellItem('trainer', s.trainerFirstName)
               +tableCellItem('availability', s.availability)
               td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='action')
-                a.btn-bullet.btn-limeGreen.btn-sm(href=`/auth/${loggedInUser === 'admin' ? 'admin' : 'user'}/timetable/${s.timetableId}/booking`) Book Now
+                - const isDisabled = myBookingTimetableIds.includes(s.timetableId) ? true : false
+                a.btn-bullet.btn-limeGreen.btn-sm(href=isDisabled ? null : `/auth/${loggedInUser === 'admin' ? 'admin' : 'user'}/timetable/${s.timetableId}/booking` class=isDisabled ? 'cursor-not-allowed text-gray-600 saturate-50 hover:no-underline': '')
+                  | #{myBookingTimetableIds.includes(s.timetableId) ? 'Booked' : 'Book Now'}

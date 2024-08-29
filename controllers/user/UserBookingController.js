@@ -4,7 +4,10 @@ import {
   getBookingByUser,
   insertBookingTrans,
 } from "../../models/BookingModel.js";
-import { getTimetableById } from "../../models/TimetableModel.js";
+import {
+  getTimetableById,
+  getTimetableByUserId,
+} from "../../models/TimetableModel.js";
 import { AppErrorHandler } from "../../utils/AppErrorHandler.js";
 
 export const renderMybookingsAction = asyncHandler(async (req, res, next) => {
@@ -16,10 +19,22 @@ export const renderMybookingsAction = asyncHandler(async (req, res, next) => {
   });
 });
 
+// USERS WHO NEVER BOOKED A TIMETABLE CLASS ARE ALLOWED TO ACCESS BOOKING FORM
+// TODO: POPUP FOR BOOKED USER
 export const showBookingFormAction = asyncHandler(async (req, res, next) => {
   const [result] = await getTimetableById(+req.params.timetableId);
+  const [myBookings] = await getTimetableByUserId(req.user.userId);
+  const myBookingTimetableIds = await myBookings.reduce((acc, cur) => {
+    acc.push(cur.timetableId);
+    return acc;
+  }, []);
   if (!result) {
     return next(new AppErrorHandler("Timetable not found", 404));
+  }
+  if (myBookingTimetableIds.includes(+req.params.timetableId)) {
+    return next(
+      new AppErrorHandler("It seems you have booked this class", 400),
+    );
   }
   const timetable = await result[0];
   // console.log(timetable);
