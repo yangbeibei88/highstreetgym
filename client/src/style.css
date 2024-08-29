@@ -58,7 +58,7 @@
 
   th,
   td {
-    @apply text-sm p-1 md:p-2;
+    @apply p-1 text-sm md:p-2;
   }
   tr:nth-of-type(2n) {
     @apply bg-gray-100;
@@ -78,32 +78,32 @@
   [multiple],
   textarea,
   select {
-    @apply w-full border-gray-300 rounded-lg shadow-sm focus:border-limeGreen focus:ring-limeGreen;
+    @apply w-full rounded-lg border-gray-300 shadow-sm focus:border-limeGreen focus:ring-limeGreen;
   }
   [type="checkbox"],
   [type="radio"] {
-    @apply border-gray-300 rounded text-darkCyan focus:ring-darkCyan;
+    @apply rounded border-gray-300 text-darkCyan focus:ring-darkCyan;
   }
 }
 
 @layer components {
   .btn {
-    @apply text-base px-4 py-3 font-semibold inline-flex items-center justify-center w-fit transition ease-in-out hover:underline;
+    @apply inline-flex w-fit items-center justify-center px-4 py-3 text-base font-semibold transition ease-in-out hover:underline disabled:hover:no-underline;
   }
   .btn-bullet {
-    @apply text-base px-4 py-3 rounded-full font-semibold inline-flex items-center justify-center w-fit transition ease-in-out hover:underline;
+    @apply inline-flex w-fit items-center justify-center rounded-full px-4 py-3 text-base font-semibold transition ease-in-out hover:underline disabled:hover:no-underline;
   }
   .btn-sm {
-    @apply text-xs px-3 py-1 font-semibold;
+    @apply px-3 py-1 text-xs font-semibold;
   }
   .btn-white {
-    @apply bg-white shadow text-darkCyan hover:brightness-90;
+    @apply bg-white text-darkCyan shadow hover:brightness-90;
   }
   .btn-darkCyan {
     @apply bg-darkCyan text-white hover:brightness-125;
   }
   .btn-limeGreen {
-    @apply bg-limeGreen text-midnightBlue hover:brightness-90;
+    @apply bg-limeGreen text-midnightBlue enabled:hover:brightness-90 disabled:text-gray-600 disabled:saturate-50;
   }
   .btn-lemonGreen {
     @apply bg-lemonGreen text-midnightBlue hover:brightness-90;
@@ -115,6 +115,6 @@
     @apply bg-gray-500 text-white hover:brightness-90;
   }
   .page-wrapper {
-    @apply flex flex-col w-full grow bg-slate-100;
+    @apply flex w-full grow flex-col bg-slate-100;
   }
 }

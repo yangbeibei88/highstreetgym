@@ -28,7 +28,7 @@ block content
           th Trainer
           td #{timetable.trainerFirstName}
       // TODO: disable buttons if checkbox is unchecked
-      form.flex.flex-col
+      form#form-booking.flex.flex-col
         .py-4.space-x-1
           input#bookingConfirm(type='checkbox' name='bookingConfirm')
           label(for='bookingConfirm' class="text-xs")

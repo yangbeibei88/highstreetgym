@@ -23,5 +23,5 @@ export const createSendToken = (res, user) => {
 };
 
 // DECODE JWT TOEKEN
-export const decodeJwt = async (toeken, secret) =>
-  await promisify(jwt.verify)(toeken, secret);
+export const decodeJwt = async (token, secret) =>
+  await promisify(jwt.verify)(token, secret);
