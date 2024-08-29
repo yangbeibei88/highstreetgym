@@ -28,10 +28,8 @@ block content
                   option(value='')
                     | ------Select a
                     | topic------
-                  option(value='yoga')
-                    | Yoga
-                  option(value='zumba')
-                    | Zumba
+                  - for(let t of topics)
+                    option(value=t.topicId) #{t.topicName}
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='visibility') Visibility
               .relative.flex.items-center

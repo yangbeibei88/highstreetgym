@@ -42,3 +42,17 @@ export const getAllTopics = async () => {
     conn.release();
   }
 };
+
+// FOR ARTICLE FORM
+export const getTopics = async () => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql = "SELECT * FROM topics ORDER BY topicName";
+    return conn.execute(sql);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
