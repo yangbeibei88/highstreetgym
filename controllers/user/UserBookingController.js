@@ -38,7 +38,7 @@ export const createBookingAction = asyncHandler(async (req, res, next) => {
   const newBooking = await insertBookingTrans(newBookingData);
 
   res.redirect(
-    `auth/${req.user.userRole === "admin" ? "admin" : "user"}/booking-confirmation/${newBooking.bookingId}`,
+    `/auth/${req.user.userRole === "admin" ? "admin" : "user"}/booking-confirmation/${newBooking.bookingId}`,
   );
 });
 

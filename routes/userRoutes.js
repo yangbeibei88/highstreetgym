@@ -24,9 +24,9 @@ userRouter.get("/my-profile", renderMyprofileAction);
 userRouter.get("/change-password", renderChangePasswordAction);
 userRouter.get("/logout", logoutAction);
 
-userRouter.get("/booking-confirmation/:bookingId", showBookingConfirmAction);
-
 userRouter
   .route("/timetable/:timetableId/booking")
   .get(showBookingFormAction)
   .post(createBookingAction);
+
+userRouter.get("/booking-confirmation/:bookingId", showBookingConfirmAction);
