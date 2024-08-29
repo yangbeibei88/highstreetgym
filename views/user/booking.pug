@@ -1,4 +1,4 @@
-extends layout.pug 
+extends ../layouts/main.pug 
 
 block content 
   main#booking.flex.items-center.justify-center.flex-grow.bg-gray-300
@@ -11,21 +11,22 @@ block content
           | Class Information
         tr
           th Class
-          td Yoga
+          td #{timetable.className}
         tr
           th Start Time
           td
-            | Monday, 10:30am,
-            | 2024-09-01
+            | #{timetable.startDateTime}
+            //- | Monday, 10:30am,
+            //- | 2024-09-01
         tr
           th Duration
-          td 30 minutes
+          td #{timetable.duration} minutes
         tr
           th Level
-          td Intermediate
+          td #{timetable.level}
         tr
           th Trainer
-          td Lucy
+          td #{timetable.trainerFirstName}
       // TODO: disable buttons if checkbox is unchecked
       form.flex.flex-col
         .py-4.space-x-1
@@ -39,6 +40,6 @@ block content
           a.btn.bg-gray-300.btn-sm(href='/timetable')
             | &laquo;
             | Cancel
-          button.btn.btn-limeGreen.btn-sm(type='submit')
+          button.btn.btn-limeGreen.btn-sm(type='submit' disabled)
             | Submit
             | &raquo;

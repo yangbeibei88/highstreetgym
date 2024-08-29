@@ -55,4 +55,4 @@ block content
               +tableCellItem('trainer', s.trainerFirstName)
               +tableCellItem('availability', s.availability)
               td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='action')
-                a.btn-bullet.btn-limeGreen.btn-sm(href='#') Book Now
+                a.btn-bullet.btn-limeGreen.btn-sm(href=`/auth/${loggedInUser === 'admin' ? 'admin' : 'user'}/timetable/${s.timetableId}/booking`) Book Now

@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { isLoggedIn, logoutAction } from "../controllers/AuthController.js";
 import { renderChangePasswordAction } from "../controllers/UserController.js";
-import { renderMybookingsAction } from "../controllers/user/UserBookingController.js";
+import {
+  renderMybookingsAction,
+  showBookingFormAction,
+} from "../controllers/user/UserBookingController.js";
 import { renderMydashboardAction } from "../controllers/user/UserDashboardController.js";
 import { renderMyarticlesAction } from "../controllers/user/UserArticleController.js";
 import { renderMycommentsAction } from "../controllers/user/UserCommentController.js";
@@ -19,3 +22,5 @@ userRouter.get("/my-profile", renderMyprofileAction);
 userRouter.get("/change-password", renderChangePasswordAction);
 userRouter.get("/logout", logoutAction);
 // userRouter.get("/logout", logoutAction);
+
+userRouter.route("/timetable/:timetableId/booking").get(showBookingFormAction);
