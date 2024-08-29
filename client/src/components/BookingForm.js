@@ -6,10 +6,12 @@ export class BookingForm {
   }
 
   addEventListener() {
-    this._bookingConfirmCheckbox.addEventListener(
-      "click",
-      this.btnState.bind(this),
-    );
+    if (this._bookingConfirmCheckbox) {
+      this._bookingConfirmCheckbox.addEventListener(
+        "click",
+        this.btnState.bind(this),
+      );
+    }
   }
 
   btnState() {

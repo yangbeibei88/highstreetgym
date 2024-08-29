@@ -8,7 +8,10 @@ import {
   showBookingFormAction,
 } from "../controllers/user/UserBookingController.js";
 import { renderMydashboardAction } from "../controllers/user/UserDashboardController.js";
-import { renderMyarticlesAction } from "../controllers/user/UserArticleController.js";
+import {
+  renderMyarticlesAction,
+  showCreateArticleFormAction,
+} from "../controllers/user/UserArticleController.js";
 import { renderMycommentsAction } from "../controllers/user/UserCommentController.js";
 import { renderMyprofileAction } from "../controllers/user/UserProfileController.js";
 
@@ -23,6 +26,8 @@ userRouter.get("/my-comments", renderMycommentsAction);
 userRouter.get("/my-profile", renderMyprofileAction);
 userRouter.get("/change-password", renderChangePasswordAction);
 userRouter.get("/logout", logoutAction);
+
+userRouter.route("/article/create").get(showCreateArticleFormAction);
 
 userRouter
   .route("/timetable/:timetableId/booking")

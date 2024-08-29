@@ -1,3 +1,5 @@
+include _userRoleVariable.pug
+
 mixin navItem(text, linkPath)
   li.group.nav-item
     a.px-3.py-2.leading-4.text-lemonGreen.capitalize(href=linkPath class='group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen') #{text}
@@ -24,12 +26,12 @@ nav.sticky.top-0.z-50.flex.flex-wrap.items-center.justify-between.px-2.py-3.bg-d
       ul.font-medium.flex.flex-col.items-center.list-none(class='lg:order-3 lg:flex-row lg:ml-auto lg:space-x-4')
         if loggedInUser
           li.group.nav-item 
-            a.btn.btn-limeGreen.text-darkCyan.btn-sm.space-x-1(href='/posts/create')
+            a.btn.btn-limeGreen.text-darkCyan.btn-sm.space-x-1(href=`/auth/${role}/article/create`)
               span Create Article 
               svg.size-6 
                 use(xlink:href='/icons/sprites/regular.svg#pen-to-square' fill='currentColor')
           li.group.nav-item 
-            a(href=`/auth/${loggedInUser.userRole === 'admin' ? 'admin' : 'user'}/my-dashboard`)
+            a(href=`/auth/${role}/my-dashboard`)
               img.size-10.rounded-full(src=`/images/users/${loggedInUser.avatar}` alt='')
         else
           +navItem('login', '/login')

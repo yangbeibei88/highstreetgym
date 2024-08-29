@@ -12,7 +12,7 @@ const articleEditorEl = document.getElementById("article-editor");
 
 if (articleEditorEl) {
   // eslint-disable-next-line no-unused-vars
-  const articleEditor = new Quill("#article-editor", {
+  const articleEditor = new Quill(articleEditorEl, {
     modules: {
       toolbar: [
         ["bold", "italic"],
