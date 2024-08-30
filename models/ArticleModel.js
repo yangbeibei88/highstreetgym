@@ -69,3 +69,9 @@ export const createArticle = async () => {
     conn.release();
   }
 };
+
+export const getVisibilityOptions = async () => [
+  "private",
+  "member-only",
+  "public",
+];

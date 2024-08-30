@@ -17,14 +17,14 @@ block content
         // 2) MAIN CONTENT
         main#create-article.col-span-1.order-2(class='md:col-span-3')
           // my profile form
-          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action=`/auth/${role}/article/create` enctype='multipart/form-data')
+          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action=`/auth/${role}/article/create` novalidate)
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleTitle') Title
               .relative.flex.items-center
                 svg.absolute.size-6.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/solid.svg#heading' fill='currentColor')
-                input#articleTitle.pl-11(type='text' name='articleTitle' placeholder='Enter an article name' required='')
-                +fieldErrorMsg('articleTitle')
+                input#articleTitle.pl-11(type='text' name='articleTitle' placeholder='Enter an article name' required='' value=(cleanData && cleanData.articleTitle || ''))
+              +fieldErrorMsg('articleTitle')
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='topic') Topic
               .relative.flex.items-center
@@ -35,24 +35,17 @@ block content
                     | ------Select a
                     | topic------
                   - for(let t of topics)
-                    option(value=t.topicId) #{t.topicName}
-                +fieldErrorMsg('topic')
+                    option(value=t.topicId selected=(cleanData && cleanData.topicId === t.topicId ? true : false)) #{t.topicName}
+              +fieldErrorMsg('topic')
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='visibility') Visibility
               .relative.flex.items-center
                 svg.size-6.absolute.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/regular.svg#eye' fill='currentColor')
                 select#visibility.text-center(name='visibility')
-                  option(value='private' selected='')
-                    | Private:
-                    | visible to myself
-                  option(value='member-only')
-                    | Member only: visible to gym
-                    | members
-                  option(value='public')
-                    | Public:
-                    | visible to everyone
-                +fieldErrorMsg('visibility')
+                  - for(let v of visibilityOptions)
+                    option(value=(v) selected=(cleanData && cleanData.visibility === v ? true : false)) #{v}
+              +fieldErrorMsg('visibility')
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='imageCover')
                 | Cover
@@ -61,15 +54,15 @@ block content
                 input#imageCover(type='file' name='imageCover' accept='image/*')
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleContent') Content
-              input(type="hidden", name="articleContent")
+              input(type="hidden", name="articleContent" value=(cleanData && cleanData.articleContent || ''))
               .h-96#articleEditor
               +fieldErrorMsg('articleContent')
               //- textarea#articleContent(name='articleContent' row='20' class='quill-editor') 
             .space-y-1.col-span-1(class='md:col-span-3')
-              a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/dashboard') Back
+              a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href=`/auth/${role}/my-articles`) Back
             .space-y-1.col-span-1(class='md:col-span-3')
               button.btn-bullet.btn-limeGreen.my-5.space-x-1.w-full(type='submit')
-                span Save
+                span Submit
         // 3) COVER IMAGE PREVIEW
         section.order-1
           img(src="/images/blog/default-article-cover.jpg", alt="article-cover", class="object-cover")

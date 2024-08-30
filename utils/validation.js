@@ -1,5 +1,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { JSDOM } from "jsdom";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import DOMPurify from "dompurify";
 import { body } from "express-validator";
+
+const { window } = new JSDOM("");
+const purify = DOMPurify(window);
 
 // validate a string
 export const validateText = (name, min = 0, max = 254, required = true) => {
@@ -135,15 +141,50 @@ export const validSelect = (name, optionArr, required = true) => {
       if (!optionArr.includes(v)) {
         throw new Error("Not a valid option.");
       }
-    } else {
+      return true;
+    }
+
+    if (Array.isArray(v)) {
       const notInOptions = v.filter((item) => !optionArr.includes(item));
       if (notInOptions.length === 1) {
         throw new Error(`${notInOptions[0]} is not an valid option.`);
       } else if (notInOptions.length > 1) {
         throw new Error(`${notInOptions.join()} are not an valid options.`);
       }
+      return true;
     }
   });
+
+  chain = chain.escape();
+  return chain;
+};
+
+export const sanitizeRichText = (
+  name,
+  min = 0,
+  max = 20000,
+  required = true,
+) => {
+  let chain = body(name).trim();
+
+  if (required) {
+    chain.notEmpty().withMessage(`${name} is required.`);
+  }
+
+  if (min > 0) {
+    chain = chain
+      .isLength({ min })
+      .withMessage(
+        `${name} is too short, should be more than ${min} characters.`,
+      );
+  }
+  if (max > 0) {
+    chain = chain
+      .isLength({ max })
+      .withMessage(`${name} is too long, should not exceed ${max} characters.`);
+  }
+
+  chain = chain.customSanitizer((value) => purify.sanitize(value));
 
   return chain;
 };

@@ -9,6 +9,7 @@ import {
 } from "../controllers/user/UserBookingController.js";
 import { renderMydashboardAction } from "../controllers/user/UserDashboardController.js";
 import {
+  createArticleAction,
   renderMyarticlesAction,
   showCreateArticleFormAction,
 } from "../controllers/user/UserArticleController.js";
@@ -27,7 +28,10 @@ userRouter.get("/my-profile", renderMyprofileAction);
 userRouter.get("/change-password", renderChangePasswordAction);
 userRouter.get("/logout", logoutAction);
 
-userRouter.route("/article/create").get(showCreateArticleFormAction);
+userRouter
+  .route("/article/create")
+  .get(showCreateArticleFormAction)
+  .post(createArticleAction);
 
 userRouter
   .route("/timetable/:timetableId/booking")
