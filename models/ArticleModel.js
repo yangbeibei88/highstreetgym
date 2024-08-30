@@ -56,3 +56,16 @@ export const getTopics = async () => {
     conn.release();
   }
 };
+
+export const createArticle = async () => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql = "INSERT INTO articles () VALUES ()";
+    return conn.execute(sql);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};

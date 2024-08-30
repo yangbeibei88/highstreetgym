@@ -1,25 +1,18 @@
-import Quill from "quill";
+import { QuillEditor } from "./QuillEditor.js";
 
 export class ArticleForm {
   constructor() {
-    this._articleEditorEl = document.getElementById("article-editor");
+    this._articleEditorEl = document.getElementById("articleEditor");
+    this._hiddenContentInput = document.querySelector(
+      "input[name='articleContent']",
+    );
     this.editor();
   }
 
   editor() {
     if (this._articleEditorEl) {
-      // eslint-disable-next-line no-unused-vars
-      this.articleEditor = new Quill(this._articleEditorEl, {
-        modules: {
-          toolbar: [
-            ["bold", "italic"],
-            ["link", "blockquote", "code-block", "image"],
-            [{ list: "ordered" }, { list: "bullet" }],
-          ],
-        },
-        placeholder: "Compose an epic...",
-        theme: "snow",
-      });
+      this.articleEditor = new QuillEditor(this._articleEditorEl);
+      this._hiddenContentInput.value = this.articleEditor.getSemanticHTML;
     }
   }
 }

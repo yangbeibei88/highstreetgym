@@ -1,4 +1,8 @@
 extends ../layouts/main.pug 
+include ../partials/_userRoleVariable.pug
+
+block variables
+  +roleVariable()
 
 block content 
   .page-wrapper
@@ -12,13 +16,13 @@ block content
         // 2) MAIN CONTENT
         main#create-article.col-span-1.order-2(class='md:col-span-3')
           // my profile form
-          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4')
+          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action=`/auth/${role}/article/create`)
             .space-y-1.col-span-1(class='md:col-span-6')
-              label.block.text-sm.font-semibold.text-darkCyan(for='article-title') Title
+              label.block.text-sm.font-semibold.text-darkCyan(for='articleTitle') Title
               .relative.flex.items-center
                 svg.absolute.size-6.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/solid.svg#heading' fill='currentColor')
-                input#article-title.pl-11(type='text' name='article-title' placeholder='Enter an article name' required='')
+                input#articleTitle.pl-11(type='text' name='articleTitle' placeholder='Enter an article name' required='')
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='topic') Topic
               .relative.flex.items-center
@@ -52,8 +56,10 @@ block content
               .relative.flex.items-center
                 input#cover-image(type='file' name='cover-image')
             .space-y-1.col-span-1(class='md:col-span-6')
-              label.block.text-sm.font-semibold.text-darkCyan(for='content') Content
-              #article-editor.h-96
+              label.block.text-sm.font-semibold.text-darkCyan(for='articleContent') Content
+              input(type="hidden", name="articleContent")
+              .h-96#articleEditor
+              //- textarea#articleContent(name='articleContent' row='20' class='quill-editor') 
             .space-y-1.col-span-1(class='md:col-span-3')
               a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/dashboard') Back
             .space-y-1.col-span-1(class='md:col-span-3')

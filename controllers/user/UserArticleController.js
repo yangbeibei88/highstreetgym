@@ -14,3 +14,12 @@ export const showCreateArticleFormAction = asyncHandler(
     });
   },
 );
+
+export const createArticleAction = asyncHandler(async (req, res, next) => {
+  const newData = {
+    articleTitle: req.body.articleTitle,
+    topicId: req.body.topic,
+    visibility: req.body.visibility,
+    articleContent: req.body.articleContent,
+  };
+});

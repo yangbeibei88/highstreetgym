@@ -2,7 +2,9 @@
 import "quill/dist/quill.snow.css";
 import "./style.css";
 import { ArticleForm } from "./components/ArticleForm.js";
+// import { QuillEditor } from "./components/QuillEditor.js";
 import { BookingForm } from "./components/BookingForm.js";
 
 const bookingForm = new BookingForm();
+// const quillEditor = new QuillEditor();
 const articleForm = new ArticleForm();

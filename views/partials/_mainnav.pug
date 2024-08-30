@@ -1,9 +1,10 @@
 include _userRoleVariable.pug
 
++roleVariable()
+
 mixin navItem(text, linkPath)
   li.group.nav-item
     a.px-3.py-2.leading-4.text-lemonGreen.capitalize(href=linkPath class='group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen') #{text}
-
 
 nav.sticky.top-0.z-50.flex.flex-wrap.items-center.justify-between.px-2.py-3.bg-darkCyan.shadow
   .container.mx-auto.flex.flex-wrap.items-center.justify-between
