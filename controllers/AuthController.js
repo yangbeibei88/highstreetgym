@@ -1,8 +1,5 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import asyncHandler from "express-async-handler";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { validationResult } from "express-validator";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import bcrypt from "bcrypt";
 import {
   compareString,

@@ -123,3 +123,27 @@ export const compareString = (plural, str1Name, str2Name) =>
       }
       return true;
     });
+
+export const validSelect = (name, optionArr, required = true) => {
+  let chain;
+  if (required) {
+    chain = body(name).notEmpty().withMessage(`${name} is required.`);
+  }
+
+  chain = chain.custom((v) => {
+    if (!Array.isArray(v)) {
+      if (!optionArr.includes(v)) {
+        throw new Error("Not a valid option.");
+      }
+    } else {
+      const notInOptions = v.filter((item) => !optionArr.includes(item));
+      if (notInOptions.length === 1) {
+        throw new Error(`${notInOptions[0]} is not an valid option.`);
+      } else if (notInOptions.length > 1) {
+        throw new Error(`${notInOptions.join()} are not an valid options.`);
+      }
+    }
+  });
+
+  return chain;
+};

@@ -1,5 +1,6 @@
 extends ../layouts/main.pug 
 include ../partials/_userRoleVariable.pug
+include ../partials/_fieldErrorMsg.pug
 
 block variables
   +roleVariable()
@@ -23,6 +24,7 @@ block content
                 svg.absolute.size-6.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/solid.svg#heading' fill='currentColor')
                 input#articleTitle.pl-11(type='text' name='articleTitle' placeholder='Enter an article name' required='')
+                +fieldErrorMsg('articleTitle')
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='topic') Topic
               .relative.flex.items-center
@@ -34,6 +36,7 @@ block content
                     | topic------
                   - for(let t of topics)
                     option(value=t.topicId) #{t.topicName}
+                +fieldErrorMsg('topic')
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='visibility') Visibility
               .relative.flex.items-center
@@ -49,6 +52,7 @@ block content
                   option(value='public')
                     | Public:
                     | visible to everyone
+                +fieldErrorMsg('visibility')
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='imageCover')
                 | Cover
@@ -59,6 +63,7 @@ block content
               label.block.text-sm.font-semibold.text-darkCyan(for='articleContent') Content
               input(type="hidden", name="articleContent")
               .h-96#articleEditor
+              +fieldErrorMsg('articleContent')
               //- textarea#articleContent(name='articleContent' row='20' class='quill-editor') 
             .space-y-1.col-span-1(class='md:col-span-3')
               a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/dashboard') Back
