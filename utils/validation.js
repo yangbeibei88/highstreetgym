@@ -184,7 +184,23 @@ export const sanitizeRichText = (
       .withMessage(`${name} is too long, should not exceed ${max} characters.`);
   }
 
-  chain = chain.customSanitizer((value) => purify.sanitize(value));
+  chain = chain.customSanitizer((value) =>
+    purify.sanitize(value, {
+      ALLOWED_TAGS: [
+        "p",
+        "b",
+        "a",
+        "br",
+        "ul",
+        "li",
+        "ol",
+        "strong",
+        "em",
+        "img",
+      ],
+      FORBID_ATTR: ["style"],
+    }),
+  );
 
   return chain;
 };

@@ -1,7 +1,7 @@
 import Quill from "quill";
 
 export class QuillEditor {
-  constructor(editorEl, hiddenInputEl) {
+  constructor(editorEl, hiddenInputEl, initialContent = "") {
     this.editorEl = editorEl;
     this.hiddenInputEl = hiddenInputEl;
     this.editor = new Quill(this.editorEl, {
@@ -15,6 +15,12 @@ export class QuillEditor {
       placeholder: "Compose an epic...",
       theme: "snow",
     });
+
+    // If there's initial content (e.g., sanitized HTML), set it in the editor
+    if (initialContent) {
+      this.editor.clipboard.dangerouslyPasteHTML(initialContent);
+    }
+
     this.addOnEvent();
   }
 
@@ -23,7 +29,7 @@ export class QuillEditor {
   }
 
   assignValue() {
-    this.hiddenInputEl.value = this.editor.getSemanticHTML();
+    this.hiddenInputEl.value = this.editor.root.innerHTML;
   }
 }
 

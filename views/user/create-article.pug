@@ -55,7 +55,7 @@ block content
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleContent') Content
               input(type="hidden", name="articleContent" value=(cleanData && cleanData.articleContent || ''))
-              .h-96#articleEditor
+              .h-96#articleEditor !{cleanData && cleanData.articleContent || ''}
               +fieldErrorMsg('articleContent')
               //- textarea#articleContent(name='articleContent' row='20' class='quill-editor') 
             .space-y-1.col-span-1(class='md:col-span-3')
