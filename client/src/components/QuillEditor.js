@@ -1,8 +1,10 @@
 import Quill from "quill";
 
 export class QuillEditor {
-  constructor(editorEl) {
-    this._editor = new Quill(editorEl, {
+  constructor(editorEl, hiddenInputEl) {
+    this.editorEl = editorEl;
+    this.hiddenInputEl = hiddenInputEl;
+    this.editor = new Quill(this.editorEl, {
       modules: {
         toolbar: [
           ["bold", "italic"],
@@ -13,6 +15,15 @@ export class QuillEditor {
       placeholder: "Compose an epic...",
       theme: "snow",
     });
+    this.addOnEvent();
+  }
+
+  addOnEvent() {
+    this.editor.on("text-change", this.assignValue.bind(this));
+  }
+
+  assignValue() {
+    this.hiddenInputEl.value = this.editor.getSemanticHTML();
   }
 }
 

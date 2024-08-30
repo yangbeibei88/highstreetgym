@@ -11,8 +11,10 @@ export class ArticleForm {
 
   editor() {
     if (this._articleEditorEl) {
-      this.articleEditor = new QuillEditor(this._articleEditorEl);
-      this._hiddenContentInput.value = this.articleEditor.getSemanticHTML;
+      this.articleEditor = new QuillEditor(
+        this._articleEditorEl,
+        this._hiddenContentInput,
+      );
     }
   }
 }

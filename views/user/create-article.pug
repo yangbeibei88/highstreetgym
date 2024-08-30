@@ -16,7 +16,7 @@ block content
         // 2) MAIN CONTENT
         main#create-article.col-span-1.order-2(class='md:col-span-3')
           // my profile form
-          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action=`/auth/${role}/article/create`)
+          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action=`/auth/${role}/article/create` enctype='multipart/form-data')
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleTitle') Title
               .relative.flex.items-center
@@ -50,11 +50,11 @@ block content
                     | Public:
                     | visible to everyone
             .space-y-1.col-span-1(class='md:col-span-6')
-              label.block.text-sm.font-semibold.text-darkCyan(for='cover-image')
+              label.block.text-sm.font-semibold.text-darkCyan(for='imageCover')
                 | Cover
                 | Image
               .relative.flex.items-center
-                input#cover-image(type='file' name='cover-image')
+                input#imageCover(type='file' name='imageCover' accept='image/*')
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleContent') Content
               input(type="hidden", name="articleContent")
