@@ -3,9 +3,9 @@ import { QuillEditor } from "./QuillEditor.js";
 export class ArticleForm {
   constructor() {
     this._articleEditorEl = document.getElementById("articleEditor");
-    this._hiddenContentInput = document.querySelector(
-      "input[name='articleContent']",
-    );
+    this._hiddenContentInput = document.getElementById(
+      "form-create-article",
+    ).elements.articleContent;
     this.editor();
   }
 
