@@ -7,7 +7,6 @@ import {
   validSelect,
 } from "../../utils/validation.js";
 import { articleImageUpload } from "../UploadController.js";
-import { AppError } from "../../utils/AppError.js";
 
 export const renderMyarticlesAction = async (req, res, next) => {
   res.status(200).render("user/my-articles", { title: "My Articles" });
@@ -35,7 +34,7 @@ export const createArticleAction = asyncHandler(async (req, res, next) => {
     "public/images/blog",
   ).single("imageCover");
 
-  upload(req, res, async (err) => {
+  upload(req, res, async () => {
     // 1) VALIDATE & SANITISE FIELDS
 
     await Promise.all([
@@ -58,40 +57,19 @@ export const createArticleAction = asyncHandler(async (req, res, next) => {
       imageCover: req.file ? req.file.filename : null,
     };
 
-    if (err instanceof AppError) {
-      return res.status(400).render("user/create-article", {
-        title: "Create Article",
-        uploadErr: err.message,
-        topics,
-        visibilityOptions,
-        cleanData,
-        errors: errors.array(),
-      });
-    }
-
-    if (req.fileValidationError) {
-      return res.status(400).render("user/create-article", {
-        title: "Create Article",
-        uploadErr: req.fileValidationError,
-        topics,
-        visibilityOptions,
-        cleanData,
-        errors: errors.array(),
-      });
-    }
-
-    if (!errors.isEmpty() || err) {
-      return res.status(400).render("user/create-article", {
-        title: "Create Article",
-        topics,
-        visibilityOptions,
-        cleanData,
-        errors: errors.array(),
-        uploadErr: req.fileValidationError,
-      });
-    }
-
     console.log(cleanData);
+
+    if (!errors.isEmpty() || req.fileValidationError) {
+      return res.status(400).render("user/create-article", {
+        title: "Create Article",
+        topics,
+        visibilityOptions,
+        cleanData,
+        errors: errors.array(),
+        uploadErr: req.fileValidationError,
+      });
+    }
+
     res.status(200).redirect("/");
   });
 });

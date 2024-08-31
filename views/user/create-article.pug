@@ -57,7 +57,7 @@ block content
                   small.block #{uploadErr}
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleContent') Content
-              input(type="hidden", name="articleContent" value=(cleanData && cleanData.articleContent || ''))
+              input#articleContent(type="hidden", name="articleContent" value=(cleanData && cleanData.articleContent || ''))
               .h-96#articleEditor !{cleanData && cleanData.articleContent || ''}
               +fieldErrorMsg('articleContent')
               //- textarea#articleContent(name='articleContent' row='20' class='quill-editor') 
