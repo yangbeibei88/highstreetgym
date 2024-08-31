@@ -1,7 +1,7 @@
 import Quill from "quill";
 
 export class QuillEditor {
-  constructor(editorEl, hiddenInputEl, initialContent = "") {
+  constructor(editorEl, hiddenInputEl) {
     this.editorEl = editorEl;
     this.hiddenInputEl = hiddenInputEl;
     this.editor = new Quill(this.editorEl, {
@@ -17,9 +17,9 @@ export class QuillEditor {
     });
 
     // If there's initial content (e.g., sanitized HTML), set it in the editor
-    if (initialContent) {
-      this.editor.clipboard.dangerouslyPasteHTML(initialContent);
-    }
+    // if (initialContent) {
+    //   this.editor.clipboard.dangerouslyPasteHTML(initialContent);
+    // }
 
     this.addOnEvent();
   }
