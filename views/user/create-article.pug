@@ -17,7 +17,7 @@ block content
         // 2) MAIN CONTENT
         main#create-article.col-span-1.order-2(class='md:col-span-3')
           // my profile form
-          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action=`/auth/${role}/article/create` novalidate)
+          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action=`/auth/${role}/article/create` enctype='multipart/form-data'  novalidate)
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleTitle') Title
               .relative.flex.items-center
@@ -51,7 +51,10 @@ block content
                 | Cover
                 | Image
               .relative.flex.items-center
-                input#imageCover(type='file' name='imageCover' accept='image/*')
+                input#imageCover(type='file' name='imageCover' accept='.jpg, .jpeg, .png')
+              .block.text-red-500 
+                if uploadErr
+                  small.block #{uploadErr}
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleContent') Content
               input(type="hidden", name="articleContent" value=(cleanData && cleanData.articleContent || ''))

@@ -8,7 +8,7 @@ import {
   getTimetableById,
   getTimetableByUserId,
 } from "../../models/TimetableModel.js";
-import { AppErrorHandler } from "../../utils/AppErrorHandler.js";
+import { AppError } from "../../utils/AppError.js";
 
 export const renderMybookingsAction = asyncHandler(async (req, res, next) => {
   // req.user.userId comes from isLoggedIn middleware
@@ -29,12 +29,10 @@ export const showBookingFormAction = asyncHandler(async (req, res, next) => {
     return acc;
   }, []);
   if (!result) {
-    return next(new AppErrorHandler("Timetable not found", 404));
+    return next(new AppError("Timetable not found", 404));
   }
   if (myBookingTimetableIds.includes(+req.params.timetableId)) {
-    return next(
-      new AppErrorHandler("It seems you have booked this class", 400),
-    );
+    return next(new AppError("It seems you have booked this class", 400));
   }
   const timetable = await result[0];
   // console.log(timetable);
@@ -61,7 +59,7 @@ export const showBookingConfirmAction = async (req, res, next) => {
   const [result] = await getBookingById(req.params.bookingId);
 
   if (!result) {
-    return next(new AppErrorHandler("Booking Confirmation Not Found", 404));
+    return next(new AppError("Booking Confirmation Not Found", 404));
   }
 
   const booking = await result[0];

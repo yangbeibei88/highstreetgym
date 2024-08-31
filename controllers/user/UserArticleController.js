@@ -6,6 +6,8 @@ import {
   validateText,
   validSelect,
 } from "../../utils/validation.js";
+import { articleImageUpload } from "../UploadController.js";
+import { AppError } from "../../utils/AppError.js";
 
 export const renderMyarticlesAction = async (req, res, next) => {
   res.status(200).render("user/my-articles", { title: "My Articles" });
@@ -24,38 +26,72 @@ export const showCreateArticleFormAction = asyncHandler(
 );
 
 export const createArticleAction = asyncHandler(async (req, res, next) => {
-  // 1) VALIDATE & SANITISE FIELDS
   const visibilityOptions = await getVisibilityOptions();
   const [topics] = await getTopics();
   const topicOptions = topics.map((row) => `${row.topicId}`);
-  await Promise.all([
-    validateText("articleTitle", 10, 80, true).run(req),
-    validSelect("topic", topicOptions, true).run(req),
-    validSelect("visibility", visibilityOptions, true).run(req),
-    sanitizeRichText("articleContent", 100, 20000, true).run(req),
-  ]);
 
-  // 2) EXTRACT ERRORS
-  const errors = validationResult(req);
-  console.log(errors);
+  const upload = articleImageUpload(
+    req.user.userId,
+    "public/images/blog",
+  ).single("imageCover");
 
-  const cleanData = {
-    articleTitle: req.body.articleTitle,
-    topicId: +req.body.topic,
-    visibility: req.body.visibility,
-    articleContent: req.body.articleContent,
-    userId: req.user.userId,
-  };
+  upload(req, res, async (err) => {
+    // 1) VALIDATE & SANITISE FIELDS
 
-  console.log(cleanData);
+    await Promise.all([
+      validateText("articleTitle", 10, 80, true).run(req),
+      validSelect("topic", topicOptions, true).run(req),
+      validSelect("visibility", visibilityOptions, true).run(req),
+      sanitizeRichText("articleContent", 100, 20000, true).run(req),
+    ]);
 
-  if (!errors.isEmpty()) {
-    return res.status(400).render("user/create-article", {
-      title: "Create Article",
-      topics,
-      visibilityOptions,
-      cleanData,
-      errors: errors.array(),
-    });
-  }
+    // 2) EXTRACT ERRORS
+    const errors = validationResult(req);
+    console.log(errors);
+
+    const cleanData = {
+      articleTitle: req.body.articleTitle,
+      topicId: +req.body.topic,
+      visibility: req.body.visibility,
+      articleContent: req.body.articleContent,
+      userId: req.user.userId,
+      imageCover: req.file ? req.file.filename : null,
+    };
+
+    if (err instanceof AppError) {
+      return res.status(400).render("user/create-article", {
+        title: "Create Article",
+        uploadErr: err.message,
+        topics,
+        visibilityOptions,
+        cleanData,
+        errors: errors.array(),
+      });
+    }
+
+    if (req.fileValidationError) {
+      return res.status(400).render("user/create-article", {
+        title: "Create Article",
+        uploadErr: req.fileValidationError,
+        topics,
+        visibilityOptions,
+        cleanData,
+        errors: errors.array(),
+      });
+    }
+
+    if (!errors.isEmpty() || err) {
+      return res.status(400).render("user/create-article", {
+        title: "Create Article",
+        topics,
+        visibilityOptions,
+        cleanData,
+        errors: errors.array(),
+        uploadErr: req.fileValidationError,
+      });
+    }
+
+    console.log(cleanData);
+    res.status(200).redirect("/");
+  });
 });
