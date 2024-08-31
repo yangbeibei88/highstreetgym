@@ -68,5 +68,5 @@ block content
                 span Submit
         // 3) COVER IMAGE PREVIEW
         section.order-1
-          img(src="/images/blog/default-article-cover.jpg", alt="article-cover", class="object-cover")
+          img(src=`/images/blog/${cleanData && cleanData.imageCover ? cleanData.imageCover : 'default-article-cover.jpg'}` alt=(cleanData && cleanData.articleTitle || 'article-cover') class='object-cover')
 

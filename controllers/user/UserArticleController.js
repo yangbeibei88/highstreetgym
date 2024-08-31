@@ -1,6 +1,10 @@
 import asyncHandler from "express-async-handler";
 import { validationResult } from "express-validator";
-import { getTopics, getVisibilityOptions } from "../../models/ArticleModel.js";
+import {
+  getTopics,
+  getVisibilityOptions,
+  insertArticle,
+} from "../../models/ArticleModel.js";
 import {
   sanitizeRichText,
   validateText,
@@ -29,14 +33,15 @@ export const createArticleAction = asyncHandler(async (req, res, next) => {
   const [topics] = await getTopics();
   const topicOptions = topics.map((row) => `${row.topicId}`);
 
+  // 1) CREATE UPLOAD MULTER IMAGE MIDDLEWARE
   const upload = articleImageUpload(
     req.user.userId,
     "public/images/blog",
   ).single("imageCover");
 
+  // WRAP FORM VALIDATION AND INSERT EXECUTATION IN UPLOAD MIDDLEWARE
   upload(req, res, async () => {
     // 1) VALIDATE & SANITISE FIELDS
-
     await Promise.all([
       validateText("articleTitle", 10, 80, true).run(req),
       validSelect("topic", topicOptions, true).run(req),
@@ -70,6 +75,11 @@ export const createArticleAction = asyncHandler(async (req, res, next) => {
       });
     }
 
-    res.status(200).redirect("/");
+    // INSERT DATA INTO DATABASE IF NO ERR
+    const newArticleData = await insertArticle(cleanData);
+
+    res.redirect(
+      `/auth/${req.user.userRole === "admin" ? "admin" : "user"}/my-articles`,
+    );
   });
 });

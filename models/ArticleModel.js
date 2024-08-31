@@ -57,11 +57,41 @@ export const getTopics = async () => {
   }
 };
 
-export const createArticle = async () => {
+export const insertArticle = async (article) => {
   const conn = await dbPool.getConnection();
   try {
-    const sql = "INSERT INTO articles () VALUES ()";
-    return conn.execute(sql);
+    let fieldNames;
+    let fieldValues;
+    let values;
+    if (article.imageCover) {
+      fieldNames =
+        "(articleTitle, topicId, visibility, articleContent, userId, imageCover)";
+      fieldValues = "(?, ?, ?, ?, ?, ?)";
+      values = [
+        article.articleTitle,
+        article.topicId,
+        article.visibility,
+        article.articleContent,
+        article.userId,
+        article.imageCover,
+      ];
+    } else {
+      fieldNames =
+        "(articleTitle, topicId, visibility, articleContent, userId)";
+      fieldValues = "(?, ?, ?, ?, ?)";
+      values = [
+        article.articleTitle,
+        article.topicId,
+        article.visibility,
+        article.articleContent,
+        article.userId,
+      ];
+    }
+
+    const sql = `INSERT INTO articles ${fieldNames} VALUES ${fieldValues}`;
+    const [result] = await conn.execute(sql, [...values]);
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    return { ...article, articleId: result.insertId };
   } catch (error) {
     console.log(error);
     throw error;
