@@ -184,8 +184,8 @@ export const sanitizeRichText = (
       .withMessage(`${name} is too long, should not exceed ${max} characters.`);
   }
 
-  chain = chain.customSanitizer((value) =>
-    purify.sanitize(value, {
+  chain = chain.customSanitizer((value) => {
+    const sanitizedContent = purify.sanitize(value, {
       ALLOWED_TAGS: [
         "p",
         "b",
@@ -198,9 +198,11 @@ export const sanitizeRichText = (
         "em",
         "img",
       ],
-      FORBID_ATTR: ["style"],
-    }),
-  );
+      FORBID_ATTR: ["class"],
+      RETURN_TRUSTED_TYPE: true,
+    });
+    return sanitizedContent.toString();
+  });
 
   return chain;
 };
