@@ -5,7 +5,7 @@ import {
   getArticlesByUser,
   getTopics,
   getVisibilityOptions,
-  insertArticle,
+  saveArticle,
 } from "../../models/ArticleModel.js";
 import {
   sanitizeRichText,
@@ -22,17 +22,35 @@ export const listMyArticlesAction = async (req, res, next) => {
     .render("user/my-articles", { title: "My Articles", articles });
 };
 
-export const showCreateArticleFormAction = asyncHandler(
-  async (req, res, next) => {
-    const [topics] = await getTopics();
-    const visibilityOptions = await getVisibilityOptions();
-    res.render("user/articleForm", {
-      title: "Create Article",
-      topics,
-      visibilityOptions,
-    });
-  },
-);
+export const showArticleFormAction = asyncHandler(async (req, res, next) => {
+  const [topics] = await getTopics();
+  const visibilityOptions = await getVisibilityOptions();
+  // INITIALISE THE FORM
+  let inputData = {
+    articleId: "",
+    articleTitle: "",
+    topicId: "",
+    visibility: "private",
+    articleContent: "",
+    userId: req.user.userId,
+    imageCover: null,
+  };
+
+  // IF IT'S ARTICLE EDIT, CHECK PARAMS ID
+  if (req.params.articleId) {
+    const [article] = await getArticle(+req.params.articleId);
+    if (!article) {
+      return next(new AppError("NOT FOUND", 404));
+    }
+    inputData = await article[0];
+  }
+  res.render("user/articleForm", {
+    title: req.params.articleId ? "Edit Article" : "Create Article",
+    topics,
+    visibilityOptions,
+    inputData,
+  });
+});
 
 export const saveArticleAction = asyncHandler(async (req, res, next) => {
   const visibilityOptions = await getVisibilityOptions();
@@ -60,6 +78,7 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
     console.log(errors);
 
     const inputData = {
+      articleId: +req.body.articleId,
       articleTitle: req.body.articleTitle,
       topicId: +req.body.topic,
       visibility: req.body.visibility,
@@ -82,29 +101,11 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
     }
 
     // INSERT DATA INTO DATABASE IF NO ERR
-    const newArticleData = await insertArticle(inputData);
+    // const newArticleData = await insertArticle(inputData);
+    await saveArticle(inputData);
 
     res.redirect(
       `/auth/${req.user.userRole === "admin" ? "admin" : "user"}/my-articles`,
     );
-  });
-});
-
-export const showEditArticleAction = asyncHandler(async (req, res, next) => {
-  const [article] = await getArticle(+req.params.articleId);
-
-  if (!article) {
-    return next(new AppError("NOT FOUND", 404));
-  }
-
-  const inputData = await article[0];
-  const [topics] = await getTopics();
-  const visibilityOptions = await getVisibilityOptions();
-
-  res.render("user/articleForm", {
-    title: "Edit Article",
-    inputData,
-    topics,
-    visibilityOptions,
   });
 });

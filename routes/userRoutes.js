@@ -11,8 +11,7 @@ import { renderMydashboardAction } from "../controllers/user/UserDashboardContro
 import {
   listMyArticlesAction,
   saveArticleAction,
-  showCreateArticleFormAction,
-  showEditArticleAction,
+  showArticleFormAction,
 } from "../controllers/user/UserArticleController.js";
 import { renderMycommentsAction } from "../controllers/user/UserCommentController.js";
 import { renderMyprofileAction } from "../controllers/user/UserProfileController.js";
@@ -29,9 +28,9 @@ userRouter.get("/my-profile", renderMyprofileAction);
 userRouter.get("/change-password", renderChangePasswordAction);
 userRouter.get("/logout", logoutAction);
 
-userRouter.route("/articleForm/create").get(showCreateArticleFormAction);
+userRouter.route("/articleForm/create").get(showArticleFormAction);
 
-userRouter.route("/articleForm/:articleId/edit").get(showEditArticleAction);
+userRouter.route("/articleForm/:articleId/edit").get(showArticleFormAction);
 
 userRouter.route("/articleForm/save").post(saveArticleAction);
 

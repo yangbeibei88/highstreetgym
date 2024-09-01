@@ -52,6 +52,6 @@ block content
                   +tableCellItem('topic', post.topicName)
                   +tableCellItem('visibility', post.visibility)
                   td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
-                    a.btn.btn-sm.btn-limeGreen(href=`/auth/${role}/article/${post.articleId}/edit`) Edit
+                    a.btn.btn-sm.btn-limeGreen(href=`/auth/${role}/articleForm/${post.articleId}/edit`) Edit
         // 3) SIDE MENU
         include ../partials/_accountSideNav.pug

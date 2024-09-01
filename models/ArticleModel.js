@@ -100,7 +100,7 @@ export const insertArticle = async (article) => {
       values.push(article.imageCover);
     }
 
-    const sql = `INSERT INTO articles ${fieldNames.join(", ")} VALUES ${fieldValues.join(", ")}`;
+    const sql = `INSERT INTO articles (${fieldNames.join(", ")}) VALUES (${fieldValues.join(", ")})`;
     const [result] = await conn.execute(sql, [...values]);
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
     return { ...article, articleId: result.insertId };

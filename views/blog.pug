@@ -18,8 +18,8 @@ block content
                   small.text-xs.font-semibold.bg-orange-700.text-white.rounded-full.w-fit.px-3.py-1 #{item.topicName}
                   h2.text-xl
                     | #{item.articleTitle}
-                  p.line-clamp-3
-                    | #{item.articleContent}
+                  .shortDesc
+                    .line-clamp-3 !{item.articleContent}
                   .w-full.flex.flex-col.items-center.justify-between(class='lg:flex-row')
                     .flex.items-center.space-x-2.mr-auto
                       img.size-8.rounded-full.object-cover(src=`/images/users/${item.avatar}` alt=`${item.firstName}` class='md:size-12')
