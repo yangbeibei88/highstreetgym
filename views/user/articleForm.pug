@@ -16,14 +16,15 @@ block content
       .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
         // 2) MAIN CONTENT
         main#create-article.col-span-1.order-2(class='md:col-span-3')
-          // my profile form
-          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action=`/auth/${role}/article/create` enctype='multipart/form-data'  novalidate)
+          //- ARTICLE FORM START
+          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action=`/auth/${role}/articleForm/save` enctype='multipart/form-data'  novalidate)
+            input(type='hidden' name='articleId' value=)
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleTitle') Title
               .relative.flex.items-center
                 svg.absolute.size-6.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/solid.svg#heading' fill='currentColor')
-                input#articleTitle.pl-11(type='text' name='articleTitle' placeholder='Enter an article name' required='' value=(cleanData && cleanData.articleTitle || ''))
+                input#articleTitle.pl-11(type='text' name='articleTitle' placeholder='Enter an article name' required='' value=(inputData && inputData.articleTitle || ''))
               +fieldErrorMsg('articleTitle')
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='topic') Topic
@@ -35,7 +36,7 @@ block content
                     | ------Select a
                     | topic------
                   - for(let t of topics)
-                    option(value=t.topicId selected=(cleanData && cleanData.topicId === t.topicId ? true : false)) #{t.topicName}
+                    option(value=t.topicId selected=(inputData && inputData.topicId === t.topicId ? true : false)) #{t.topicName}
               +fieldErrorMsg('topic')
             .space-y-1.col-span-1(class='md:col-span-3')
               label.block.text-sm.font-semibold.text-darkCyan(for='visibility') Visibility
@@ -44,7 +45,7 @@ block content
                   use(xlink:href='/icons/sprites/regular.svg#eye' fill='currentColor')
                 select#visibility.text-center(name='visibility')
                   - for(let v of visibilityOptions)
-                    option(value=(v) selected=(cleanData && cleanData.visibility === v ? true : false)) #{v}
+                    option(value=(v) selected=(inputData && inputData.visibility === v ? true : false)) #{v}
               +fieldErrorMsg('visibility')
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='imageCover')
@@ -57,8 +58,8 @@ block content
                   small.block #{uploadErr}
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleContent') Content
-              input#articleContent(type="hidden", name="articleContent" value=(cleanData && cleanData.articleContent || ''))
-              .h-96#articleEditor !{cleanData && cleanData.articleContent || ''}
+              input#articleContent(type="hidden", name="articleContent" value=(inputData && inputData.articleContent || ''))
+              .h-96#articleEditor !{inputData && inputData.articleContent || ''}
               +fieldErrorMsg('articleContent')
               //- textarea#articleContent(name='articleContent' row='20' class='quill-editor') 
             .space-y-1.col-span-1(class='md:col-span-3')
@@ -68,5 +69,5 @@ block content
                 span Submit
         // 3) COVER IMAGE PREVIEW
         section.order-1
-          img(src=`/images/blog/${cleanData && cleanData.imageCover ? cleanData.imageCover : 'default-article-cover.jpg'}` alt=(cleanData && cleanData.articleTitle || 'article-cover') class='object-cover')
+          img(src=`/images/blog/${inputData && inputData.imageCover ? inputData.imageCover : 'default-article-cover.jpg'}` alt=(inputData && inputData.articleTitle || 'article-cover') class='object-cover')
 

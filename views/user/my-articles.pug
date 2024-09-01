@@ -1,4 +1,10 @@
 extends ../layouts/main.pug 
+include ../partials/_userRoleVariable.pug
+include ../partials/_tableHeaderItem.pug
+include ../partials/_tableCellItem.pug
+
+block variables
+  +roleVariable()
 
 block content 
   .page-wrapper
@@ -21,45 +27,31 @@ block content
               a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/create-article')
                 span
                   | Create
-                  | Post
+                  | Article
                 span
-                  svg.size-6(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
-                    path(stroke-linecap='round' stroke-linejoin='round' d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10')
+                  svg.size-6 
+                    use(xlink:href='/icons/sprites/regular.svg#pen-to-square' fill='currentColor')
           // my articles table
           table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
             caption.text-sm
               | 10 results
             thead.text-sm.text-white.bg-darkCyan
               tr
-                th.hidden(class='md:table-cell')
-                  | Date Created
-                th.hidden(class='md:table-cell')
-                  | Date Updated
-                th.hidden(class='md:table-cell')
-                  | Title
-                th.hidden(class='md:table-cell')
-                  | Topic
-                th.hidden(class='md:table-cell')
-                  | Visibility
-                th.hidden(class='md:table-cell')
-                  | Edit
-                th.hidden(class='md:table-cell')
-                  | Delete
+                +tableHeaderItem('Date Created')
+                +tableHeaderItem('Date Updated')
+                +tableHeaderItem('Title')
+                +tableHeaderItem('Topic')
+                +tableHeaderItem('Visibility')
+                +tableHeaderItem('Edit')
             tbody
-              tr
-                td.grid.grid-cols-2(data-cell='date_created' class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none')
-                  | 2023-11-10 18:29:59 Sun
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='date_updated')
-                  | 2023-11-12 10:21:15 Tue
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='article_title')
-                  | My Journey to a Yoga Master
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='topic')
-                  | Yoga
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='visibility')
-                  | Public
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
-                  a.btn.btn-sm.btn-limeGreen(href='/edit') Edit
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='delete')
-                  a.btn.btn-sm.btn-red(href='/delete') Delete
+              - for(let post of articles)
+                tr
+                  +tableCellItem('date_created', post.createdAt)
+                  +tableCellItem('date_updated', post.updatedAt)
+                  +tableCellItem('article_title', post.articleTitle)
+                  +tableCellItem('topic', post.topicName)
+                  +tableCellItem('visibility', post.visibility)
+                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
+                    a.btn.btn-sm.btn-limeGreen(href=`/auth/${role}/article/${post.articleId}/edit`) Edit
         // 3) SIDE MENU
         include ../partials/_accountSideNav.pug

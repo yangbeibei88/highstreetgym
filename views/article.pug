@@ -18,7 +18,7 @@ block content
         img.w-full.h-96.rounded-lg.shadow-lg.object-cover(src=`/images/blog/${article[0].imageCover}` alt=`${article[0].articleTitle}`)
       main#article-content
       p
-        | #{article[0].articleContent}
+        | !{article[0].articleContent}
   section#comments.bg-slate-100
     .container.mx-auto.py-6
       h2 Comments

@@ -1,6 +1,8 @@
 import asyncHandler from "express-async-handler";
 import { validationResult } from "express-validator";
 import {
+  getArticle,
+  getArticlesByUser,
   getTopics,
   getVisibilityOptions,
   insertArticle,
@@ -11,16 +13,20 @@ import {
   validSelect,
 } from "../../utils/validation.js";
 import { articleImageUpload } from "../UploadController.js";
+import { AppError } from "../../utils/AppError.js";
 
-export const renderMyarticlesAction = async (req, res, next) => {
-  res.status(200).render("user/my-articles", { title: "My Articles" });
+export const listMyArticlesAction = async (req, res, next) => {
+  const [articles] = await getArticlesByUser(req.user.userId);
+  res
+    .status(200)
+    .render("user/my-articles", { title: "My Articles", articles });
 };
 
 export const showCreateArticleFormAction = asyncHandler(
   async (req, res, next) => {
     const [topics] = await getTopics();
     const visibilityOptions = await getVisibilityOptions();
-    res.render("user/create-article", {
+    res.render("user/articleForm", {
       title: "Create Article",
       topics,
       visibilityOptions,
@@ -28,7 +34,7 @@ export const showCreateArticleFormAction = asyncHandler(
   },
 );
 
-export const createArticleAction = asyncHandler(async (req, res, next) => {
+export const saveArticleAction = asyncHandler(async (req, res, next) => {
   const visibilityOptions = await getVisibilityOptions();
   const [topics] = await getTopics();
   const topicOptions = topics.map((row) => `${row.topicId}`);
@@ -53,7 +59,7 @@ export const createArticleAction = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     console.log(errors);
 
-    const cleanData = {
+    const inputData = {
       articleTitle: req.body.articleTitle,
       topicId: +req.body.topic,
       visibility: req.body.visibility,
@@ -62,24 +68,43 @@ export const createArticleAction = asyncHandler(async (req, res, next) => {
       imageCover: req.file ? req.file.filename : null,
     };
 
-    console.log(cleanData);
+    console.log(inputData);
 
     if (!errors.isEmpty() || req.fileValidationError) {
-      return res.status(400).render("user/create-article", {
+      return res.status(400).render("user/articleForm", {
         title: "Create Article",
         topics,
         visibilityOptions,
-        cleanData,
+        inputData,
         errors: errors.array(),
         uploadErr: req.fileValidationError,
       });
     }
 
     // INSERT DATA INTO DATABASE IF NO ERR
-    const newArticleData = await insertArticle(cleanData);
+    const newArticleData = await insertArticle(inputData);
 
     res.redirect(
       `/auth/${req.user.userRole === "admin" ? "admin" : "user"}/my-articles`,
     );
+  });
+});
+
+export const showEditArticleAction = asyncHandler(async (req, res, next) => {
+  const [article] = await getArticle(+req.params.articleId);
+
+  if (!article) {
+    return next(new AppError("NOT FOUND", 404));
+  }
+
+  const inputData = await article[0];
+  const [topics] = await getTopics();
+  const visibilityOptions = await getVisibilityOptions();
+
+  res.render("user/articleForm", {
+    title: "Edit Article",
+    inputData,
+    topics,
+    visibilityOptions,
   });
 });
