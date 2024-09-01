@@ -48,11 +48,12 @@ export class QuillEditor {
       if (/îmage\//.test(file.type)) {
         this.saveToServer(file);
       } else {
-        console.warn("You can only upload images");
+        window.alert("You can only upload images");
       }
     };
   }
 
+  // TODO: ADD TO SERVER
   async saveToServer(file) {
     const formData = new FormData();
     formData.append("image", file);
@@ -76,40 +77,3 @@ export class QuillEditor {
     this.editor.insertEmbed(range.index, "image", url);
   }
 }
-
-// export class QuillEditor {
-//   constructor() {
-//     this._textareas = document.querySelectorAll(".quill-editor");
-//     this.addEventListener();
-//   }
-
-//   addEventListener() {
-//     document.addEventListener("DOMContentLoaded", this.insertQuill.bind(this));
-//   }
-
-//   insertQuill() {
-//     this._textareas.forEach((textarea) => {
-//       const editor = document.createElement("div");
-//       editor.innerHTML = textarea.value;
-//       textarea.parentNode.insertBefore(editor, textarea);
-//       textarea.style.display = "none";
-//       editor.style.height = "300px";
-
-//       const quill = new Quill(editor, {
-//         modules: {
-//           toolbar: [
-//             ["bold", "italic"],
-//             ["link", "blockquote", "code-block", "image"],
-//             [{ list: "ordered" }, { list: "bullet" }],
-//           ],
-//         },
-//         placeholder: "Compose an epic...",
-//         theme: "snow",
-//       });
-
-//       quill.on("text-change", () => {
-//         textarea.value = quill.root.innerHTML;
-//       });
-//     });
-//   }
-// }
