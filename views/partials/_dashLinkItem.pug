@@ -1,5 +1,5 @@
 mixin dashLinkItem(name, iconType, iconId, slug)
-  a.group.block.mx-auto.rounded-lg.bg-white.shadow.transition-all.ease-in-out.delay-75.w-full.my-2(class='hover:bg-limeGreen hover:-translate-y-1 hover:shadow-lg md:w-[49%]' href=`/auth/${loggedInUser.userRole === 'admin' ? 'admin' : 'user'}/${slug}`)
+  a.group.block.mx-auto.rounded-lg.bg-white.shadow.transition-all.ease-in-out.delay-75.w-full.my-2(class='hover:bg-limeGreen hover:-translate-y-1 hover:shadow-lg md:w-[49%]' href=`/auth/account/${slug}`)
     .grid.place-content-center.mx-auto.py-4.w-full
       svg.size-24.mx-auto
         use(xlink:href=`/icons/sprites/${iconType}.svg#${iconId}` fill='currentColor' class='group-hover:fill-darkCyan')

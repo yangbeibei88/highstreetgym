@@ -28,7 +28,7 @@ block content
           th Trainer
           td #{timetable.trainerFirstName}
       // TODO: disable buttons if checkbox is unchecked
-      form#form-booking.flex.flex-col(method='POST' action=`/auth/${loggedInUser.userRole === 'admin' ? 'admin' : 'user'}/timetable/${timetable.timetableId}/booking`)
+      form#form-booking.flex.flex-col(method='POST' action=`/auth/account/timetable/${timetable.timetableId}/bookingForm`)
         input#ttId(type='hidden' name='timetableId' value=timetable.timetableId)
         .py-4.space-x-1
           input#bookingConfirm(type='checkbox' name='bookingConfirm')

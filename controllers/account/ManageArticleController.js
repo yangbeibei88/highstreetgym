@@ -15,11 +15,11 @@ import {
 import { articleImageUpload } from "../UploadController.js";
 import { AppError } from "../../utils/AppError.js";
 
-export const listMyArticlesAction = async (req, res, next) => {
+export const listAccountArticlesAction = async (req, res, next) => {
   const [articles] = await getArticlesByUser(req.user.userId);
   res
     .status(200)
-    .render("user/my-articles", { title: "My Articles", articles });
+    .render("account/manage-articles", { title: "My Articles", articles });
 };
 
 export const showArticleFormAction = asyncHandler(async (req, res, next) => {
@@ -44,7 +44,7 @@ export const showArticleFormAction = asyncHandler(async (req, res, next) => {
     }
     inputData = await article[0];
   }
-  res.render("user/articleForm", {
+  res.render("account/articleForm", {
     title: req.params.articleId ? "Edit Article" : "Create Article",
     topics,
     visibilityOptions,
@@ -90,7 +90,7 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
     console.log(inputData);
 
     if (!errors.isEmpty() || req.fileValidationError) {
-      return res.status(400).render("user/articleForm", {
+      return res.status(400).render("auth/articleForm", {
         title: "Create Article",
         topics,
         visibilityOptions,
@@ -101,11 +101,8 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
     }
 
     // INSERT DATA INTO DATABASE IF NO ERR
-    // const newArticleData = await insertArticle(inputData);
     await saveArticle(inputData);
 
-    res.redirect(
-      `/auth/${req.user.userRole === "admin" ? "admin" : "user"}/my-articles`,
-    );
+    res.redirect("/auth/manage-articles");
   });
 });

@@ -1,15 +1,23 @@
-mixin sideNavItem(name, slug, active)
+include _userRoleVariable.pug
+
+//- +roleVariable()
+
+mixin sideNavItem(name, role, slug, active)
   li(data-active=`${active}`)
-    a.block.p-4.capitalize(href=`/auth/${loggedInUser.userRole === 'admin' ? 'admin' : 'user'}/${slug}` class=`${active === true ? 'bg-limeGreen' : 'hover:bg-limeGreen hover:underline'}`)
+    a.block.p-4.capitalize(href=`/auth/${role}/${slug}` class=`${active === true ? 'bg-limeGreen' : 'hover:bg-limeGreen hover:underline'}`)
       | #{name}
 
 nav.order-1
   ul#account-menu-list.text-midnightBlue.flex.flex-col.font-semibold
-    +sideNavItem('my dashboard', 'my-dashboard', true)
-    +sideNavItem('my bookings', 'my-bookings', false)
-    +sideNavItem('my articles', 'my-articles', false)
-    +sideNavItem('my comments', 'my-comments', false)
-    +sideNavItem('my profile', 'my-profile', false)
-    +sideNavItem('change password', 'change-password', false)
-    +sideNavItem('logout', 'logout', false)
+    +sideNavItem('my dashboard', 'account', 'my-dashboard', true)
+    if loggedInUser.userRole === 'admin'
+      +sideNavItem('classes', 'admin', 'manage-classes', false)
+      +sideNavItem('timetable', 'admin', 'manage-timetable', false)
+      +sideNavItem('users', 'admin', 'manage-users', false)
+    +sideNavItem('my bookings', 'account', 'manage-bookings', false)
+    +sideNavItem('my articles', 'account', 'manage-articles', false)
+    +sideNavItem('my comments', 'account', 'manage-comments', false)
+    +sideNavItem('my profile', 'account', 'my-profile', false)
+    +sideNavItem('change password', 'account', 'change-password', false)
+    +sideNavItem('logout', 'account', 'logout', false)
 

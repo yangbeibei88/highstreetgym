@@ -10,14 +10,16 @@ import {
 } from "../../models/TimetableModel.js";
 import { AppError } from "../../utils/AppError.js";
 
-export const renderMybookingsAction = asyncHandler(async (req, res, next) => {
-  // req.user.userId comes from isLoggedIn middleware
-  const [bookings] = await getBookingByUser(req.user.userId);
-  return res.status(200).render("user/my-bookings", {
-    title: "My Bookings",
-    bookings,
-  });
-});
+export const listAccountbookingsAction = asyncHandler(
+  async (req, res, next) => {
+    // req.user.userId comes from isLoggedIn middleware
+    const [bookings] = await getBookingByUser(req.user.userId);
+    return res.status(200).render("account/manage-bookings", {
+      title: "My Bookings",
+      bookings,
+    });
+  },
+);
 
 // USERS WHO NEVER BOOKED A TIMETABLE CLASS ARE ALLOWED TO ACCESS BOOKING FORM
 // TODO: POPUP FOR BOOKED USER
@@ -36,7 +38,7 @@ export const showBookingFormAction = asyncHandler(async (req, res, next) => {
   }
   const timetable = await result[0];
   // console.log(timetable);
-  res.status(200).render("user/booking", {
+  res.status(200).render("account/bookingForm", {
     title: "Booking",
     timetable,
   });
@@ -50,9 +52,7 @@ export const createBookingAction = asyncHandler(async (req, res, next) => {
 
   const newBooking = await insertBookingTrans(newBookingData);
 
-  res.redirect(
-    `/auth/${req.user.userRole === "admin" ? "admin" : "user"}/booking-confirmation/${newBooking.bookingId}`,
-  );
+  res.redirect(`/account/booking-confirmation/${newBooking.bookingId}`);
 });
 
 export const showBookingConfirmAction = async (req, res, next) => {
@@ -64,7 +64,7 @@ export const showBookingConfirmAction = async (req, res, next) => {
 
   const booking = await result[0];
 
-  res.render("user/booking-confirm", {
+  res.render("account/booking-confirm", {
     title: "Booking Confirmation",
     booking,
   });

@@ -1,6 +1,10 @@
 extends ../layouts/main.pug 
+include ../partials/_userRoleVariable.pug
 include ../partials/_dashLinkItem.pug
 include ../partials/_dashStatsItem.pug
+
+block variables 
+  +roleVariable()
 
 block content 
   .page-wrapper
@@ -13,7 +17,7 @@ block content
       .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
         // 2) MAIN CONTENT
         main#dashboard.col-span-1.order-2(class='md:col-span-3')
-          // #TODO: GREETING + EMOJI BASED ON TIME
+          //- #TODO: GREETING + EMOJI BASED ON TIME
           p#greeting
           // TOP ACCOUNT ITEMS
           section#content-items.flex.flex-col.items-center.justify-between(class='md:flex-row md:flex-wrap')

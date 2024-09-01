@@ -38,5 +38,5 @@ block content
         a.btn.bg-gray-300.btn-sm(href='/')
           | &laquo;
           | Back to Homepage
-        a.btn.btn-limeGreen.btn-sm(href=`/auth/${loggedInUser.userRole === 'admin' ? 'admin' : 'user'}/my-bookings`)
+        a.btn.btn-limeGreen.btn-sm(href='/auth/account/manage-bookings')
           | Manage My Bookings &raquo;
