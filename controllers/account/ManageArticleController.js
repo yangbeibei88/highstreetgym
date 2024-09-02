@@ -12,7 +12,7 @@ import {
   validateText,
   validSelect,
 } from "../../utils/validation.js";
-import { articleImageUpload } from "../UploadController.js";
+import { articleImageUpload } from "../../utils/uploadHandler.js";
 import { AppError } from "../../utils/AppError.js";
 
 export const listAccountArticlesAction = async (req, res, next) => {

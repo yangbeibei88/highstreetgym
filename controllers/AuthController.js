@@ -142,7 +142,7 @@ export const isLoggedIn = async (req, res, next) => {
       const loggedInUser = user.pop();
       req.user = loggedInUser;
       res.locals.loggedInUser = loggedInUser;
-      console.log(loggedInUser);
+      // console.log(loggedInUser);
       return next();
     } catch (error) {
       return next();

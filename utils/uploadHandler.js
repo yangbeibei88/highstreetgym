@@ -13,6 +13,15 @@ const imageFilter = (req, file, cb) => {
   }
 };
 
+const xmlFilter = (req, file, cb) => {
+  if (file.mimetype === "application/xml") {
+    cb(null, true);
+  } else {
+    cb(null, false);
+    req.fileValidationError = "File type must be application/xml";
+  }
+};
+
 const uploadStorage = (suffix, path) =>
   multer.diskStorage({
     destination: (req, file, cb) => {
@@ -30,3 +39,6 @@ export const articleImageUpload = (suffix, path) =>
     storage: uploadStorage(suffix, path),
     fileFilter: imageFilter,
   });
+
+export const xmlUpload = () =>
+  multer({ dest: "public/uploads", fileFilter: xmlFilter });
