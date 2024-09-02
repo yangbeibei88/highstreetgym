@@ -1,17 +1,14 @@
 extends ../layouts/main.pug 
-include ../partials/_userRoleVariable.pug
 include ../partials/_tableHeaderItem.pug
 include ../partials/_tableCellItem.pug
 
-block variables
-  +roleVariable()
 
 block content 
   .page-wrapper
     // 1) HEADER
     header.bg-darkCyan.text-white
       .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
-        h1 My Articles
+        h1 Manage Classes
     // 2) MAIN CCONTENT
     .wrapper.bg-slate-100
       .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
@@ -22,36 +19,34 @@ block content
           .flex.flex-col.items-center.justify-between.p-4.space-y-3(class='lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10')
             .w-full(class='lg:w-1/2')
               label(for='search-article') Search
-              input#search-article(type='search' name='search-article' placeholder='Search my articles')
+              input#search-article(type='search' name='search-article' placeholder='Search a class')
             .w-full(class='lg:w-1/2 lg:justify-self-end')
-              a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/create-article')
+              a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/auth/admin/classForm/create')
                 span
-                  | Create
-                  | Article
+                  | Add
+                  | Class
                 span
                   svg.size-6 
-                    use(xlink:href='/icons/sprites/regular.svg#pen-to-square' fill='currentColor')
+                    use(xlink:href='/icons/sprites/solid.svg#circle-plus' fill='currentColor')
           // my articles table
           table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
             caption.text-sm
               | 10 results
             thead.text-sm.text-white.bg-darkCyan
               tr
-                +tableHeaderItem('Date Created')
-                +tableHeaderItem('Date Updated')
-                +tableHeaderItem('Title')
-                +tableHeaderItem('Topic')
-                +tableHeaderItem('Visibility')
-                +tableHeaderItem('Edit')
+                +tableHeaderItem('ID#')
+                +tableHeaderItem('Class')
+                +tableHeaderItem('Duration')
+                +tableHeaderItem('Days')
+                +tableHeaderItem('Action')
             tbody
-              - for(let post of articles)
+              - for(let c of classes)
                 tr
-                  +tableCellItem('date_created', post.createdAt)
-                  +tableCellItem('date_updated', post.updatedAt)
-                  +tableCellItem('article_title', post.articleTitle)
-                  +tableCellItem('topic', post.topicName)
-                  +tableCellItem('visibility', post.visibility)
+                  +tableCellItem('id', c.classId)
+                  +tableCellItem('class_name', c.className)
+                  +tableCellItem('duration', c.durationRange)
+                  +tableCellItem('days', c.days)
                   td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
-                    a.btn.btn-sm.btn-limeGreen(href=`/auth/account/articleForm/${post.articleId}/edit`) Edit
+                    a.btn.btn-sm.btn-limeGreen(href=`/auth/admin/classForm/${c.classId}/edit`) Edit
         // 3) SIDE MENU
         include ../partials/_accountSideNav.pug
