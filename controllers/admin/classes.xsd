@@ -8,9 +8,9 @@
             <xs:sequence>
               <xs:element name="classCode" minOccurs="1">
                 <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:minLength value="3" />
-                    <xs:maxLength value="50" />
+                  <xs:restriction base="xs:integer">
+                    <xs:minInclusive value="1" />
+                    <xs:maxInclusive value="9999999999" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
@@ -57,7 +57,7 @@
             </xs:sequence>
           </xs:complexType>
           <!-- UNIQUEY KEY: CLASSCODE -->
-          <xs:unique name="PKClassCode">
+          <xs:unique name="uniqueClassCode">
             <xs:selector xpath="." />
             <xs:field xpath="classCode" />
           </xs:unique>

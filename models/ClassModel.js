@@ -67,7 +67,7 @@ export const upsertClasses = async (xmlData) => {
             row.longDesc,
             row.imageCover,
             row.durationRange,
-            row.days,
+            row.days.join(","),
           ];
           await conn.execute(sql, values);
         } catch (error) {
@@ -82,7 +82,7 @@ export const upsertClasses = async (xmlData) => {
 
     return {
       success: xmlData.length - failedRows.length,
-      failed: failedRows.length,
+      failed: failedRows ? failedRows.length : 0,
       details: failedRows,
     };
   } catch (error) {

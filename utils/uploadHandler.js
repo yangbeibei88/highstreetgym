@@ -14,11 +14,13 @@ const imageFilter = (req, file, cb) => {
 };
 
 const xmlFilter = (req, file, cb) => {
-  if (file.mimetype === "application/xml") {
+  console.log(file.mimetype);
+  const valueTypes = ["application/xml", "text/xml"];
+  if (valueTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
     cb(null, false);
-    req.fileValidationError = "File type must be application/xml";
+    req.fileValidationError = "File type must be text/xml";
   }
 };
 
@@ -40,5 +42,5 @@ export const articleImageUpload = (suffix, path) =>
     fileFilter: imageFilter,
   });
 
-export const xmlUpload = () =>
-  multer({ dest: "public/uploads", fileFilter: xmlFilter });
+export const xmlUpload = (path) =>
+  multer({ storage: uploadStorage("_", path), fileFilter: xmlFilter });

@@ -14,10 +14,15 @@ block content
       .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
         // 2) MAIN CONTENT
         main#my-articles.col-span-1.order-2(class='md:col-span-3')
-          // my articles table
+          //- RESULT INFO
+          p #{message || ''}
+          p #{success ? `Success: ${success}` : ''}
+          p #{failed ? `Failed: ${failed}` : ''}
+          p #{details ? `Failed rows: ${details}` : ''}
+          p #{error || ''}
           table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
             caption.text-sm
-              | 10 results
+              | XML Data Import
             thead.text-sm.text-white.bg-darkCyan
               tr
                 +tableHeaderItem('Table Name')
