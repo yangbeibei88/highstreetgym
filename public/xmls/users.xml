@@ -2,7 +2,6 @@
 <?xml-model href="users.xsd"?>
 <users xmlns="http://localhost:8085/xmls/users">
   <user>
-    <userNo>100</userNo>
     <firstName>John</firstName>
     <lastName>Doe</lastName>
     <emailAddress>johnd@hsg.io</emailAddress>

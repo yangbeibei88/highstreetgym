@@ -4,7 +4,7 @@
   <timetable>
     <timetableNo>15</timetableNo>
     <classCode>101</classCode>
-    <trainerNo>43</trainerNo>
+    <trainerEmail>alexm@hsg.io</trainerEmail>
     <startDateTime>2024-09-02T12:30:00</startDateTime>
     <duration>P40M</duration>
     <level>beginner</level>
