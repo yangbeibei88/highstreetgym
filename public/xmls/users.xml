@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="users.xsd"?>
+<users xmlns="http://localhost:8085/xmls/users">
+  <user>
+    <userNo>100</userNo>
+    <firstName>John</firstName>
+    <lastName>Doe</lastName>
+    <emailAddress>johnd@hsg.io</emailAddress>
+    <phoneNumber>0400123123</phoneNumber>
+    <userRole>member</userRole>
+    <isActive>1</isActive>
+    <bio>I love HIIT!</bio>
+    <avatar>avatar.jpg</avatar>
+    <address>123 Main Road</address>
+    <suburb>Ashmore</suburb>
+    <state>QLD</state>
+  </user>
+</users>

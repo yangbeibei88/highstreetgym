@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://localhost:8085/xmls/classes" xmlns="http://localhost:8085/xmls/classes"
+  elementFormDefault="qualified">
   <xs:element name="classes">
     <xs:complexType>
       <xs:sequence>
@@ -70,7 +72,6 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <!-- Define a simple type for individual days -->
   <xs:simpleType name="dayType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="MON" />

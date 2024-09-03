@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="timetables.xsd"?>
+<timetables xmlns="http://localhost:8085/xmls/timetables">
+  <timetable>
+    <timetableNo>15</timetableNo>
+    <classCode>101</classCode>
+    <trainerNo>43</trainerNo>
+    <startDateTime>2024-09-02T12:30:00</startDateTime>
+    <duration>P40M</duration>
+    <level>beginner</level>
+    <capacity>20</capacity>
+  </timetable>
+</timetables>
