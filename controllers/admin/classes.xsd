@@ -1,39 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
   <xs:element name="classes">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="class" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="classId" type="xs:integer">
+              <xs:element name="classCode" minOccurs="1">
                 <xs:simpleType>
-                  <xs:restriction base="xs:integer">
-                    <xs:minInclusive value="1" />
+                  <xs:restriction base="xs:string">
+                    <xs:minLength value="3" />
+                    <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="className" type="xs:string" minOccurs="1" />
-              <xs:element name="shortDesc" type="xs:string" minOccurs="0" />
+              <xs:element name="className" minOccurs="1">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:minLength value="2" />
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="shortDesc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:minLength value="0" />
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
               <xs:element name="longDesc" type="xs:string" minOccurs="0" />
-              <xs:element name="imageCover" type="xs:string" minOccurs="0" />
-              <xs:element name="durationRange" type="xs:string" minOccurs="0" />
-              <xs:element name="days" type="xs:string" minOccurs="0" />
+              <xs:element name="imageCover" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:minLength value="0" />
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="durationRange" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:minLength value="0" />
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="days">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="day" type="dayType" minOccurs="0" maxOccurs="7" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
+          <!-- UNIQUEY KEY: CLASSCODE -->
+          <xs:unique name="PKClassCode">
+            <xs:selector xpath="." />
+            <xs:field xpath="classCode" />
+          </xs:unique>
+          <!-- UNIQUEY KEY: CLASS NAME -->
+          <xs:unique name="uniqueClassName">
+            <xs:selector xpath="." />
+            <xs:field xpath="className" />
+          </xs:unique>
         </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-
-  <!-- DAYS SET -->
-  <xs:element name="days">
-    <xs:simpleType>
-      <xs:list itemType="dayType" />
-    </xs:simpleType>
-  </xs:element>
-
+  <!-- Define a simple type for individual days -->
   <xs:simpleType name="dayType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="MON" />
@@ -45,18 +82,4 @@
       <xs:enumeration value="SUN" />
     </xs:restriction>
   </xs:simpleType>
-
-  <!-- PRIMARY KEY -->
-  <xs:key name="classKey">
-    <xs:selector xpath="class" />
-    <xs:field xpath="classId" />
-  </xs:key>
-
-
-  <!-- UNIQUEY KEY -->
-  <xs:unique name="uniqueClassName">
-    <xs:selector xpath="class" />
-    <xs:field xpath="className" />
-  </xs:unique>
-
 </xs:schema>

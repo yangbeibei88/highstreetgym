@@ -2,7 +2,7 @@
 <?xml-model href="classes.xsd"?>
 <classes>
   <class>
-    <classId>8</classId>
+    <classCode>108</classCode>
     <className>bodypump</className>
     <shortDesc>The ideal workout for anyone looking to get lean, toned and fit - fast.​</shortDesc>
     <longDesc>Using light to moderate weights with lots of repetition, BODYPUMP gives you a total
@@ -13,10 +13,13 @@
       45 or 30-minute workout.</longDesc>
     <imageCover>bodypump.jpg</imageCover>
     <durationRange>30-55 mins</durationRange>
-    <days>WED,THU</days>
+    <days>
+      <day>WED</day>
+      <day>THU</day>
+    </days>
   </class>
   <class>
-    <classId>9</classId>
+    <classCode>109</classCode>
     <className>bodystep</className>
     <shortDesc>A full-body cardio workout to really tone your butt and thighs.</shortDesc>
     <longDesc>In a BODYSTEP workout you can expect a mixture of upbeat, rhythmic stepping, with
@@ -25,6 +28,9 @@
       Don’tworry, there’s heaps of options so that everyone leaves feeling successful.</longDesc>
     <imageCover></imageCover>
     <durationRange>30-55 mins</durationRange>
-    <days>TUE,THU</days>
+    <days>
+      <day>TUE</day>
+      <day>THU</day>
+    </days>
   </class>
 </classes>

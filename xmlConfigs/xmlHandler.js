@@ -28,11 +28,38 @@ export const mapToDbSchemaFactory = (mappingConfig) => (xmlDocument) => {
   const results = Array.from(rowElements).map((rowEl) => {
     const record = {};
 
-    mappingConfig.fields.forEach(({ xmlElement, dbField }) => {
-      const element = rowEl.querySelector(xmlElement);
-      record[dbField] = element ? element.textContent : null;
-    });
+    mappingConfig.fields.forEach(
+      ({ xmlElement, dbField, type, itemElement }) => {
+        if (type === "array" && itemElement) {
+          const items = rowEl.querySelectorAll(
+            `${xmlElement} > ${itemElement}`,
+          );
+          let value = Array.from(items).map((item) => item.textContent.trim());
+          // MAKE SURES SET ENUM IS UNIQUE
+          value = Array.from(new Set(value));
 
+          record[dbField] = value;
+        } else {
+          const element = rowEl.querySelector(xmlElement);
+          let value = element ? element.textContent.trim() : null;
+
+          if (value !== null) {
+            switch (type) {
+              case "integer":
+                value = parseInt(value, 10);
+                break;
+              case "decimal":
+                value = parseFloat(value);
+                break;
+
+              default:
+                break;
+            }
+          }
+          record[dbField] = value;
+        }
+      },
+    );
     return record;
   });
   return results;

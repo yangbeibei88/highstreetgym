@@ -3,13 +3,19 @@ import { mapToDbSchemaFactory } from "./xmlHandler.js";
 const classMappingConfig = {
   childElement: "class",
   fields: [
-    { xmlElement: "classId", dbField: "classId" },
-    { xmlElement: "className", dbField: "className" },
-    { xmlElement: "shortDesc", dbField: "shortDesc" },
-    { xmlElement: "longDesc", dbField: "longDesc" },
-    { xmlElement: "imageCover", dbField: "imageCover" },
-    { xmlElement: "durationRange", dbField: "durationRange" },
-    { xmlElement: "days", dbField: "days" },
+    { xmlElement: "classId", dbField: "classId", type: "integer" },
+    { xmlElement: "className", dbField: "className", type: "string" },
+    { xmlElement: "shortDesc", dbField: "shortDesc", type: "string" },
+    { xmlElement: "longDesc", dbField: "longDesc", type: "string" },
+    { xmlElement: "imageCover", dbField: "imageCover", type: "string" },
+    { xmlElement: "durationRange", dbField: "durationRange", type: "string" },
+    {
+      xmlElement: "days",
+      dbField: "days",
+      type: "array",
+      itemElement: "day",
+      itemType: "dayType",
+    },
   ],
 };
 

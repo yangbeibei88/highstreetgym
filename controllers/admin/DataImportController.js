@@ -23,14 +23,5 @@ export const uploadClassDataAction = asyncHandler(async (req, res, next) => {
   // 2) MAP TO DATABASE SCHEMA - ARRAY OF OBJECTS
   const classData = mapClassToDB(xmlDocument);
 
-  // 3) VALIDATE & SANITIZE DATA
-  // await Promise.all([
-  //   validateText("className", 1, 49, true).run(req),
-  //   validateText("shortDesc", 0, 99, false).run(req),
-  //   sanitizeRichText("longDesc", 0, 20000, false).run(req),
-  //   validateText("imageCover", 0, 199, false).run(req),
-  //   validateText("imageCover", 0, 199, false).run(req),
-  // ]);
-
   console.log(classData);
 });
