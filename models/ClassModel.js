@@ -2,6 +2,16 @@ import { pool } from "../config/db.js";
 
 const dbPool = await pool();
 
+export const getDayOptions = async () => [
+  "MON",
+  "TUE",
+  "WED",
+  "THU",
+  "FRI",
+  "SAT",
+  "SUN",
+];
+
 export const getAllClasses = async () => {
   const conn = await dbPool.getConnection();
   try {

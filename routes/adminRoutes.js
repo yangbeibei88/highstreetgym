@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { isLoggedIn } from "../controllers/AuthController.js";
-import { listAdminClassesAction } from "../controllers/admin/ManageClassController.js";
+import {
+  listAdminClassesAction,
+  showClassFormAction,
+} from "../controllers/admin/ManageClassController.js";
 import {
   listDataImportsAction,
   uploadClassDataAction,
@@ -14,6 +17,8 @@ adminRouter.use(isLoggedIn);
 
 adminRouter.get("/manage-classes", listAdminClassesAction);
 adminRouter.get("/data-import", listDataImportsAction);
+adminRouter.get("/classForm/create", showClassFormAction);
+adminRouter.get("/classForm/:classId/edit", showClassFormAction);
 
 adminRouter.post(
   "/data-import/classxml",
@@ -26,4 +31,3 @@ adminRouter.post(
   xmlUpload("public/uploads").single("timetableXmlFile"),
   uploadTimetableDataAction,
 );
-// adminRouter.post("/data-import/timetablexml", uploadTimetableDataAction);

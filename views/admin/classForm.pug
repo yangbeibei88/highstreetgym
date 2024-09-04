@@ -1,0 +1,84 @@
+extends ../layouts/main.pug 
+include ../partials/_fieldErrorMsg.pug
+
+block content 
+  .page-wrapper
+    // 1) HEADER
+    header.bg-darkCyan.text-white
+      .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
+        h1 #{title}
+    // 2) MAIN CCONTENT
+    .wrapper.bg-slate-100
+      .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+        // 2) MAIN CONTENT
+        main#create-article.col-span-1.order-2(class='md:col-span-3')
+          //- CLASS FORM START
+          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action='/auth/admin/classForm/save' enctype='multipart/form-data' novalidate)
+            input(type='hidden' name='classId' value=(inputData.classId))
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='className') Class Name
+              .relative.flex.items-center
+                svg.absolute.size-6.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/solid.svg#heading' fill='currentColor')
+                input#className.pl-11(type='text' name='className' placeholder='Enter a class name' required='' value=(inputData && inputData.className || ''))
+              +fieldErrorMsg('className')
+              label.block.text-sm.font-semibold.text-darkCyan(for='classCode') Class Code
+              .relative.flex.items-center
+                svg.absolute.size-6.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/solid.svg#hashtag' fill='currentColor')
+                input#classCode.pl-11(type='number' name='classCode' required='' value=(inputData && inputData.classCode || ''))
+              +fieldErrorMsg('classCode')
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='shortDesc') Short Desc
+              .relative.flex.items-center
+                svg.absolute.size-6.left-3.text-gray-500.top-3
+                  use(xlink:href='/icons/sprites/solid.svg#pen-nib' fill='currentColor')
+                textarea#shortDesc.pl-11(name='shortDesc' placeholder='Enter a short description' required='') #{inputData && inputData.shortDesc || ''}
+              +fieldErrorMsg('shortDesc')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='minDuration') MinDuration
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/regular.svg#hourglass' fill='currentColor')
+                input#minDuration.pl-11(type='number' name='minDuration' value=(inputData && inputData.minDuration || 1))
+              +fieldErrorMsg('minDuration')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='maxDuration') MaxDuration
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/regular.svg#hourglass' fill='currentColor')
+                input#maxDuration.pl-11(type='number' name='maxDuration' value=(inputData && inputData.maxDuration || 1))
+              +fieldErrorMsg('maxDuration')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='days') Days
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/solid.svg#calendar-week' fill='currentColor')
+                select#days.text-center(name='days' multiple)
+                  - for(let d of dayOptions)
+                    option(value=(d) selected=(inputData && inputData.days.includes(d) ? true : false)) #{d}
+              +fieldErrorMsg('days')
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='imageCover')
+                | Cover
+                | Image
+              .relative.flex.items-center
+                input#imageCover(type='file' name='imageCover' accept='.jpg, .jpeg, .png')
+              .block.text-red-500 
+                if uploadErr
+                  small.block #{uploadErr}
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='longDesc') Long Desc
+              input#longDesc(type="hidden", name="longDesc" value=(inputData && inputData.longDesc || ''))
+              .h-96#articleEditor !{inputData && inputData.longDesc || ''}
+              +fieldErrorMsg('longDesc')
+              //- textarea#articleContent(name='articleContent' row='20' class='quill-editor') 
+            .space-y-1.col-span-1(class='md:col-span-3')
+              a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/auth/admin/manage-classes') Back
+            .space-y-1.col-span-1(class='md:col-span-3')
+              button.btn-bullet.btn-limeGreen.my-5.space-x-1.w-full(type='submit')
+                span Submit
+        // 3) COVER IMAGE PREVIEW
+        section.order-1
+          img(src=`/images/classes/${inputData && inputData.imageCover ? inputData.imageCover : 'default-class-cover.jpeg'}` alt=(inputData && inputData.className || 'class-cover') class='object-cover')
+
