@@ -4,6 +4,7 @@ import { listAdminClassesAction } from "../controllers/admin/ManageClassControll
 import {
   listDataImportsAction,
   uploadClassDataAction,
+  uploadTimetableDataAction,
 } from "../controllers/admin/DataImportController.js";
 import { xmlUpload } from "../utils/uploadHandler.js";
 
@@ -15,7 +16,14 @@ adminRouter.get("/manage-classes", listAdminClassesAction);
 adminRouter.get("/data-import", listDataImportsAction);
 
 adminRouter.post(
-  "/data-import",
+  "/data-import/classxml",
   xmlUpload("public/uploads").single("classXmlFile"),
   uploadClassDataAction,
 );
+
+adminRouter.post(
+  "/data-import/timetablexml",
+  xmlUpload("public/uploads").single("timetableXmlFile"),
+  uploadTimetableDataAction,
+);
+// adminRouter.post("/data-import/timetablexml", uploadTimetableDataAction);

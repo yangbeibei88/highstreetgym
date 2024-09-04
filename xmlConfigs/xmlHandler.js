@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { JSDOM } from "jsdom";
 import { AppError } from "../utils/AppError.js";
+import { parseDateTime, parseDurationToSeconds } from "../utils/helpers.js";
 
 export const parseXmlFile = async (filePath, rootElName) => {
   try {
@@ -51,7 +52,12 @@ export const mapToDbSchemaFactory = (mappingConfig) => (xmlDocument) => {
               case "decimal":
                 value = parseFloat(value);
                 break;
-
+              case "duration":
+                value = parseDurationToSeconds(value);
+                break;
+              case "dateTime":
+                value = parseDateTime(value);
+                break;
               default:
                 break;
             }
