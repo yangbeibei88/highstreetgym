@@ -1,4 +1,5 @@
-extends layout.pug
+extends layouts/main.pug
+include partials/_fieldErrorMsg.pug
 
 block content 
   .wrapper.overflow-hidden.bg-cover.bg-no-repeat.bg-center.bg-scroll(style=`background-image: linear-gradient(to bottom, var(--tw-gradient-from), var(--tw-gradient-to)), url('/images/blog/${article[0].imageCover}')` class='bg-gradient-to-b from-limeGreen')
@@ -22,8 +23,10 @@ block content
   section#comments.bg-slate-100
     .container.mx-auto.py-6
       h2 Comments
-      form#form-comment.mb-4
-        textarea#commentInput(name='comment' placeholder='Write your comment here')
+      form#form-comment.mb-4(method='POST' action=`/auth/account/blog/${article[0].articleId}/commentForm/save` novalidate)
+        input(type='hidden' name='articleId' value=`${article[0].articleId}`)
+        textarea#commentInput(name='comment' placeholder='Write your comment here' required) #{inputData && inputData.comment || ''}
+        +fieldErrorMsg('comment')
         button.btn-bullet.btn-limeGreen.btn-sm(type='submit') Submit
       section#member-comments.mb-6
         - for(let c of comments)

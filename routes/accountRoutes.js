@@ -12,7 +12,10 @@ import {
   saveArticleAction,
   showArticleFormAction,
 } from "../controllers/account/ManageArticleController.js";
-import { listAccountCommentsAction } from "../controllers/account/ManageCommentController.js";
+import {
+  listAccountCommentsAction,
+  saveCommentAction,
+} from "../controllers/account/ManageCommentController.js";
 import { showMyprofileAction } from "../controllers/account/AccountProfileController.js";
 import { showChangePasswordAction } from "../controllers/account/AccountPasswordController.js";
 
@@ -40,3 +43,7 @@ accountRouter
   .post(createBookingAction);
 
 accountRouter.get("/booking-confirmation/:bookingId", showBookingConfirmAction);
+
+accountRouter
+  .route("/blog/:articleId/commentForm/save")
+  .post(saveCommentAction);
