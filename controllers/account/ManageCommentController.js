@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { validationResult } from "express-validator";
-import { validateText } from "../../utils/validation.js";
+import { sanitizeTextarea } from "../../utils/validation.js";
 import { getArticle } from "../../models/ArticleModel.js";
 import {
   getCommentsByArticle,
@@ -14,7 +14,7 @@ export const listAccountCommentsAction = async (req, res, next) => {
 export const saveCommentAction = asyncHandler(async (req, res, next) => {
   const [article] = await getArticle(+req.params.articleId);
   const [comments] = await getCommentsByArticle(+req.params.articleId);
-  await validateText("comment", 5, 200, true).run(req);
+  await sanitizeTextarea("comment", 5, 200, true).run(req);
 
   const errors = validationResult(req);
   console.log(errors);

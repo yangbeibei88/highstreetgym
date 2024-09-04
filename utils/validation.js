@@ -159,6 +159,42 @@ export const validSelect = (name, optionArr, required = true) => {
   return chain;
 };
 
+export const sanitizeTextarea = (
+  name,
+  min = 0,
+  max = 20000,
+  required = true,
+) => {
+  let chain = body(name).trim();
+
+  if (required) {
+    chain.notEmpty().withMessage(`${name} is required.`);
+  }
+
+  if (min > 0) {
+    chain = chain
+      .isLength({ min })
+      .withMessage(
+        `${name} is too short, should be more than ${min} characters.`,
+      );
+  }
+  if (max > 0) {
+    chain = chain
+      .isLength({ max })
+      .withMessage(`${name} is too long, should not exceed ${max} characters.`);
+  }
+
+  chain = chain.customSanitizer((value) => {
+    const sanitizedContent = purify.sanitize(value, {
+      ALLOWED_TAGS: [],
+      ALLOWED_ATTR: [],
+    });
+    return sanitizedContent;
+  });
+
+  return chain;
+};
+
 export const sanitizeRichText = (
   name,
   min = 0,
