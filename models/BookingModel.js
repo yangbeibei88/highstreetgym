@@ -7,7 +7,7 @@ export const getAllBookings = async () => {
   try {
     const sql =
       "SELECT b.*, u1.firstName AS userFirstName, u1.lastName AS userLastName, tt.startDateTime, tt.duration, tt.level, c.className, u2.firstName AS trainerFirstName, u2.lastName AS trainerLastName FROM bookings b INNER JOIN users u1 ON b.userId = u1.userId INNER JOIN timetables tt ON b.timetableId = tt.timetableId INNER JOIN classes c ON tt.classId = c.classId INNER JOIN users u2 ON tt.trainerId = u2.userId";
-    return conn.execute(sql);
+    return await conn.execute(sql);
   } catch (error) {
     console.log(error);
     throw error;
@@ -21,7 +21,7 @@ export const getBookingById = async (bookingId) => {
   try {
     const sql =
       "SELECT b.*, u1.firstName AS userFirstName, u1.lastName AS userLastName, tt.startDateTime, tt.duration, tt.level, c.className, u2.firstName AS trainerFirstName, u2.lastName AS trainerLastName FROM bookings b INNER JOIN users u1 ON b.userId = u1.userId INNER JOIN timetables tt ON b.timetableId = tt.timetableId INNER JOIN classes c ON tt.classId = c.classId INNER JOIN users u2 ON tt.trainerId = u2.userId WHERE b.bookingId = ?";
-    return conn.execute(sql, [bookingId]);
+    return await conn.execute(sql, [bookingId]);
   } catch (error) {
     console.log(error);
     throw error;
@@ -35,7 +35,7 @@ export const getBookingByUser = async (userId) => {
   try {
     const sql =
       "SELECT b.*, u1.firstName AS userFirstName, u1.lastName AS userLastName, tt.startDateTime, tt.duration, tt.level, c.className, u2.firstName AS trainerFirstName, u2.lastName AS trainerLastName FROM bookings b INNER JOIN users u1 ON b.userId = u1.userId INNER JOIN timetables tt ON b.timetableId = tt.timetableId INNER JOIN classes c ON tt.classId = c.classId INNER JOIN users u2 ON tt.trainerId = u2.userId WHERE b.userId = ?";
-    return conn.execute(sql, [userId]);
+    return await conn.execute(sql, [userId]);
   } catch (error) {
     console.log(error);
     throw error;
@@ -68,7 +68,7 @@ export const getCapacityById = async (timetableId) => {
   try {
     const sql =
       "SELECT timetableId, capacity FROM timetables WHERE timetableId = ?";
-    return conn.execute(sql, [timetableId]);
+    return await conn.execute(sql, [timetableId]);
   } catch (error) {
     console.log(error);
   } finally {
@@ -81,7 +81,7 @@ export const getBookingCountById = async (timetableId) => {
   try {
     const sql =
       "SELECT tt.timetableId, count(b.timetableId) AS bookingCount FROM timetables tt INNER JOIN bookings b ON tt.timetableId = b.timetableId WHERE b.timetableId = ?";
-    return conn.execute(sql, [timetableId]);
+    return await conn.execute(sql, [timetableId]);
   } catch (error) {
     console.log(error);
   } finally {
@@ -129,6 +129,20 @@ export const insertBookingTrans = async (booking) => {
     // 4) ROLLBACK TRANSACTION IF ANY ERROR
     await conn.rollback();
     console.error("TRANSACTION ROLLBACK ERROR: ", error);
+  } finally {
+    conn.release();
+  }
+};
+
+export const generateBookingNo = async (bookingId) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql = "UPDATE bookings SET bookingNo = ? WHERE bookingId = ?";
+    const bookingNoFormula = `CONCAT_WS('-', REPLACE(DATE(createdAt), '-', ''), ${bookingId})`;
+    return await conn.execute(sql, [bookingNoFormula, bookingId]);
+  } catch (error) {
+    console.log(error);
+    throw error;
   } finally {
     conn.release();
   }

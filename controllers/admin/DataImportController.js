@@ -31,7 +31,7 @@ export const uploadClassDataAction = asyncHandler(async (req, res, next) => {
 
   console.log("Data uploaded successfully");
 
-  res.status(200).render("admin/data-import", {
+  return res.status(200).render("admin/data-import", {
     title: "Data Import Completed!",
     message: "Data import completed!",
     success,
@@ -70,7 +70,7 @@ export const uploadTimetableDataAction = asyncHandler(
 
     console.log("Data uploaded successfully");
 
-    res.status(200).render("admin/data-import", {
+    return res.status(200).render("admin/data-import", {
       title: "Data Import Completed!",
       message: "Data import completed!",
       success,

@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import {
+  generateBookingNo,
   getBookingById,
   getBookingByUser,
   insertBookingTrans,
@@ -51,6 +52,8 @@ export const createBookingAction = asyncHandler(async (req, res, next) => {
   };
 
   const newBooking = await insertBookingTrans(newBookingData);
+
+  await generateBookingNo(newBookingData.bookingId);
 
   res.redirect(`/account/booking-confirmation/${newBooking.bookingId}`);
 });
