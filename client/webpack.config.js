@@ -10,6 +10,7 @@ export default {
     path: resolve(__dirname, "../public/bundle"),
     filename: "bundle.js",
     publicPath: "/", // ensure all urls in css file are treated as absolute (absolute to public folder)
+    clean: true,
   },
   devServer: {
     static: {

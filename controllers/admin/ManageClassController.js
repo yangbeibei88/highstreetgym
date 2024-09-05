@@ -6,6 +6,7 @@ import {
   getClassByCode,
   getClassByName,
   getDayOptions,
+  saveClass,
 } from "../../models/ClassModel.js";
 import { AppError } from "../../utils/AppError.js";
 import {
@@ -16,7 +17,6 @@ import {
   validateText,
   validSelect,
 } from "../../utils/validation.js";
-import { saveArticle } from "../../models/ArticleModel.js";
 
 export const listAdminClassesAction = asyncHandler(async (req, res, next) => {
   const [classes] = await getAllClasses();
@@ -59,12 +59,33 @@ export const showClassFormAction = asyncHandler(async (req, res, next) => {
 
 export const saveClassFormAction = asyncHandler(async (req, res, next) => {
   const dayOptions = await getDayOptions();
+  const classId = req.body.classId ? +req.body.classId : null;
+
+  let existingClass = null;
+  if (classId) {
+    const [existingClassData] = await getClass(classId);
+    existingClass = existingClassData[0];
+  }
+
+  console.log(existingClass);
+
+  console.log(req.file);
   // 1) VALIDATE & SANITISE FIELDS
   await Promise.all([
     validateText("className", 2, 50, true).run(req),
-    checkUnique("className", getClassByName).run(req),
+    checkUnique(
+      "className",
+      getClassByName,
+      !!classId &&
+        req.body.className?.trim().toLowerCase() ===
+          existingClass?.className?.trim().toLowerCase(),
+    ).run(req),
     validateInteger("classCode", 1, 9999999999, true).run(req),
-    checkUnique("classCode", getClassByCode).run(req),
+    checkUnique(
+      "classCode",
+      getClassByCode,
+      !!classId && +req.body.classCode === existingClass?.classCode,
+    ).run(req),
     sanitizeTextarea("shortDesc", 5, 100).run(req),
     validateInteger("minDuration", 30, 999, true).run(req),
     validateInteger("maxDuration", 30, 999, true).run(req),
@@ -77,13 +98,13 @@ export const saveClassFormAction = asyncHandler(async (req, res, next) => {
 
   const inputData = {
     classId: +req.body.classId,
-    classCode: req.body.classCode,
+    classCode: +req.body.classCode,
     className: req.body.className,
     shortDesc: req.body.shortDesc,
     longDesc: req.body.longDesc,
     minDuration: req.body.minDuration,
     maxDuration: req.body.maxDuration,
-    days: req.body.days.join(),
+    days: req.body.days,
     imageCover: req.file ? req.file.filename : null,
   };
 
@@ -99,6 +120,9 @@ export const saveClassFormAction = asyncHandler(async (req, res, next) => {
     });
   }
 
-  const classObj = await saveArticle(inputData);
-  res.redirect(`/auth/admin/classForm/${classObj.classId}`);
+  const classObj = await saveClass(inputData);
+  console.log(classObj);
+  res.redirect(
+    `/auth/admin/classForm/${classObj?.classId || req.body.classId}/edit`,
+  );
 });

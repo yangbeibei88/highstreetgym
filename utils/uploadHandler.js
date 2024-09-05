@@ -1,4 +1,5 @@
 import nodePath from "node:path";
+import fsPromise from "fs/promises";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import multer from "multer";
 
@@ -25,23 +26,40 @@ const xmlFilter = (req, file, cb) => {
   }
 };
 
+const getAvailableFilename = async (destpath, basename, ext, index = 0) => {
+  const filename =
+    index === 0 ? `${basename}.${ext}` : `${basename}-${index}.${ext}`;
+  const filePath = nodePath.join(destpath, filename);
+
+  try {
+    await fsPromise.access(filePath);
+    return getAvailableFilename(destpath, basename, ext, index + 1);
+  } catch (error) {
+    return filename;
+  }
+};
+
 const uploadStorage = (destPath) =>
   multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, destPath);
     },
-    filename: (req, file, cb) => {
+    filename: async (req, file, cb) => {
       const ext = file.mimetype.split("/")[1];
       const basename = file.originalname
         .split(".")[0]
         .replace(/[^a-zA-Z0-9_-]+/g, "_");
-      let filename = `${basename}.${ext}`;
-      let i = 1;
-      while (nodePath.join(destPath, filename)) {
-        i += 1;
-        filename = `${basename}-${i}.${ext}`;
+
+      try {
+        const availableFilename = await getAvailableFilename(
+          destPath,
+          basename,
+          ext,
+        );
+        cb(null, availableFilename);
+      } catch (error) {
+        cb(error);
       }
-      cb(null, filename);
     },
   });
 

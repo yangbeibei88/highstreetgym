@@ -4,7 +4,10 @@ import "./style.css";
 import { ArticleForm } from "./components/ArticleForm.js";
 // import { QuillEditor } from "./components/QuillEditor.js";
 import { BookingForm } from "./components/BookingForm.js";
+import { ClassForm } from "./components/ClassForm.js";
 
 const bookingForm = new BookingForm();
 // const quillEditor = new QuillEditor();
 const articleForm = new ArticleForm();
+
+const classForm = new ClassForm();

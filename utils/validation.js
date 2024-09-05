@@ -187,17 +187,17 @@ export const validSelect = (name, optionArr, required = true) => {
   return chain;
 };
 
-export const checkUnique = (name, cb) =>
-  body(name).custom(async (value) => {
-    if (typeof cb === "function") {
-      const [row] = await cb(value);
-
-      if (row.length > 0) {
-        throw new Error(`${value} already exists`);
-      }
-
+export const checkUnique = (name, cb, skipCheck = false) =>
+  body(name).custom(async (value, { req }) => {
+    if (skipCheck || !value || typeof cb !== "function") {
+      // SKIP UNQIUENESS CHECK IF SKIPCHECK IS TRUE
       return true;
     }
+    const [row] = await cb(value);
+    if (row.length > 0) {
+      throw new Error(`${value} already exists`);
+    }
+    return true;
   });
 
 export const sanitizeTextarea = (

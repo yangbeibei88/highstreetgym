@@ -59,7 +59,7 @@ export const insertClass = async (course) => {
       course.longDesc,
       course.minDuration,
       course.maxDuration,
-      course.days,
+      course.days.join(","),
     ];
 
     if (course.imageCover) {
@@ -100,7 +100,7 @@ export const updateClass = async (course) => {
       course.longDesc,
       course.minDuration,
       course.maxDuration,
-      course.days,
+      course.days.join(","),
     ];
 
     if (course.imageCover) {
@@ -109,8 +109,7 @@ export const updateClass = async (course) => {
     }
 
     const sql = `UPDATE classes SET ${setFields.join(", ")} WHERE classId = ?`;
-    const [result] = await conn.execute(sql, [...values, course.classId]);
-    return result[0];
+    await conn.execute(sql, [...values, course.classId]);
   } catch (error) {
     console.log(error);
     throw error;
@@ -207,7 +206,7 @@ export const getClassByName = async (className) => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM classes WHERE className = ?";
-    return await conn.execute(sql, className);
+    return await conn.execute(sql, [className]);
   } catch (error) {
     console.log(error);
     throw error;
@@ -220,7 +219,7 @@ export const getClassByCode = async (classCode) => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM classes WHERE classCode = ?";
-    return await conn.execute(sql, classCode);
+    return await conn.execute(sql, [classCode]);
   } catch (error) {
     console.log(error);
     throw error;

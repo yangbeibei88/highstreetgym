@@ -22,6 +22,7 @@ block content
                   use(xlink:href='/icons/sprites/solid.svg#heading' fill='currentColor')
                 input#className.pl-11(type='text' name='className' placeholder='Enter a class name' required='' value=(inputData && inputData.className || ''))
               +fieldErrorMsg('className')
+            .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='classCode') Class Code
               .relative.flex.items-center
                 svg.absolute.size-6.left-3.text-gray-500
@@ -70,7 +71,7 @@ block content
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='longDesc') Long Desc
               input#longDesc(type="hidden", name="longDesc" value=(inputData && inputData.longDesc || ''))
-              .h-96#articleEditor !{inputData && inputData.longDesc || ''}
+              .h-96#classEditor !{inputData && inputData.longDesc || ''}
               +fieldErrorMsg('longDesc')
               //- textarea#articleContent(name='articleContent' row='20' class='quill-editor') 
             .space-y-1.col-span-1(class='md:col-span-3')
