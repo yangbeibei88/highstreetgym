@@ -41,14 +41,8 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="durationRange" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:minLength value="0" />
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
+              <xs:element name="minDuration" type="xs:duration" minOccurs="0" />
+              <xs:element name="maxDuration" type="xs:duration" minOccurs="0" />
               <xs:element name="days">
                 <xs:complexType>
                   <xs:sequence>

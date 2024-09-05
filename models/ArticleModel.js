@@ -87,7 +87,6 @@ export const insertArticle = async (article) => {
       "articleContent",
       "userId",
     ];
-    const fieldValues = Array(fieldNames.length).fill("?");
     const values = [
       article.articleTitle,
       article.topicId,
@@ -99,6 +98,8 @@ export const insertArticle = async (article) => {
       fieldNames.push("imageCover");
       values.push(article.imageCover);
     }
+
+    const fieldValues = Array(fieldNames.length).fill("?");
 
     const sql = `INSERT INTO articles (${fieldNames.join(", ")}) VALUES (${fieldValues.join(", ")})`;
     const [result] = await conn.execute(sql, [...values]);
@@ -134,10 +135,8 @@ export const updateArticle = async (article) => {
       values.push(article.imageCover);
     }
 
-    values.push(article.articleId);
-
     const sql = `UPDATE articles SET ${setFields.join(", ")} WHERE articleId = ?`;
-    return await conn.execute(sql, [...values]);
+    return await conn.execute(sql, [...values, article.articleId]);
   } catch (error) {
     console.log(error);
     throw error;

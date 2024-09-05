@@ -30,6 +30,32 @@ export const validateText = (name, min = 0, max = 254, required = true) => {
   return chain;
 };
 
+export const validateInteger = (
+  name,
+  min = 0,
+  max = 999999999,
+  required = true,
+) => {
+  let chain = body(name);
+  if (required) {
+    chain = chain.notEmpty().withMessage(`${name} is required.`);
+  }
+
+  chain.isInt().withMessage(`${name} must be a valid integer.`);
+
+  chain = chain.custom((value) => {
+    const isValid = value >= min && value <= max;
+
+    if (!isValid) {
+      throw new Error(`${name} must be between ${min} and ${max}.`);
+    }
+
+    return true;
+  });
+
+  return chain;
+};
+
 // validate an email address
 // https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
 export const validateEmail = (
@@ -129,6 +155,8 @@ export const compareString = (plural, str1Name, str2Name) =>
       }
       return true;
     });
+
+export const compareNumber = (num1Name, num2Name) => {};
 
 export const validSelect = (name, optionArr, required = true) => {
   let chain;

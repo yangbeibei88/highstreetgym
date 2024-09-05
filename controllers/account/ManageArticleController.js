@@ -91,7 +91,7 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
 
     if (!errors.isEmpty() || req.fileValidationError) {
       return res.status(400).render("auth/articleForm", {
-        title: "Create Article",
+        title: req.params.articleId ? "Edit Article" : "Create Article",
         topics,
         visibilityOptions,
         inputData,

@@ -39,6 +39,98 @@ export const getClass = async (id) => {
   }
 };
 
+export const insertClass = async (course) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const fieldNames = [
+      "classCode",
+      "className",
+      "shortDesc",
+      "longDesc",
+      "minDuration",
+      "maxDuration",
+      "days",
+    ];
+
+    const values = [
+      course.classCode,
+      course.className,
+      course.shortDesc,
+      course.longDesc,
+      course.minDuration,
+      course.maxDuration,
+      course.days,
+    ];
+
+    if (course.imageCover) {
+      fieldNames.push("imageCover");
+      values.push(course.imageCover);
+    }
+
+    const placehoders = Array(fieldNames.length).fill("?");
+    const sql = `INSERT INTO classes (${fieldNames.join(", ")}) VALUES (${placehoders.join(", ")})`;
+    const [result] = await conn.execute(sql, values);
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    return { ...course, classId: result.insertId };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+export const updateClass = async (course) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const setFields = [
+      "classCode = ?",
+      "className = ?",
+      "shortDesc = ?",
+      "longDesc = ?",
+      "minDuration = ?",
+      "maxDuration = ?",
+      "days = ?",
+    ];
+
+    const values = [
+      course.classCode,
+      course.className,
+      course.shortDesc,
+      course.longDesc,
+      course.minDuration,
+      course.maxDuration,
+      course.days,
+    ];
+
+    if (course.imageCover) {
+      setFields.push("imageCover = ?");
+      values.push(course.imageCover);
+    }
+
+    const sql = `UPDATE classes SET ${setFields.join(", ")} WHERE classId = ?`;
+    return await conn.execute(sql, [...values, course.classId]);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+export const saveClass = async (course) => {
+  try {
+    if (!course.classId) {
+      return await insertClass(course);
+    }
+
+    return await updateClass(course);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const upsertClasses = async (xmlData) => {
   const conn = await dbPool.getConnection();
   try {
@@ -47,8 +139,8 @@ export const upsertClasses = async (xmlData) => {
       "className",
       "shortDesc",
       "longDesc",
-      "imageCover",
-      "durationRange",
+      "minDuration",
+      "maxDuration",
       "days",
     ];
 
@@ -56,8 +148,8 @@ export const upsertClasses = async (xmlData) => {
       "className = VALUES(className)",
       "shortDesc = VALUES(shortDesc)",
       "longDesc = VALUES(longDesc)",
-      "imageCover = VALUES(imageCover)",
-      "durationRange = VALUES(durationRange)",
+      "minDuration = VALUES(minDuration)",
+      "maxDuration = VALUES(maxDuration)",
       "days = VALUES(days)",
     ];
 
@@ -69,16 +161,23 @@ export const upsertClasses = async (xmlData) => {
     await Promise.all(
       xmlData.map(async (row) => {
         try {
-          const sql = `INSERT INTO classes (${fieldNames.join(", ")}) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE ${onUpdates.join(", ")}`;
           const values = [
             row.classCode,
             row.className,
             row.shortDesc,
             row.longDesc,
-            row.imageCover,
-            row.durationRange,
+            row.minDuration / 60,
+            row.maxDuration / 60,
             row.days.join(","),
           ];
+          if (row.imageCover) {
+            fieldNames.push("imageCover");
+            onUpdates.push("imageCover = VALUES(imageCover)");
+            values.push(row.imageCover);
+          }
+          const placeHolders = Array(fieldNames.length).fill("?");
+          const sql = `INSERT INTO classes (${fieldNames.join(", ")}) VALUES ${placeHolders.join(", ")} ON DUPLICATE KEY UPDATE ${onUpdates.join(", ")}`;
+
           await conn.execute(sql, values);
         } catch (error) {
           failedRows.push({ success: false, row, error });

@@ -12,7 +12,8 @@
       challenged and motivated, ready to come back for more. BODYPUMP is available as either a 55,
       45 or 30-minute workout.</longDesc>
     <imageCover>bodypump.jpg</imageCover>
-    <durationRange>30-55 mins</durationRange>
+    <minDuration>PT30M</minDuration>
+    <maxDuration>PT55M</maxDuration>
     <days>
       <day>WED</day>
       <day>THU</day>
@@ -27,7 +28,8 @@
       upsand weight plate exercises, and the result is a fun, uplifting, full-body workout!
       Don’tworry, there’s heaps of options so that everyone leaves feeling successful.</longDesc>
     <imageCover></imageCover>
-    <durationRange>30-55 mins</durationRange>
+    <minDuration>PT30M</minDuration>
+    <maxDuration>PT55M</maxDuration>
     <days>
       <day>TUE</day>
       <day>THU</day>

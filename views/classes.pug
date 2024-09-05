@@ -8,7 +8,7 @@ block content
       // CONTAINER CARD WRAPPER
       article.flex.flex-col.relative.bg-limeGreen.text-midnightBlue.rounded-2xl.group.p-4.shadow-xl.w-full(class='sm:w-[48%] md:w-[32%] lg:w-[23%]')
         // IMAGE
-        img.object-cover.h-96.rounded-xl.shadow-inner(src=`/images/classes/${c.imageCover}` alt=`${c.className}`)
+        img.object-cover.h-96.rounded-xl.shadow-inner(src=`/images/classes/${c.imageCover ? c.imageCover : 'default-class-cover.jpeg'}` alt=`${c.className}`)
         // CONTENT
         .flex.flex-wrap.items-center.justify-between.space-y-3
           .basis-full.text-center(class='md:text-left')
