@@ -3,10 +3,13 @@ import { validationResult } from "express-validator";
 import {
   getAllClasses,
   getClass,
+  getClassByCode,
+  getClassByName,
   getDayOptions,
 } from "../../models/ClassModel.js";
 import { AppError } from "../../utils/AppError.js";
 import {
+  checkUnique,
   sanitizeRichText,
   sanitizeTextarea,
   validateInteger,
@@ -59,7 +62,9 @@ export const saveClassFormAction = asyncHandler(async (req, res, next) => {
   // 1) VALIDATE & SANITISE FIELDS
   await Promise.all([
     validateText("className", 2, 50, true).run(req),
+    checkUnique("className", getClassByName).run(req),
     validateInteger("classCode", 1, 9999999999, true).run(req),
+    checkUnique("classCode", getClassByCode).run(req),
     sanitizeTextarea("shortDesc", 5, 100).run(req),
     validateInteger("minDuration", 30, 999, true).run(req),
     validateInteger("maxDuration", 30, 999, true).run(req),
@@ -72,12 +77,12 @@ export const saveClassFormAction = asyncHandler(async (req, res, next) => {
 
   const inputData = {
     classId: +req.body.classId,
-    classCode: +req.body.classCode,
+    classCode: req.body.classCode,
     className: req.body.className,
     shortDesc: req.body.shortDesc,
     longDesc: req.body.longDesc,
-    minDuration: +req.body.minDuration,
-    maxDuration: +req.body.maxDuration,
+    minDuration: req.body.minDuration,
+    maxDuration: req.body.maxDuration,
     days: req.body.days.join(),
     imageCover: req.file ? req.file.filename : null,
   };
@@ -94,6 +99,6 @@ export const saveClassFormAction = asyncHandler(async (req, res, next) => {
     });
   }
 
-  await saveArticle(inputData);
-  res.redirect("/auth/manage-articles");
+  const classObj = await saveArticle(inputData);
+  res.redirect(`/auth/admin/classForm/${classObj.classId}`);
 });

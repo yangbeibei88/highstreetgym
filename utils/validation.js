@@ -41,7 +41,7 @@ export const validateInteger = (
     chain = chain.notEmpty().withMessage(`${name} is required.`);
   }
 
-  chain.isInt().withMessage(`${name} must be a valid integer.`);
+  chain.isInt().toInt().withMessage(`${name} must be a valid integer.`);
 
   chain = chain.custom((value) => {
     const isValid = value >= min && value <= max;
@@ -186,6 +186,19 @@ export const validSelect = (name, optionArr, required = true) => {
   chain = chain.escape();
   return chain;
 };
+
+export const checkUnique = (name, cb) =>
+  body(name).custom(async (value) => {
+    if (typeof cb === "function") {
+      const [row] = await cb(value);
+
+      if (row.length > 0) {
+        throw new Error(`${value} already exists`);
+      }
+
+      return true;
+    }
+  });
 
 export const sanitizeTextarea = (
   name,

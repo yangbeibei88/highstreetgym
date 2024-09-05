@@ -109,7 +109,8 @@ export const updateClass = async (course) => {
     }
 
     const sql = `UPDATE classes SET ${setFields.join(", ")} WHERE classId = ?`;
-    return await conn.execute(sql, [...values, course.classId]);
+    const [result] = await conn.execute(sql, [...values, course.classId]);
+    return result[0];
   } catch (error) {
     console.log(error);
     throw error;
@@ -196,6 +197,32 @@ export const upsertClasses = async (xmlData) => {
     };
   } catch (error) {
     console.error("Critical error during import", error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+export const getClassByName = async (className) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql = "SELECT * FROM classes WHERE className = ?";
+    return await conn.execute(sql, className);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+export const getClassByCode = async (classCode) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql = "SELECT * FROM classes WHERE classCode = ?";
+    return await conn.execute(sql, classCode);
+  } catch (error) {
+    console.log(error);
     throw error;
   } finally {
     conn.release();

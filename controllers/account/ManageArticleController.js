@@ -12,7 +12,7 @@ import {
   validateText,
   validSelect,
 } from "../../utils/validation.js";
-import { articleImageUpload } from "../../utils/uploadHandler.js";
+import { imageUpload } from "../../utils/uploadHandler.js";
 import { AppError } from "../../utils/AppError.js";
 
 export const listAccountArticlesAction = async (req, res, next) => {
@@ -58,10 +58,7 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
   const topicOptions = topics.map((row) => `${row.topicId}`);
 
   // 1) CREATE UPLOAD MULTER IMAGE MIDDLEWARE
-  const upload = articleImageUpload(
-    req.user.userId,
-    "public/images/blog",
-  ).single("imageCover");
+  const upload = imageUpload("public/images/blog").single("imageCover");
 
   // WRAP FORM VALIDATION AND INSERT EXECUTATION IN UPLOAD MIDDLEWARE
   upload(req, res, async () => {

@@ -1,3 +1,4 @@
+import nodePath from "node:path";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import multer from "multer";
 
@@ -24,23 +25,32 @@ const xmlFilter = (req, file, cb) => {
   }
 };
 
-const uploadStorage = (suffix, path) =>
+const uploadStorage = (destPath) =>
   multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path);
+      cb(null, destPath);
     },
     filename: (req, file, cb) => {
-      const uniqueSuffix = `${suffix}-${Date.now()}`;
       const ext = file.mimetype.split("/")[1];
-      cb(null, `${file.originalname.split(".")[0]}-${uniqueSuffix}.${ext}`);
+      const basename = file.originalname
+        .split(".")[0]
+        .replace(/[^a-zA-Z0-9_-]+/g, "_");
+      let filename = `${basename}.${ext}`;
+      let i = 1;
+      while (nodePath.join(destPath, filename)) {
+        i += 1;
+        filename = `${basename}-${i}.${ext}`;
+      }
+      cb(null, filename);
     },
   });
 
-export const articleImageUpload = (suffix, path) =>
+export const imageUpload = (path) =>
   multer({
-    storage: uploadStorage(suffix, path),
+    storage: uploadStorage(path),
     fileFilter: imageFilter,
+    limits: { fileSize: 5000000 },
   });
 
 export const xmlUpload = (path) =>
-  multer({ storage: uploadStorage("_", path), fileFilter: xmlFilter });
+  multer({ storage: uploadStorage(path), fileFilter: xmlFilter });

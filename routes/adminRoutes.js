@@ -2,6 +2,7 @@ import { Router } from "express";
 import { isLoggedIn } from "../controllers/AuthController.js";
 import {
   listAdminClassesAction,
+  saveClassFormAction,
   showClassFormAction,
 } from "../controllers/admin/ManageClassController.js";
 import {
@@ -9,7 +10,7 @@ import {
   uploadClassDataAction,
   uploadTimetableDataAction,
 } from "../controllers/admin/DataImportController.js";
-import { xmlUpload } from "../utils/uploadHandler.js";
+import { imageUpload, xmlUpload } from "../utils/uploadHandler.js";
 
 export const adminRouter = Router();
 
@@ -19,6 +20,12 @@ adminRouter.get("/manage-classes", listAdminClassesAction);
 adminRouter.get("/data-import", listDataImportsAction);
 adminRouter.get("/classForm/create", showClassFormAction);
 adminRouter.get("/classForm/:classId/edit", showClassFormAction);
+
+adminRouter.post(
+  "/classForm/save",
+  imageUpload("public/images/classes").single("imageCover"),
+  saveClassFormAction,
+);
 
 adminRouter.post(
   "/data-import/classxml",
