@@ -12,7 +12,6 @@ import {
   validateText,
   validSelect,
 } from "../../utils/validation.js";
-import { imageUpload } from "../../utils/uploadHandler.js";
 import { AppError } from "../../utils/AppError.js";
 
 export const listAccountArticlesAction = async (req, res, next) => {
@@ -56,50 +55,49 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
   const visibilityOptions = await getVisibilityOptions();
   const [topics] = await getTopics();
   const topicOptions = topics.map((row) => `${row.topicId}`);
+  // const articleId = req.body.articleId ? +req.body.articleId : null;
 
-  // 1) CREATE UPLOAD MULTER IMAGE MIDDLEWARE
-  const upload = imageUpload("public/images/blog").single("imageCover");
+  // 1) VALIDATE & SANITISE FIELDS
+  await Promise.all([
+    validateText("articleTitle", 10, 80, true).run(req),
+    validSelect("topic", topicOptions, true).run(req),
+    validSelect("visibility", visibilityOptions, true).run(req),
+    sanitizeRichText("articleContent", 100, 20000, true).run(req),
+  ]);
 
-  // WRAP FORM VALIDATION AND INSERT EXECUTATION IN UPLOAD MIDDLEWARE
-  upload(req, res, async () => {
-    // 1) VALIDATE & SANITISE FIELDS
-    await Promise.all([
-      validateText("articleTitle", 10, 80, true).run(req),
-      validSelect("topic", topicOptions, true).run(req),
-      validSelect("visibility", visibilityOptions, true).run(req),
-      sanitizeRichText("articleContent", 100, 20000, true).run(req),
-    ]);
+  // 2) EXTRACT ERRORS
+  const errors = validationResult(req);
+  console.log(errors);
 
-    // 2) EXTRACT ERRORS
-    const errors = validationResult(req);
-    console.log(errors);
+  const inputData = {
+    articleId: +req.body.articleId,
+    articleTitle: req.body.articleTitle,
+    topicId: +req.body.topic,
+    visibility: req.body.visibility,
+    articleContent: req.body.articleContent,
+    userId: req.user.userId,
+    imageCover: req.file ? req.file.filename : null,
+  };
 
-    const inputData = {
-      articleId: +req.body.articleId,
-      articleTitle: req.body.articleTitle,
-      topicId: +req.body.topic,
-      visibility: req.body.visibility,
-      articleContent: req.body.articleContent,
-      userId: req.user.userId,
-      imageCover: req.file ? req.file.filename : null,
-    };
+  console.log(inputData);
 
-    console.log(inputData);
+  if (!errors.isEmpty() || req.fileValidationError) {
+    return res.status(400).render("auth/articleForm", {
+      title: req.params.articleId ? "Edit Article" : "Create Article",
+      topics,
+      visibilityOptions,
+      inputData,
+      errors: errors.array(),
+      uploadErr: req.fileValidationError,
+    });
+  }
 
-    if (!errors.isEmpty() || req.fileValidationError) {
-      return res.status(400).render("auth/articleForm", {
-        title: req.params.articleId ? "Edit Article" : "Create Article",
-        topics,
-        visibilityOptions,
-        inputData,
-        errors: errors.array(),
-        uploadErr: req.fileValidationError,
-      });
-    }
+  // INSERT DATA INTO DATABASE IF NO ERR
+  const articleObj = await saveArticle(inputData);
+  console.log(articleObj);
 
-    // INSERT DATA INTO DATABASE IF NO ERR
-    await saveArticle(inputData);
-
-    res.redirect("/auth/manage-articles");
-  });
+  // res.redirect("/auth/manage-articles");
+  res.redirect(
+    `/auth/account/articleForm/${articleObj?.articleId || req.body.articleId}/edit`,
+  );
 });

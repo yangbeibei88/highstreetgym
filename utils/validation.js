@@ -156,7 +156,7 @@ export const compareString = (plural, str1Name, str2Name) =>
       return true;
     });
 
-export const compareNumber = (num1Name, num2Name) => {};
+// export const compareNumber = (num1Name, num2Name) => {};
 
 export const validSelect = (name, optionArr, required = true) => {
   let chain;

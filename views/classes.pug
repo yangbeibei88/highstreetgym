@@ -19,7 +19,7 @@ block content
               svg.size-5 
                 use(xlink:href='/icons/sprites/solid.svg#clock' fill='currentColor')
               span
-                | #{c.durationRange}
+                | #{c.minDuration} - #{c.maxDuration} mins
             a.btn-bullet.btn-white(href=`/classes/${c.classId}`, class="sm:btn-sm lg:btn")
               span
                 | Book

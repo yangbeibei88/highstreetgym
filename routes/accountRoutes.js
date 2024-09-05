@@ -18,6 +18,7 @@ import {
 } from "../controllers/account/ManageCommentController.js";
 import { showMyprofileAction } from "../controllers/account/AccountProfileController.js";
 import { showChangePasswordAction } from "../controllers/account/AccountPasswordController.js";
+import { imageUpload } from "../utils/uploadHandler.js";
 
 export const accountRouter = Router();
 
@@ -35,7 +36,11 @@ accountRouter.route("/articleForm/create").get(showArticleFormAction);
 
 accountRouter.route("/articleForm/:articleId/edit").get(showArticleFormAction);
 
-accountRouter.route("/articleForm/save").post(saveArticleAction);
+accountRouter.post(
+  "/articleForm/save",
+  imageUpload("public/images/blog").single("imageCover"),
+  saveArticleAction,
+);
 
 accountRouter
   .route("/timetable/:timetableId/bookingForm")

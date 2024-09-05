@@ -34,7 +34,7 @@ block content
               | 10 results
             thead.text-sm.text-white.bg-darkCyan
               tr
-                +tableHeaderItem('ID#')
+                +tableHeaderItem('ClassCode')
                 +tableHeaderItem('Class')
                 +tableHeaderItem('Duration')
                 +tableHeaderItem('Days')
@@ -42,9 +42,9 @@ block content
             tbody
               - for(let c of classes)
                 tr
-                  +tableCellItem('id', c.classId)
+                  +tableCellItem('class_code', c.classCode)
                   +tableCellItem('class_name', c.className)
-                  +tableCellItem('duration', c.durationRange)
+                  +tableCellItem('duration', `${c.minDuration} - ${c.maxDuration} mins`)
                   +tableCellItem('days', c.days)
                   td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
                     a.btn.btn-sm.btn-limeGreen(href=`/auth/admin/classForm/${c.classId}/edit`) Edit
