@@ -58,6 +58,73 @@ export const getTimetableByUserId = async (userId) => {
   }
 };
 
+export const insertTimetable = async (timetable) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const fieldNames = [
+      "timetableNo",
+      "classId",
+      "trainerId",
+      "startDateTime",
+      "duration",
+      "level",
+      "capacity",
+    ];
+    const values = [
+      timetable.timetableNo,
+      timetable.classId,
+      timetable.trainerid,
+      timetable.startDateTime,
+      timetable.duration,
+      timetable.level,
+      timetable.capacity,
+    ];
+
+    const placeholders = Array(fieldNames.length).fill("?");
+    const sql = `INSERT INTO timetables (${fieldNames.join(", ")}) VALUES (${placeholders.join(", ")})`;
+    const [result] = await conn.execute(sql, values);
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    return { ...timetable, timetableId: result.insertId };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+export const updateTimetable = async (timetable) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const setFields = [
+      "timetableNo = ?",
+      "classId = ?",
+      "trainerId = ?",
+      "startDateTime = ?",
+      "duration = ?",
+      "level = ?",
+      "capacity = ?",
+    ];
+    const values = [
+      timetable.timetableNo,
+      timetable.classId,
+      timetable.trainerid,
+      timetable.startDateTime,
+      timetable.duration,
+      timetable.level,
+      timetable.capacity,
+    ];
+
+    const sql = `UPDATE timetables SET (${setFields.join(", ")}) WHERE timetableId = ?`;
+    await conn.execute(sql, [...values, timetable.timetableId]);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
 export const upsertTimetables = async (xmlData) => {
   const conn = await dbPool.getConnection();
   try {

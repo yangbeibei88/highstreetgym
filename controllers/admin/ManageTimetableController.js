@@ -1,7 +1,12 @@
 import asyncHandler from "express-async-handler";
-import { getAllTimetables, getLevels } from "../../models/TimetableModel.js";
+import {
+  getAllTimetables,
+  getLevels,
+  getTimetableById,
+} from "../../models/TimetableModel.js";
 import { getAllClasses } from "../../models/ClassModel.js";
 import { getTrainers } from "../../models/UserModel.js";
+import { AppError } from "../../utils/AppError.js";
 
 export const listAdminTimetableAction = asyncHandler(async (req, res, next) => {
   const [timetables] = await getAllTimetables();
@@ -26,8 +31,17 @@ export const showTimetableFormAction = asyncHandler(async (req, res, next) => {
     level: "",
     capacity: "",
   };
+
+  if (req.params.timetableId) {
+    const [timetable] = await getTimetableById(+req.params.timetableId);
+    if (!timetable) {
+      next(new AppError("NOT FOUND", 404));
+    }
+    inputData = await timetable[0];
+  }
+
   res.status(200).render("admin/timetableForm", {
-    title: "Add Timetable",
+    title: req.params.timetableId ? "Edit Timetable" : "Create Timetable",
     classes,
     trainers,
     levelOptions,

@@ -19,7 +19,7 @@ block content
         main#create-article.col-span-1.order-2(class='md:col-span-3')
           //- CLASS FORM START
           form#form-timetable.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action='/auth/admin/timetableForm/save' enctype='multipart/form-data' novalidate)
-            input(type='hidden' name='classId' value=(inputData.timetableId))
+            input(type='hidden' name='timetableId' value=(inputData.timetableId))
             |
             +fieldGroup('timetableNo', 'solid', 'hashtag', 'number', 'timetableNo', inputData && inputData.timetableNo, 'Timetable No', 6, { required: true, step: 1, disabled: inputData && inputData.timetableId ? true : false })
             |
@@ -45,10 +45,7 @@ block content
             +fieldGroup('capacity', 'solid', 'people-group', 'number', 'capacity', inputData && inputData.capacity, 'Capacity', 3, { required: true, step: 1 })
             |
             .space-y-1.col-span-1(class='md:col-span-3')
-              a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/auth/admin/manage-classes') Back
+              a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/auth/admin/manage-timetable') Back
             .space-y-1.col-span-1(class='md:col-span-3')
               button.btn-bullet.btn-limeGreen.my-5.space-x-1.w-full(type='submit')
                 span Submit
-
-
-
