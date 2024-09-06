@@ -18,22 +18,27 @@ block content
         // 2) MAIN CONTENT
         main#create-article.col-span-1.order-2(class='md:col-span-3')
           //- CLASS FORM START
-          form#form-timetable.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action='/auth/admin/timetableForm/save' enctype='multipart/form-data' novalidate)
+          form#form-timetable.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action='/auth/admin/timetableForm/save' novalidate)
             input(type='hidden' name='timetableId' value=(inputData.timetableId))
             |
             +fieldGroup('timetableNo', 'solid', 'hashtag', 'number', 'timetableNo', inputData && inputData.timetableNo, 'Timetable No', 6, { required: true, step: 1, disabled: inputData && inputData.timetableId ? true : false })
             |
-            +fieldGroup('course', 'solid', 'list', 'select', 'course', '', 'Class', 3, {required: true})
+            if inputData && inputData.timetableId
+              input(type='hidden' name='timetableNo' value=(inputData && inputData.timetableNo || ''))
+            |
+            +fieldGroup('course', 'solid', 'list', 'select', 'classId', '', 'Class', 3, {required: true})
               option(value='') -------- Select a class ----------
               - for (let c of classes)
                 option(value=(c.classId) selected=(inputData && inputData.classId === c.classId ? true : false)) #{c.classCode} - #{c.className}
             |
-            +fieldGroup('trainer', 'solid', 'user-plus', 'select', 'trainer', '', 'Trainer', 3, {required: true})
+            +fieldGroup('trainer', 'solid', 'user-plus', 'select', 'trainerId', '', 'Trainer', 3, {required: true})
               option(value='') -------- Select a trainer ----------
               - for (let tn of trainers)
                 option(value=(tn.userId) selected=(inputData && inputData.trainerId === tn.userId ? true : false)) #{tn.firstName} #{tn.lastName} (#{tn.emailAddress})
             |
-            +fieldGroup('startDateTime', 'solid', 'calendar-days', 'datetime-local', 'startDateTime', inputData && inputData.startDateTime, 'Start Datetime', 3, { required: true })
+            - const utcDateTime = new Date(inputData && inputData.startDateTime || Date.now());
+            - const localDateTime = new Date(utcDateTime.getTime() - (utcDateTime.getTimezoneOffset() * 60000)).toISOString().slice(0,16);
+            +fieldGroup('startDateTime', 'solid', 'calendar-days', 'datetime-local', 'startDateTime', inputData && localDateTime, 'Start Datetime', 3, { required: true })
             |
             +fieldGroup('duration', 'solid', 'hourglass', 'number', 'duration', inputData && inputData.duration, 'Duration', 3, { required: true, step: 1 })
             |

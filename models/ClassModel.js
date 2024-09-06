@@ -84,7 +84,6 @@ export const updateClass = async (course) => {
   const conn = await dbPool.getConnection();
   try {
     const setFields = [
-      "classCode = ?",
       "className = ?",
       "shortDesc = ?",
       "longDesc = ?",
@@ -94,7 +93,6 @@ export const updateClass = async (course) => {
     ];
 
     const values = [
-      course.classCode,
       course.className,
       course.shortDesc,
       course.longDesc,

@@ -158,6 +158,15 @@ export const compareString = (plural, str1Name, str2Name) =>
 
 // export const compareNumber = (num1Name, num2Name) => {};
 
+export const validateDate = (name, required = true) => {
+  let chain;
+  if (required) {
+    chain = body(name).notEmpty().withMessage(`${name} is required.`);
+  }
+  chain = body(name).isDate().withMessage(`Invalid date`);
+  return chain;
+};
+
 export const validSelect = (name, optionArr, required = true) => {
   let chain;
   if (required) {
@@ -196,6 +205,18 @@ export const checkUnique = (name, cb, skipCheck = false) =>
     const [row] = await cb(value);
     if (row.length > 0) {
       throw new Error(`${value} already exists`);
+    }
+    return true;
+  });
+
+export const checkInDB = (name, cb) =>
+  body(name).custom(async (value, { req }) => {
+    if (!value || typeof cb !== "function") {
+      throw new Error(`Invalid option`);
+    }
+    const [row] = await cb(value);
+    if (!row) {
+      throw new Error(`${value} is invalid`);
     }
     return true;
   });

@@ -34,6 +34,7 @@ adminRouter.post(
   imageUpload("public/images/classes").single("imageCover"),
   saveClassFormAction,
 );
+
 adminRouter.post("/timetableForm/save", saveTimetableFormAction);
 
 adminRouter.post(

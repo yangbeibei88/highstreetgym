@@ -34,7 +34,9 @@ export const getTimetableById = async (timetableId) => {
   const conn = await dbPool.getConnection();
   try {
     const sql =
-      "SELECT tt.*, cl.className, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId WHERE (tt.timetableId = ? AND tt.startDateTime >= CURRENT_TIMESTAMP())";
+      "SELECT tt.*, cl.className, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId WHERE (tt.timetableId = ?)";
+
+    // date condition: AND tt.startDateTime >= CURRENT_TIMESTAMP()
     return await conn.execute(sql, [timetableId]);
   } catch (error) {
     console.log(error);
@@ -73,7 +75,7 @@ export const insertTimetable = async (timetable) => {
     const values = [
       timetable.timetableNo,
       timetable.classId,
-      timetable.trainerid,
+      timetable.trainerId,
       timetable.startDateTime,
       timetable.duration,
       timetable.level,
@@ -97,7 +99,6 @@ export const updateTimetable = async (timetable) => {
   const conn = await dbPool.getConnection();
   try {
     const setFields = [
-      "timetableNo = ?",
       "classId = ?",
       "trainerId = ?",
       "startDateTime = ?",
@@ -106,22 +107,33 @@ export const updateTimetable = async (timetable) => {
       "capacity = ?",
     ];
     const values = [
-      timetable.timetableNo,
       timetable.classId,
-      timetable.trainerid,
+      timetable.trainerId,
       timetable.startDateTime,
       timetable.duration,
       timetable.level,
       timetable.capacity,
     ];
 
-    const sql = `UPDATE timetables SET (${setFields.join(", ")}) WHERE timetableId = ?`;
+    const sql = `UPDATE timetables SET ${setFields.join(", ")} WHERE timetableId = ?`;
     await conn.execute(sql, [...values, timetable.timetableId]);
   } catch (error) {
     console.log(error);
     throw error;
   } finally {
     conn.release();
+  }
+};
+
+export const saveTimetable = async (tt) => {
+  try {
+    if (!tt.timetableId) {
+      return await insertTimetable(tt);
+    }
+    return await updateTimetable(tt);
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };
 
@@ -189,6 +201,19 @@ export const upsertTimetables = async (xmlData) => {
     };
   } catch (error) {
     console.error("Critical error during import", error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+export const getTimetableByNo = async (timetableNo) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql = "SELECT * FROM timetables WHERE timetableNo = ?";
+    return await conn.execute(sql, [timetableNo]);
+  } catch (error) {
+    console.log(error);
     throw error;
   } finally {
     conn.release();
