@@ -1,0 +1,54 @@
+extends ../layouts/main.pug 
+include ../partials/_fieldGroup.pug
+include ../partials/_fieldLabel.pug
+include ../partials/_fieldWithIconAndAttrs.pug
+include ../partials/_fieldErrorMsg.pug
+
+//- fieldGroup(id, iconType, iconName, fieldType, fieldName, fieldValue, labelText, mdColSpan, additionalAttrs)
+
+block content 
+  .page-wrapper
+    // 1) HEADER
+    header.bg-darkCyan.text-white
+      .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
+        h1 #{title}
+    // 2) MAIN CCONTENT
+    .wrapper.bg-slate-100
+      .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+        // 2) MAIN CONTENT
+        main#create-article.col-span-1.order-2(class='md:col-span-3')
+          //- CLASS FORM START
+          form#form-timetable.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action='/auth/admin/timetableForm/save' enctype='multipart/form-data' novalidate)
+            input(type='hidden' name='classId' value=(inputData.timetableId))
+            |
+            +fieldGroup('timetableNo', 'solid', 'hashtag', 'number', 'timetableNo', inputData && inputData.timetableNo, 'Timetable No', 6, { required: true, step: 1, disabled: inputData && inputData.timetableId ? true : false })
+            |
+            +fieldGroup('course', 'solid', 'list', 'select', 'course', '', 'Class', 3, {required: true})
+              option(value='') -------- Select a class ----------
+              - for (let c of classes)
+                option(value=(c.classId) selected=(inputData && inputData.classId === c.classId ? true : false)) #{c.classCode} - #{c.className}
+            |
+            +fieldGroup('trainer', 'solid', 'user-plus', 'select', 'trainer', '', 'Trainer', 3, {required: true})
+              option(value='') -------- Select a trainer ----------
+              - for (let tn of trainers)
+                option(value=(tn.userId) selected=(inputData && inputData.trainerId === tn.userId ? true : false)) #{tn.firstName} #{tn.lastName} (#{tn.emailAddress})
+            |
+            +fieldGroup('startDateTime', 'solid', 'calendar-days', 'datetime-local', 'startDateTime', inputData && inputData.startDateTime, 'Start Datetime', 3, { required: true })
+            |
+            +fieldGroup('duration', 'solid', 'hourglass', 'number', 'duration', inputData && inputData.duration, 'Duration', 3, { required: true, step: 1 })
+            |
+            +fieldGroup('level', 'solid', 'user-plus', 'select', 'level', '', 'Level', 3, {required: true})
+              option(value='') -------- Select a level ----------
+              - for(let l of levelOptions)
+                option(value=(l) selected=(inputData && inputData.level === l ? true : false)) #{l}
+            |
+            +fieldGroup('capacity', 'solid', 'people-group', 'number', 'capacity', inputData && inputData.capacity, 'Capacity', 3, { required: true, step: 1 })
+            |
+            .space-y-1.col-span-1(class='md:col-span-3')
+              a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/auth/admin/manage-classes') Back
+            .space-y-1.col-span-1(class='md:col-span-3')
+              button.btn-bullet.btn-limeGreen.my-5.space-x-1.w-full(type='submit')
+                span Submit
+
+
+

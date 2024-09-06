@@ -27,7 +27,7 @@ block content
               .relative.flex.items-center
                 svg.absolute.size-6.left-3.text-gray-500
                   use(xlink:href='/icons/sprites/solid.svg#hashtag' fill='currentColor')
-                input#classCode.pl-11(type='number' name='classCode' required='' value=(inputData && inputData.classCode || ''))
+                input#classCode.pl-11(type='number' name='classCode' required='' value=(inputData && inputData.classCode || '') disabled=(inputData && inputData.classId ? true : false))
               +fieldErrorMsg('classCode')
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='shortDesc') Short Desc

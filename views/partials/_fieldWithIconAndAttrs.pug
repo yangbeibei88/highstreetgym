@@ -1,0 +1,9 @@
+mixin fieldWithIconAndAttrs(id, iconType, iconName, fieldType, fieldName, fieldValue, additionalAttrs)
+  .relative.flex.items-center
+    svg.absolute.size-6.left-3.text-gray-500
+      use(xlink:href=`/icons/sprites/${iconType}.svg#${iconName}` fill='currentColor')
+    if fieldType === 'select'
+      select.text-center(id=id name=fieldName)&attributes(additionalAttrs)
+        block
+    else 
+      input.pl-11(id=id name=fieldName type=fieldType value=(fieldValue || ''))&attributes(additionalAttrs)

@@ -78,7 +78,7 @@
   [multiple],
   textarea,
   select {
-    @apply w-full rounded-lg border-gray-300 shadow-sm focus:border-limeGreen focus:ring-limeGreen;
+    @apply w-full rounded-lg border-gray-300 shadow-sm focus:border-limeGreen focus:ring-limeGreen disabled:bg-slate-200 disabled:text-gray-700;
   }
   [type="checkbox"],
   [type="radio"] {

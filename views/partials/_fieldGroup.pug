@@ -1,0 +1,11 @@
+include _fieldWithIconAndAttrs.pug
+include _fieldLabel.pug
+include _fieldErrorMsg.pug
+
+mixin fieldGroup(id, iconType, iconName, fieldType, fieldName, fieldValue, labelText, mdColSpan, additionalAttrs)
+  .space-y-1.col-span-1(class=`md:col-span-${mdColSpan}`)
+    +fieldLabel(id, labelText)
+    +fieldWithIconAndAttrs(id, iconType, iconName, fieldType, fieldName, fieldValue, additionalAttrs)
+      block
+    +fieldErrorMsg(fieldName)
+    

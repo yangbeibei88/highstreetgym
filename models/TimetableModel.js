@@ -127,3 +127,5 @@ export const upsertTimetables = async (xmlData) => {
     conn.release();
   }
 };
+
+export const getLevels = async () => ["beginner", "intermediate", "advanced"];

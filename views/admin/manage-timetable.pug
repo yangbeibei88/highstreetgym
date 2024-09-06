@@ -1,0 +1,60 @@
+extends ../layouts/main.pug 
+include ../partials/_tableHeaderItem.pug
+include ../partials/_tableCellItem.pug
+
+
+block content 
+  .page-wrapper
+    // 1) HEADER
+    header.bg-darkCyan.text-white
+      .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
+        h1 #{title}
+    // 2) MAIN CCONTENT
+    .wrapper.bg-slate-100
+      .w-screen.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+        // 2) MAIN CONTENT
+        main#admin-timetables.col-span-1.order-2(class='md:col-span-3')
+          // Search & Filter
+          // 1) FILTER
+          .flex.flex-col.items-center.justify-between.p-4.space-y-3(class='lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10')
+            .w-full(class='lg:w-1/2')
+              label(for='search-timetable') Search
+              input#search-timetable(type='search' name='search-timetable' placeholder='Search...')
+            .w-full(class='lg:w-1/2 lg:justify-self-end')
+              a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/auth/admin/timetableForm/create')
+                span
+                  | Add
+                  | Timetable
+                span
+                  svg.size-6 
+                    use(xlink:href='/icons/sprites/solid.svg#circle-plus' fill='currentColor')
+          // my articles table
+          table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
+            caption.text-sm
+              | 10 results
+            thead.text-sm.text-white.bg-darkCyan
+              tr
+                +tableHeaderItem('TimetableNo')
+                +tableHeaderItem('Class')
+                +tableHeaderItem('StartDateTime')
+                +tableHeaderItem('Duration')
+                +tableHeaderItem('Trainer')
+                +tableHeaderItem('Level')
+                +tableHeaderItem('Capacity')
+                +tableHeaderItem('Availability')
+                +tableHeaderItem('Action')
+            tbody
+              - for(let t of timetables)
+                tr
+                  +tableCellItem('timetable_no', t.timetableNo)
+                  +tableCellItem('class_name', t.className)
+                  +tableCellItem('startDateTime', t.startDateTime.toLocaleString())
+                  +tableCellItem('duration', `${t.duration} mins`)
+                  +tableCellItem('trainer', `${t.trainerFirstName} ${t.trainerLastName}`)
+                  +tableCellItem('level', t.level)
+                  +tableCellItem('capacity', t.capacity)
+                  +tableCellItem('availability', t.availability)
+                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
+                    a.btn.btn-sm.btn-limeGreen(href=`/auth/admin/timetableForm/${t.timetableId}/edit`) Edit
+        // 3) SIDE MENU
+        include ../partials/_accountSideNav.pug
