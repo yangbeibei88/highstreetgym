@@ -1,16 +1,15 @@
 extends ../layouts/main.pug 
+include ../partials/_pageHeader.pug
 include ../partials/_tableHeaderItem.pug
 include ../partials/_tableCellItem.pug
 
 block content 
   .page-wrapper
     // 1) HEADER
-    header.bg-darkCyan.text-white
-      .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
-        h1 My Bookings
+    +pageHeader(title)
     // 2) MAIN CCONTENT
     .wrapper.bg-slate-100
-      .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+      .grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
         // 2) MAIN CONTENT
         main#my-booking.col-span-1.order-2(class='md:col-span-3')
           // Search & Filter
@@ -38,7 +37,8 @@ block content
             thead.text-sm.text-white.bg-darkCyan
               tr
                 +tableHeaderItem('ID#')
-                +tableHeaderItem('class booked')
+                +tableHeaderItem('member')
+                +tableHeaderItem('booked at')
                 +tableHeaderItem('class start')
                 +tableHeaderItem('class')
                 +tableHeaderItem('duration')
@@ -49,6 +49,7 @@ block content
               - for(let b of bookings)
                 tr
                   +tableCellItem('id', b.bookingId)
+                  +tableCellItem('member', b.userFirstName+' '+b.userLastName)
                   +tableCellItem('booking_date', b.createdAt.toLocaleString('en-AU', {hour12: false}))
                   +tableCellItem('class_datetime', new Intl.DateTimeFormat('en-GB', {dateStyle: 'full', timeStyle: 'long', timeZone: 'Australia/Brisbane'}).format(b.startDateTime))
                   +tableCellItem('class', b.className)

@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import {
   generateBookingNo,
+  getAllBookings,
   getBookingById,
   getBookingByUser,
   insertBookingTrans,
@@ -14,7 +15,20 @@ import { AppError } from "../../utils/AppError.js";
 export const listAccountbookingsAction = asyncHandler(
   async (req, res, next) => {
     // req.user.userId comes from isLoggedIn middleware
-    const [bookings] = await getBookingByUser(req.user.userId);
+    let bookings;
+    switch (req.user.userRole) {
+      case "admin":
+        [bookings] = await getAllBookings();
+        break;
+      case "member":
+        [bookings] = await getBookingByUser(req.user.userId);
+        break;
+
+      default:
+        [bookings] = await getBookingByUser(req.user.userId);
+        break;
+    }
+    // const [bookings] = await getBookingByUser(req.user.userId);
     return res.status(200).render("account/manage-bookings", {
       title: "My Bookings",
       bookings,
@@ -53,9 +67,11 @@ export const createBookingAction = asyncHandler(async (req, res, next) => {
 
   const newBooking = await insertBookingTrans(newBookingData);
 
-  await generateBookingNo(newBookingData.bookingId);
+  await generateBookingNo(newBooking.bookingId);
 
-  res.redirect(`/account/booking-confirmation/${newBooking.bookingId}`);
+  return res.redirect(
+    `/auth/account/booking-confirmation/${newBooking.bookingId}`,
+  );
 });
 
 export const showBookingConfirmAction = async (req, res, next) => {

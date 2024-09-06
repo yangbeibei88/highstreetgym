@@ -6,7 +6,7 @@ export const getAllBookings = async () => {
   const conn = await dbPool.getConnection();
   try {
     const sql =
-      "SELECT b.*, u1.firstName AS userFirstName, u1.lastName AS userLastName, tt.startDateTime, tt.duration, tt.level, c.className, u2.firstName AS trainerFirstName, u2.lastName AS trainerLastName FROM bookings b INNER JOIN users u1 ON b.userId = u1.userId INNER JOIN timetables tt ON b.timetableId = tt.timetableId INNER JOIN classes c ON tt.classId = c.classId INNER JOIN users u2 ON tt.trainerId = u2.userId";
+      "SELECT b.*, u1.firstName AS userFirstName, u1.lastName AS userLastName, tt.startDateTime, tt.duration, tt.level, c.className, u2.firstName AS trainerFirstName, u2.lastName AS trainerLastName FROM bookings b INNER JOIN users u1 ON b.userId = u1.userId INNER JOIN timetables tt ON b.timetableId = tt.timetableId INNER JOIN classes c ON tt.classId = c.classId INNER JOIN users u2 ON tt.trainerId = u2.userId ORDER BY b.createdAt DESC";
     return await conn.execute(sql);
   } catch (error) {
     console.log(error);
@@ -20,7 +20,7 @@ export const getBookingById = async (bookingId) => {
   const conn = await dbPool.getConnection();
   try {
     const sql =
-      "SELECT b.*, u1.firstName AS userFirstName, u1.lastName AS userLastName, tt.startDateTime, tt.duration, tt.level, c.className, u2.firstName AS trainerFirstName, u2.lastName AS trainerLastName FROM bookings b INNER JOIN users u1 ON b.userId = u1.userId INNER JOIN timetables tt ON b.timetableId = tt.timetableId INNER JOIN classes c ON tt.classId = c.classId INNER JOIN users u2 ON tt.trainerId = u2.userId WHERE b.bookingId = ?";
+      "SELECT b.*, u1.firstName AS userFirstName, u1.lastName AS userLastName, tt.startDateTime, tt.duration, tt.level, c.className, u2.firstName AS trainerFirstName, u2.lastName AS trainerLastName FROM bookings b INNER JOIN users u1 ON b.userId = u1.userId INNER JOIN timetables tt ON b.timetableId = tt.timetableId INNER JOIN classes c ON tt.classId = c.classId INNER JOIN users u2 ON tt.trainerId = u2.userId WHERE b.bookingId = ? ORDER BY b.createdAt DESC";
     return await conn.execute(sql, [bookingId]);
   } catch (error) {
     console.log(error);
@@ -137,9 +137,11 @@ export const insertBookingTrans = async (booking) => {
 export const generateBookingNo = async (bookingId) => {
   const conn = await dbPool.getConnection();
   try {
-    const sql = "UPDATE bookings SET bookingNo = ? WHERE bookingId = ?";
-    const bookingNoFormula = `CONCAT_WS('-', REPLACE(DATE(createdAt), '-', ''), ${bookingId})`;
-    return await conn.execute(sql, [bookingNoFormula, bookingId]);
+    const setField =
+      "bookingNo = CONCAT_WS('-', REPLACE(DATE(createdAt), '-', ''), bookingId)";
+    const sql = `UPDATE bookings SET ${setField} WHERE bookingId = ?`;
+    // const bookingNoFormula = `CONCAT_WS('-', REPLACE(DATE(${booking.createdAt}), '-', ''), ${booking.bookingId})`;
+    return await conn.execute(sql, [bookingId]);
   } catch (error) {
     console.log(error);
     throw error;
