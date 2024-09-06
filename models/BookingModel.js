@@ -140,7 +140,7 @@ export const generateBookingNo = async (bookingId) => {
     const setField =
       "bookingNo = CONCAT_WS('-', REPLACE(DATE(createdAt), '-', ''), bookingId)";
     const sql = `UPDATE bookings SET ${setField} WHERE bookingId = ?`;
-    // const bookingNoFormula = `CONCAT_WS('-', REPLACE(DATE(${booking.createdAt}), '-', ''), ${booking.bookingId})`;
+
     return await conn.execute(sql, [bookingId]);
   } catch (error) {
     console.log(error);

@@ -1,0 +1,51 @@
+extends ../layouts/main.pug 
+include ../partials/_pageHeader.pug
+include ../partials/_tableHeaderItem.pug
+include ../partials/_tableCellItem.pug
+
+
+block content 
+  .page-wrapper
+    // 1) HEADER
+    +pageHeader(title)
+    // 2) MAIN CCONTENT
+    .wrapper.bg-slate-100
+      .grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+        // 2) MAIN CONTENT
+        main#manage-users.col-span-1.order-2(class='md:col-span-3')
+          // Search & Filter
+          // 1) FILTER
+          .flex.flex-col.items-center.justify-between.p-4.space-y-3(class='lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10')
+            .w-full(class='lg:w-1/2')
+              label(for='search-article') Search
+              input#search-user(type='search' name='search-user' placeholder='Search a user')
+            .w-full(class='lg:w-1/2 lg:justify-self-end')
+              a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/auth/admin/addUserForm/create')
+                span
+                  | Add
+                  | User
+                span
+                  svg.size-6 
+                    use(xlink:href='/icons/sprites/solid.svg#circle-plus' fill='currentColor')
+          // User list table
+          table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
+            caption.text-sm
+              | 10 results
+            thead.text-sm.text-white.bg-darkCyan
+              tr
+                +tableHeaderItem('User Name')
+                +tableHeaderItem('Email')
+                +tableHeaderItem('Phone')
+                +tableHeaderItem('Role')
+                +tableHeaderItem('Action')
+            tbody
+              - for(let u of users)
+                tr
+                  +tableCellItem('user_name', u.firstName+' '+u.lastName)
+                  +tableCellItem('email', u.emailAddress)
+                  +tableCellItem('phone', u.phoneNumber)
+                  +tableCellItem('role', u.userRole)
+                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
+                    a.btn.btn-sm.btn-limeGreen(href=`/auth/admin/addUserForm/${u.userId}/edit`) Edit
+        // 3) SIDE MENU
+        include ../partials/_accountSideNav.pug

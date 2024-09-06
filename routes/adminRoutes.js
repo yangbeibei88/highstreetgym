@@ -16,6 +16,7 @@ import {
   saveTimetableFormAction,
   showTimetableFormAction,
 } from "../controllers/admin/ManageTimetableController.js";
+import { listUsersAction } from "../controllers/admin/ManageUserController.js";
 
 export const adminRouter = Router();
 
@@ -23,6 +24,7 @@ adminRouter.use(isLoggedIn);
 
 adminRouter.get("/manage-classes", listAdminClassesAction);
 adminRouter.get("/manage-timetable", listAdminTimetableAction);
+adminRouter.get("/manage-users", listUsersAction);
 adminRouter.get("/data-import", listDataImportsAction);
 adminRouter.get("/classForm/create", showClassFormAction);
 adminRouter.get("/timetableForm/create", showTimetableFormAction);
