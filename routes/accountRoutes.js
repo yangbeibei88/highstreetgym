@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { isLoggedIn, logoutAction } from "../controllers/AuthController.js";
+import { isLoggedIn } from "../controllers/AuthController.js";
 import {
   createBookingAction,
   listAccountbookingsAction,
@@ -30,7 +30,7 @@ accountRouter.get("/manage-articles", listAccountArticlesAction);
 accountRouter.get("/manage-comments", listAccountCommentsAction);
 accountRouter.get("/my-profile", showMyprofileAction);
 accountRouter.get("/change-password", showChangePasswordAction);
-accountRouter.get("/logout", logoutAction);
+// accountRouter.get("/logout", logoutAction);
 
 accountRouter.route("/articleForm/create").get(showArticleFormAction);
 

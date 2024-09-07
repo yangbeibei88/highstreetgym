@@ -112,13 +112,17 @@ export const authenticateLoginAction = asyncHandler(async (req, res, next) => {
   res.redirect("/");
 });
 
-export const logoutAction = (req, res) => {
-  res
-    .cookie("jwt", "loggedout", {
-      expires: new Date(Date.now() + 10 * 1000),
-      httpOnly: true,
-    })
-    .redirect(301, "/");
+export const logoutAction = (req, res, next) => {
+  try {
+    return res
+      .cookie("jwt", "loggedout", {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true,
+      })
+      .redirect(301, "/");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const isLoggedIn = async (req, res, next) => {
@@ -156,7 +160,7 @@ export const authorisedTo =
   (req, res, next) => {
     if (!roles.includes(req.user.userRole)) {
       return next(
-        new AppError("Sorry, you are not authorised for this resource."),
+        new AppError("Sorry, you are not authorised for this resource.", 403),
       );
     }
     next();

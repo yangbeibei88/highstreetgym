@@ -21,6 +21,21 @@ export const getAllArticles = async () => {
     conn.release();
   }
 };
+
+export const getArticlesByVsibility = async (visibility) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql =
+      "SELECT a.*, t.topicName, u.firstName, u.lastName, u.avatar FROM articles a INNER JOIN topics t ON a.topicId = t.topicId INNER JOIN users u ON a.userId = u.userId ORDER BY a.createdAt DESC WHERE visibility = ?";
+    return conn.execute(sql, [visibility]);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
 export const getArticle = async (id) => {
   const conn = await dbPool.getConnection();
   try {

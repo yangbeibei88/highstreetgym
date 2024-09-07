@@ -24,5 +24,8 @@ nav.order-1
       +sideNavItem('my comments', 'account', 'manage-comments', false)
     +sideNavItem('my profile', 'account', 'my-profile', false)
     +sideNavItem('change password', 'account', 'change-password', false)
-    +sideNavItem('logout', 'account', 'logout', false)
+    //- +sideNavItem('logout', 'account', 'logout', false)
+    li(data-active=false)
+      a.block.p-4.capitalize(href=`/auth/logout` class='hover:bg-limeGreen hover:underline')
+        | Logout
 

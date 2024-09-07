@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   authenticateLoginAction,
   authenticateSignupAction,
+  logoutAction,
 } from "../controllers/AuthController.js";
 import { adminRouter } from "./adminRoutes.js";
 import { accountRouter } from "./accountRoutes.js";
@@ -10,6 +11,7 @@ export const authRouter = Router();
 
 authRouter.post("/signup", authenticateSignupAction);
 authRouter.post("/login", authenticateLoginAction);
+authRouter.get("/logout", logoutAction);
 
 // MOUNT userRouter ONTO authRouter
 authRouter.use("/account", accountRouter);

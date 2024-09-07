@@ -1,36 +1,68 @@
+import asyncHandler from "express-async-handler";
 import {
   getAllArticles,
   getAllTopics,
   getArticle,
 } from "../models/ArticleModel.js";
 import { getCommentsByArticle } from "../models/CommentModel.js";
+import { AppError } from "../utils/AppError.js";
 
-export const articleListAction = async (req, res) => {
-  try {
-    const [articles] = await getAllArticles();
-    const [topics] = await getAllTopics();
-    res.render("blog", {
-      title: "Blog",
-      articles,
-      topics,
-    });
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
+export const articleListAction = asyncHandler(async (req, res, next) => {
+  let [articles] = await getAllArticles();
+  const [topics] = await getAllTopics();
 
-export const articleShowAction = async (req, res) => {
-  try {
-    const [article] = await getArticle(+req.params.articleId);
-    const [comments] = await getCommentsByArticle(+req.params.articleId);
-    res.render("article", {
-      title: article[0].articleTitle,
-      article,
-      comments,
-    });
-  } catch (error) {
-    console.log(error);
-    throw error;
+  // if not loggedin user, only see public articles
+  if (!req.user) {
+    articles = await articles.filter(
+      (article) => article.visibility === "public",
+    );
   }
-};
+
+  // if loggedin user, and user's role is trainer or member, can see articles except private and the loggedin user's own articles
+  if (req.user && ["trainer", "member"].includes(req.user.userRole)) {
+    articles = await articles.filter(
+      (article) =>
+        article.visibility !== "private" || article.userId === req.user.userId,
+    );
+  }
+
+  return res.render("blog", {
+    title: "Blog",
+    articles,
+    topics,
+  });
+});
+
+export const articleShowAction = asyncHandler(async (req, res, next) => {
+  const [article] = await getArticle(+req.params.articleId);
+  const [comments] = await getCommentsByArticle(+req.params.articleId);
+
+  if (!article) {
+    return next(new AppError("NOT FOUND", 404));
+  }
+
+  const visi = await article[0].visibility;
+  const articleAuthorId = await article[0].userId;
+
+  if (!req.user && visi !== "public") {
+    return next(
+      new AppError("Sorry, you are not authorised for this article.", 403),
+    );
+  }
+  if (
+    req.user &&
+    req.user.userId !== articleAuthorId &&
+    ["trainer", "member"].includes(req.user.userRole) &&
+    visi === "private"
+  ) {
+    return next(
+      new AppError("Sorry, you are not authorised for this article.", 403),
+    );
+  }
+
+  return res.render("article", {
+    title: article[0].articleTitle,
+    article,
+    comments,
+  });
+});
