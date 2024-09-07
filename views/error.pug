@@ -5,3 +5,5 @@ block content
     .container.flex.flex-col.items-center.justify-center.text-center.mx-auto
       h1.text-9xl #{errorCode}
       p.text-2xl #{errorMsg}
+      if action && Object.keys(action).length !== 0
+        a.btn-bullet.btn-limeGreen.my-5(href=action.link) #{action.text}

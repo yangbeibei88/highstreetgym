@@ -138,7 +138,12 @@ export const protect = asyncHandler(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(new AppError("Please login to get access.", 401));
+    return next(
+      new AppError("Please login to get access.", 401, {
+        text: "Go to Login",
+        link: "/login",
+      }),
+    );
   }
 
   // VERIFY TOKEN

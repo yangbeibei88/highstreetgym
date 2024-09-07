@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { isLoggedIn } from "../controllers/AuthController.js";
+import { isLoggedIn, protect } from "../controllers/AuthController.js";
 import {
   createBookingAction,
   listAccountbookingsAction,
@@ -44,11 +44,15 @@ accountRouter.post(
 
 accountRouter
   .route("/timetable/:timetableId/bookingForm")
-  .get(showBookingFormAction)
-  .post(createBookingAction);
+  .get(protect, showBookingFormAction)
+  .post(protect, createBookingAction);
 
-accountRouter.get("/booking-confirmation/:bookingId", showBookingConfirmAction);
+accountRouter.get(
+  "/booking-confirmation/:bookingId",
+  protect,
+  showBookingConfirmAction,
+);
 
 accountRouter
   .route("/blog/:articleId/commentForm/save")
-  .post(saveCommentAction);
+  .post(protect, saveCommentAction);
