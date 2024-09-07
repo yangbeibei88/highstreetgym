@@ -35,10 +35,10 @@ export const articleListAction = asyncHandler(async (req, res, next) => {
 
 export const articleShowAction = asyncHandler(async (req, res, next) => {
   const [article] = await getArticle(+req.params.articleId);
+  console.log(article);
   const [comments] = await getCommentsByArticle(+req.params.articleId);
-
-  if (!article) {
-    return next(new AppError("NOT FOUND", 404));
+  if (!article || article.length === 0) {
+    return next(new AppError("This article not found", 404));
   }
 
   const visi = await article[0].visibility;

@@ -1,0 +1,7 @@
+extends layouts/main.pug
+
+block content 
+  main#error-content.flex.items-center.justify-center.grow
+    .container.flex.flex-col.items-center.justify-center.text-center.mx-auto
+      h1.text-9xl #{errorCode}
+      p.text-2xl #{errorMsg}

@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 import cookieParser from "cookie-parser";
 import { publicRouter } from "./routes/publicRoutes.js";
 import { authRouter } from "./routes/authRoutes.js";
+import { AppError } from "./utils/AppError.js";
+import { globalErrorHandler } from "./controllers/ErrorController.js";
 
 export const app = express();
 
@@ -33,13 +35,9 @@ app.use(cookieParser());
 app.use("/", publicRouter);
 app.use("/auth", authRouter);
 
-// app.get("/booking", (req, res) => {
-//   res.render("booking", { title: "Booking" });
-// });
-// app.get("/booking-confirm", (req, res) => {
-//   res.render("booking-confirm", { title: "Booking Confirm" });
-// });
+// HANDLE UNHANDLED ROUTES
+app.all("*", (req, res, next) => {
+  next(new AppError(`${req.originalUrl} NOT FOUND`, 404));
+});
 
-// app.get("/create-article", (req, res) => {
-//   res.render("create-article", { title: "Create Article" });
-// });
+app.use(globalErrorHandler);
