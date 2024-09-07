@@ -89,7 +89,7 @@ export const authenticateLoginAction = asyncHandler(async (req, res, next) => {
   }
 
   // 3) CHECK IF LOGIN EMAIL & PASSWORD ARE CORRECT
-  const [user] = await findUserByEmail(req.body.login_email);
+  const user = await findUserByEmail(req.body.login_email);
   const verifyPasswordPromise = await bcrypt.compare(
     req.body.login_password,
     user[0].password,
@@ -125,6 +125,38 @@ export const logoutAction = (req, res, next) => {
   }
 };
 
+export const protect = asyncHandler(async (req, res, next) => {
+  // 1) GET TOKEN
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
+
+  if (!token) {
+    return next(new AppError("Please login to get access.", 401));
+  }
+
+  // VERIFY TOKEN
+  const decoded = await decodeJwt(req.cookies.jwt, process.env.JWT_SECRET);
+
+  // 3) CHECK IF USER STILL EXISTS
+  const user = await getUser(decoded.id);
+
+  if (!user || user.length === 0) {
+    return next(new AppError("User does not exists", 401));
+  }
+
+  const authUser = user.pop();
+  req.user = authUser;
+  res.locals.user = authUser;
+  next();
+});
+
 export const isLoggedIn = async (req, res, next) => {
   // 1) TO CHECK IF A USER IS A LOGGED-IN USER OR NOT, CHECK IF JWT TOKEN EXISTS IN COOKIES
   if (req.cookies.jwt) {
@@ -133,11 +165,11 @@ export const isLoggedIn = async (req, res, next) => {
       const decoded = await decodeJwt(req.cookies.jwt, process.env.JWT_SECRET);
 
       // 2) CHECK IF USER STILL EXISTS
-      const [user] = await getUser(decoded.id);
+      const user = await getUser(decoded.id);
       console.log(decoded);
       // console.log(user);
       // 3) IF USER NOT EXIST, RETURN NEXT MIDDLEWARE
-      if (!user.length) {
+      if (!user || !user.length) {
         return next();
       }
       // 4) TODO: CHECK IF USER CHANGED PASSWORD AFTER JWT TOKEN WAS ISSUED

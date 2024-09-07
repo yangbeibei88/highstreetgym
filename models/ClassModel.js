@@ -16,7 +16,8 @@ export const getAllClasses = async () => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM classes";
-    return await conn.execute(sql);
+    const [rows] = await conn.execute(sql);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;

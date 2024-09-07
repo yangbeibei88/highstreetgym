@@ -6,7 +6,8 @@ export const getAllUsers = async () => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM users";
-    return await conn.execute(sql);
+    const [rows] = await conn.execute(sql);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -19,7 +20,8 @@ export const getUser = async (id) => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM users WHERE userId = ?";
-    return await conn.execute(sql, [id]);
+    const [rows] = await conn.execute(sql, [id]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -32,7 +34,8 @@ export const getTrainers = async () => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM users WHERE userRole = ?";
-    return await conn.execute(sql, ["trainer"]);
+    const [rows] = await conn.execute(sql, ["trainer"]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -44,7 +47,8 @@ export const getTrainerById = async (id) => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM users WHERE userRole = ? AND userId = ?";
-    return await conn.execute(sql, ["trainer", +id]);
+    const [rows] = await conn.execute(sql, ["trainer", +id]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -59,7 +63,8 @@ export const findUserByEmail = async (email) => {
     const sql = "SELECT * FROM users WHERE emailAddress = ?";
     // const [data] = await conn.execute(sql, [email]);
     // return data.pop(); // return object
-    return await conn.execute(sql, [email]);
+    const [rows] = await conn.execute(sql, [email]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;

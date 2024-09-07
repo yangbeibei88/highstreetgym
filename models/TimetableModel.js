@@ -7,7 +7,8 @@ export const getAllTimetables = async () => {
   try {
     const sql =
       "SELECT tt.*, cl.className, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId WHERE tt.startDateTime >= CURRENT_TIMESTAMP() ORDER BY tt.startDateTime";
-    return await conn.execute(sql);
+    const [rows] = await conn.execute(sql);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -21,7 +22,8 @@ export const getTimetableByClassId = async (classId) => {
   try {
     const sql =
       "SELECT tt.*, cl.className, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId WHERE (tt.classId = ? AND tt.startDateTime >= CURRENT_TIMESTAMP()) ORDER BY tt.startDateTime";
-    return await conn.execute(sql, [classId]);
+    const [rows] = await conn.execute(sql, [classId]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -37,7 +39,8 @@ export const getTimetableById = async (timetableId) => {
       "SELECT tt.*, cl.className, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId WHERE (tt.timetableId = ?)";
 
     // date condition: AND tt.startDateTime >= CURRENT_TIMESTAMP()
-    return await conn.execute(sql, [timetableId]);
+    const [rows] = await conn.execute(sql, [timetableId]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -51,7 +54,8 @@ export const getTimetableByUserId = async (userId) => {
   try {
     const sql =
       "SELECT tt.timetableId, b.bookingId, u.userId FROM timetables tt INNER JOIN bookings b ON tt.timetableId = b.timetableId INNER JOIN users u ON u.userId = b.userId WHERE u.userId = ?";
-    return await conn.execute(sql, [userId]);
+    const [rows] = await conn.execute(sql, [userId]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -211,7 +215,8 @@ export const getTimetableByNo = async (timetableNo) => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM timetables WHERE timetableNo = ?";
-    return await conn.execute(sql, [timetableNo]);
+    const [rows] = await conn.execute(sql, [timetableNo]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;

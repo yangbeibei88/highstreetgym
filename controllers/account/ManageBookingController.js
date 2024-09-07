@@ -18,14 +18,14 @@ export const listAccountbookingsAction = asyncHandler(
     let bookings;
     switch (req.user.userRole) {
       case "admin":
-        [bookings] = await getAllBookings();
+        bookings = await getAllBookings();
         break;
       case "member":
-        [bookings] = await getBookingByUser(req.user.userId);
+        bookings = await getBookingByUser(req.user.userId);
         break;
 
       default:
-        [bookings] = await getBookingByUser(req.user.userId);
+        bookings = await getBookingByUser(req.user.userId);
         break;
     }
     // const [bookings] = await getBookingByUser(req.user.userId);
@@ -39,16 +39,19 @@ export const listAccountbookingsAction = asyncHandler(
 // USERS WHO NEVER BOOKED A TIMETABLE CLASS ARE ALLOWED TO ACCESS BOOKING FORM
 // TODO: POPUP FOR BOOKED USER
 export const showBookingFormAction = asyncHandler(async (req, res, next) => {
-  const [result] = await getTimetableById(+req.params.timetableId);
-  const [myBookings] = await getTimetableByUserId(req.user.userId);
+  const result = await getTimetableById(+req.params.timetableId);
+  const myBookings = await getTimetableByUserId(req.user.userId);
   const myBookingTimetableIds = await myBookings.reduce((acc, cur) => {
     acc.push(cur.timetableId);
     return acc;
   }, []);
-  if (!result) {
+  if (!result || result.length === 0) {
     return next(new AppError("Timetable not found", 404));
   }
-  if (myBookingTimetableIds.includes(+req.params.timetableId)) {
+  if (
+    myBookingTimetableIds &&
+    myBookingTimetableIds.includes(+req.params.timetableId)
+  ) {
     return next(new AppError("It seems you have booked this class", 400));
   }
   const timetable = await result[0];
