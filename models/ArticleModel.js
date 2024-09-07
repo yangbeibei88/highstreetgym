@@ -13,7 +13,8 @@ export const getAllArticles = async () => {
   try {
     const sql =
       "SELECT a.*, t.topicName, u.firstName, u.lastName, u.avatar FROM articles a INNER JOIN topics t ON a.topicId = t.topicId INNER JOIN users u ON a.userId = u.userId ORDER BY a.createdAt DESC";
-    return conn.execute(sql);
+    const [rows] = await conn.execute(sql);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -41,7 +42,8 @@ export const getArticle = async (id) => {
   try {
     const sql =
       "SELECT a.*, t.topicName, u.firstName, u.lastName, u.avatar FROM articles a INNER JOIN topics t ON a.topicId = t.topicId INNER JOIN users u ON a.userId = u.userId WHERE a.articleId = ?";
-    return await conn.execute(sql, [id]);
+    const [row] = await conn.execute(sql, [id]);
+    return row;
   } catch (error) {
     console.log(error);
     throw error;
@@ -69,7 +71,8 @@ export const getAllTopics = async () => {
   try {
     const sql =
       "SELECT t.*, COUNT(a.topicId) AS count FROM topics t LEFT JOIN articles a ON t.topicId = a.topicId GROUP BY t.topicId ORDER BY t.topicName";
-    return await conn.execute(sql);
+    const [rows] = await conn.execute(sql);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;

@@ -8,8 +8,8 @@ import { getCommentsByArticle } from "../models/CommentModel.js";
 import { AppError } from "../utils/AppError.js";
 
 export const articleListAction = asyncHandler(async (req, res, next) => {
-  let [articles] = await getAllArticles();
-  const [topics] = await getAllTopics();
+  let articles = await getAllArticles();
+  const topics = await getAllTopics();
 
   // if not loggedin user, only see public articles
   if (!req.user) {
@@ -34,9 +34,9 @@ export const articleListAction = asyncHandler(async (req, res, next) => {
 });
 
 export const articleShowAction = asyncHandler(async (req, res, next) => {
-  const [article] = await getArticle(+req.params.articleId);
+  const article = await getArticle(+req.params.articleId);
   console.log(article);
-  const [comments] = await getCommentsByArticle(+req.params.articleId);
+  const comments = await getCommentsByArticle(+req.params.articleId);
   if (!article || article.length === 0) {
     return next(new AppError("This article not found", 404));
   }
@@ -62,7 +62,7 @@ export const articleShowAction = asyncHandler(async (req, res, next) => {
 
   return res.render("article", {
     title: article[0].articleTitle,
-    article,
+    article: article[0],
     comments,
   });
 });

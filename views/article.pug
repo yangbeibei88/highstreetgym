@@ -2,29 +2,29 @@ extends layouts/main.pug
 include partials/_fieldErrorMsg.pug
 
 block content 
-  .wrapper.overflow-hidden.bg-cover.bg-no-repeat.bg-center.bg-scroll(style=`background-image: linear-gradient(to bottom, var(--tw-gradient-from), var(--tw-gradient-to)), url('/images/blog/${article[0].imageCover}')` class='bg-gradient-to-b from-limeGreen')
+  .wrapper.overflow-hidden.bg-cover.bg-no-repeat.bg-center.bg-scroll(style=`background-image: linear-gradient(to bottom, var(--tw-gradient-from), var(--tw-gradient-to)), url('/images/blog/${article.imageCover}')` class='bg-gradient-to-b from-limeGreen')
     .container.mx-auto.bg-white.px-6.pb-10.my-6.mb-10.shadow-lg
       // 1) HEADER
       header.text-midnightBlue
         .container.mx-auto.px-4.pt-3.mb-4(class='md:px-0 md:py-4')
           // 0) BADGE
-          small.text-xs.font-semibold.bg-orange-700.text-white.rounded-full.w-fit.px-3.py-1 #{article[0].topicName}
-          h1 #{article[0].articleTitle}
+          small.text-xs.font-semibold.bg-orange-700.text-white.rounded-full.w-fit.px-3.py-1 #{article.topicName}
+          h1 #{article.articleTitle}
           .flex.items-center.space-x-2.mr-auto
-            img.size-8.rounded-full.object-cover(src=`/images/users/${article[0].avatar}` alt=`${article[0].firstName} ${article[0].lastName}` class='md:size-12')
+            img.size-8.rounded-full.object-cover(src=`/images/users/${article.avatar}` alt=`${article.firstName} ${article.lastName}` class='md:size-12')
             small.text-xs
-              | #{article[0].firstName}
-              | #{article[0].lastName}
-            small.text-xs #{article[0].createdAt.toLocaleDateString('en-AU')}
-        img.w-full.h-96.rounded-lg.shadow-lg.object-cover(src=`/images/blog/${article[0].imageCover}` alt=`${article[0].articleTitle}`)
+              | #{article.firstName}
+              | #{article.lastName}
+            small.text-xs #{article.createdAt.toLocaleDateString('en-AU')}
+        img.w-full.h-96.rounded-lg.shadow-lg.object-cover(src=`/images/blog/${article.imageCover}` alt=`${article.articleTitle}`)
       main#article-content
       p
-        | !{article[0].articleContent}
+        | !{article.articleContent}
   section#comments.bg-slate-100
     .container.mx-auto.py-6
       h2 Comments
-      form#form-comment.mb-4(method='POST' action=`/auth/account/blog/${article[0].articleId}/commentForm/save` novalidate)
-        input(type='hidden' name='articleId' value=`${article[0].articleId}`)
+      form#form-comment.mb-4(method='POST' action=`/auth/account/blog/${article.articleId}/commentForm/save` novalidate)
+        input(type='hidden' name='articleId' value=`${article.articleId}`)
         textarea#commentInput(name='comment' placeholder='Write your comment here' required) #{inputData && inputData.comment || ''}
         +fieldErrorMsg('comment')
         button.btn-bullet.btn-limeGreen.btn-sm(type='submit') Submit
