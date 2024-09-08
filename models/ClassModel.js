@@ -31,7 +31,8 @@ export const getClass = async (id) => {
   // TODO: two parts: class & timetable
   try {
     const sql = "SELECT * FROM classes WHERE classId = ?";
-    return await conn.execute(sql, [id]);
+    const [rows] = await conn.execute(sql, [id]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -205,7 +206,8 @@ export const getClassByName = async (className) => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM classes WHERE className = ?";
-    return await conn.execute(sql, [className]);
+    const [rows] = await conn.execute(sql, [className]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -218,7 +220,8 @@ export const getClassByCode = async (classCode) => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM classes WHERE classCode = ?";
-    return await conn.execute(sql, [classCode]);
+    const [rows] = await conn.execute(sql, [classCode]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;

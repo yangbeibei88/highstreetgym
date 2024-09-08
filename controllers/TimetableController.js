@@ -10,9 +10,10 @@ export const timetableListAction = asyncHandler(async (req, res, next) => {
   let myBookingTimetableIds = [];
   const timetables = await getAllTimetables();
   const classes = await getAllClasses();
-
+  console.log(req.user);
   if (req.user) {
     myBookings = await getTimetableByUserId(req.user.userId);
+    console.log(myBookings);
     myBookingTimetableIds = await myBookings.reduce((acc, cur) => {
       acc.push(cur.timetableId);
       return acc;

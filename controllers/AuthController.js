@@ -179,7 +179,7 @@ export const isLoggedIn = async (req, res, next) => {
 
       // IF PASSED ALL, THEN AUTHORIZE TO VIEW PAGES
       const loggedInUser = user.pop();
-      // req.user = loggedInUser;
+      req.user = loggedInUser;
       res.locals.user = loggedInUser;
       // console.log(loggedInUser);
       return next();

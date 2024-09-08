@@ -52,13 +52,19 @@ export const showBookingFormAction = asyncHandler(async (req, res, next) => {
     myBookingTimetableIds &&
     myBookingTimetableIds.includes(+req.params.timetableId)
   ) {
-    return next(new AppError("It seems you have booked this class", 400));
+    return next(
+      new AppError("It seems you have booked this class", 400, {
+        text: "back",
+        link: req.get("referer") || "/timetable",
+      }),
+    );
   }
   const timetable = await result[0];
   // console.log(timetable);
   res.status(200).render("account/bookingForm", {
     title: "Booking",
     timetable,
+    referer: req.get("referer") || "/",
   });
 });
 
