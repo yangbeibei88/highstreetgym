@@ -54,8 +54,8 @@ export const showBookingFormAction = asyncHandler(async (req, res, next) => {
   ) {
     return next(
       new AppError("It seems you have booked this class", 400, {
-        text: "back",
-        link: req.get("referer") || "/timetable",
+        text: "Go To My Bookings",
+        link: "/auth/account/manage-bookings",
       }),
     );
   }
