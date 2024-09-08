@@ -113,16 +113,14 @@ export const authenticateLoginAction = asyncHandler(async (req, res, next) => {
 });
 
 export const logoutAction = (req, res, next) => {
-  try {
-    return res
-      .cookie("jwt", "loggedout", {
-        expires: new Date(Date.now() + 10 * 1000),
-        httpOnly: true,
-      })
-      .redirect(301, "/");
-  } catch (error) {
-    console.log(error);
-  }
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.cookie("jwt", "", {
+    expires: new Date(0),
+    httpOnly: true,
+    path: "/",
+  });
+  console.log("Logout cookie cleared:", req.cookies.jwt);
+  res.redirect("/?loggedout=true");
 };
 
 export const protect = asyncHandler(async (req, res, next) => {
@@ -137,7 +135,7 @@ export const protect = asyncHandler(async (req, res, next) => {
     token = req.cookies.jwt;
   }
 
-  if (!token) {
+  if (!token || token === "") {
     return next(
       new AppError("Please login to get access.", 401, {
         text: "Go to Login",
@@ -147,7 +145,7 @@ export const protect = asyncHandler(async (req, res, next) => {
   }
 
   // VERIFY TOKEN
-  const decoded = await decodeJwt(req.cookies.jwt, process.env.JWT_SECRET);
+  const decoded = await decodeJwt(token, process.env.JWT_SECRET);
 
   // 3) CHECK IF USER STILL EXISTS
   const user = await getUser(decoded.id);
@@ -181,11 +179,12 @@ export const isLoggedIn = async (req, res, next) => {
 
       // IF PASSED ALL, THEN AUTHORIZE TO VIEW PAGES
       const loggedInUser = user.pop();
-      req.user = loggedInUser;
-      res.locals.loggedInUser = loggedInUser;
+      // req.user = loggedInUser;
+      res.locals.user = loggedInUser;
       // console.log(loggedInUser);
       return next();
     } catch (error) {
+      console.error("JWT verification error:", error);
       return next();
     }
   }

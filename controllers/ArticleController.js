@@ -46,7 +46,10 @@ export const articleShowAction = asyncHandler(async (req, res, next) => {
 
   if (!req.user && visi !== "public") {
     return next(
-      new AppError("Sorry, you are not authorised for this article.", 403),
+      new AppError("Please login to read this article", 401, {
+        text: "Go to Login",
+        link: "/login",
+      }),
     );
   }
   if (

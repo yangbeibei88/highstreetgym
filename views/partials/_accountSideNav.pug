@@ -1,7 +1,3 @@
-include _userRoleVariable.pug
-
-//- +roleVariable()
-
 mixin sideNavItem(name, role, slug, active)
   li(data-active=`${active}`)
     a.block.p-4.capitalize(href=`/auth/${role}/${slug}` class=`${active === true ? 'bg-limeGreen' : 'hover:bg-limeGreen hover:underline'}`)
@@ -10,7 +6,7 @@ mixin sideNavItem(name, role, slug, active)
 nav.order-1
   ul#account-menu-list.text-midnightBlue.flex.flex-col.font-semibold
     +sideNavItem('my dashboard', 'account', 'my-dashboard', true)
-    if loggedInUser.userRole === 'admin'
+    if user.userRole === 'admin'
       +sideNavItem('classes', 'admin', 'manage-classes', false)
       +sideNavItem('timetable', 'admin', 'manage-timetable', false)
       +sideNavItem('users', 'admin', 'manage-users', false)
@@ -18,7 +14,7 @@ nav.order-1
       +sideNavItem('articles', 'account', 'manage-articles', false)
       +sideNavItem('comments', 'account', 'manage-comments', false)
       +sideNavItem('data import', 'admin', 'data-import', false)
-    else     
+    else 
       +sideNavItem('my bookings', 'account', 'manage-bookings', false)
       +sideNavItem('my articles', 'account', 'manage-articles', false)
       +sideNavItem('my comments', 'account', 'manage-comments', false)

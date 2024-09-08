@@ -14,10 +14,11 @@ export const createSendToken = (res, user) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
+    path: "/",
   };
 
   // set secure to true only in production mode
-  // cookieOption.secure = process.env.NODE_ENV === "production";
+  cookieOption.secure = process.env.NODE_ENV === "production";
 
   res.cookie("jwt", token, cookieOption);
 };

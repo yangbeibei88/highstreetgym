@@ -18,7 +18,6 @@ import {
 export const publicRouter = Router();
 
 publicRouter.use(isLoggedIn);
-
 publicRouter.get("/", renderHomeAction);
 publicRouter.get("/login", renderLoginAction);
 publicRouter.get("/signup", renderSignupAction);

@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { isLoggedIn, protect } from "../controllers/AuthController.js";
+import {
+  isLoggedIn,
+  logoutAction,
+  protect,
+} from "../controllers/AuthController.js";
 import {
   createBookingAction,
   listAccountbookingsAction,
@@ -22,7 +26,8 @@ import { imageUpload } from "../utils/uploadHandler.js";
 
 export const accountRouter = Router();
 
-accountRouter.use(isLoggedIn);
+// accountRouter.use(isLoggedIn);
+accountRouter.use(protect);
 
 accountRouter.get("/my-dashboard", showMydashboardAction);
 accountRouter.get("/manage-bookings", listAccountbookingsAction);
