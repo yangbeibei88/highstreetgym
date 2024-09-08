@@ -57,7 +57,8 @@ export const getArticlesByUser = async (userId) => {
   try {
     const sql =
       "SELECT a.*, t.topicName, u.firstName, u.lastName, u.avatar FROM articles a INNER JOIN topics t ON a.topicId = t.topicId INNER JOIN users u ON a.userId = u.userId WHERE a.userId = ? ORDER BY a.createdAt DESC";
-    return await conn.execute(sql, [userId]);
+    const [rows] = await conn.execute(sql, [userId]);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;
@@ -86,7 +87,8 @@ export const getTopics = async () => {
   const conn = await dbPool.getConnection();
   try {
     const sql = "SELECT * FROM topics ORDER BY topicName";
-    return await conn.execute(sql);
+    const [rows] = await conn.execute(sql);
+    return rows;
   } catch (error) {
     console.log(error);
     throw error;

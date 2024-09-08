@@ -22,6 +22,8 @@ export const listAccountArticlesAction = async (req, res, next) => {
   } else {
     articles = await getArticlesByUser(req.user.userId);
   }
+
+  console.log(articles);
   res
     .status(200)
     .render("account/manage-articles", { title: "My Articles", articles });
