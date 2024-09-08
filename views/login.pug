@@ -1,5 +1,6 @@
 extends layouts/main.pug
 include partials/_fieldErrorMsg.pug
+include partials/_link.pug
 
 block content 
   // Want to change layout to left iamge, right login form, hide nav menu
@@ -34,13 +35,7 @@ block content
           span Login
           svg.size-6
             use(xlink:href='/icons/sprites/solid.svg#right-to-bracket' fill='currentColor')
-      a.text-sm.text-darkCyan.underline.underline-offset-2.decoration-dotted(href='/forgot-password' class='hover:brightness-125 hover:decoration-solid')
-        | Forgot
-        | my
-        | password?
+      +link('Forgot my password?', '/forgot-password')
       p
         | Don&apos;t have an account? 
-        a.text-sm.text-darkCyan.underline.underline-offset-2.decoration-dotted(href='/signup' class='hover:brightness-125 hover:decoration-solid')
-          | Sign
-          | up here!
-
+        +link('Sign up here!', '/signup')

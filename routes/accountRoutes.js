@@ -1,9 +1,5 @@
 import { Router } from "express";
-import {
-  isLoggedIn,
-  logoutAction,
-  protect,
-} from "../controllers/AuthController.js";
+import { protect } from "../controllers/AuthController.js";
 import {
   createBookingAction,
   listAccountbookingsAction,

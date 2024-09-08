@@ -1,5 +1,7 @@
 extends layouts/main.pug
 include partials/_fieldErrorMsg.pug
+include partials/_link.pug
+
 
 block content 
   .wrapper.overflow-hidden.bg-cover.bg-no-repeat.bg-center.bg-scroll(style=`background-image: linear-gradient(to bottom, var(--tw-gradient-from), var(--tw-gradient-to)), url('/images/blog/${article.imageCover}')` class='bg-gradient-to-b from-limeGreen')
@@ -23,11 +25,15 @@ block content
   section#comments.bg-slate-100
     .container.mx-auto.py-6
       h2 Comments
-      form#form-comment.mb-4(method='POST' action=`/auth/account/blog/${article.articleId}/commentForm/save` novalidate)
-        input(type='hidden' name='articleId' value=`${article.articleId}`)
-        textarea#commentInput(name='comment' placeholder='Write your comment here' required) #{inputData && inputData.comment || ''}
-        +fieldErrorMsg('comment')
-        button.btn-bullet.btn-limeGreen.btn-sm(type='submit') Submit
+      if user
+        form#form-comment.mb-4(method='POST' action=`/auth/account/blog/${article.articleId}/commentForm/save` novalidate)
+          input(type='hidden' name='articleId' value=`${article.articleId}`)
+          textarea#commentInput(name='comment' placeholder='Write your comment here' required) #{inputData && inputData.comment || ''}
+          +fieldErrorMsg('comment')
+          button.btn-bullet.btn-limeGreen.btn-sm(type='submit') Submit
+      else 
+        +link('Login to leave a comment 🚀', '/login')
+      |
       section#member-comments.mb-6
         - for(let c of comments)
           article.flex.items-center.bg-white.border.px-4.py-2.space-x-3

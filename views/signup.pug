@@ -1,5 +1,6 @@
 extends layout.pug
 include partials/_fieldErrorMsg.pug
+include partials/_link.pug
 
 block content 
   main#signup.flex.items-center.justify-center.py-10.px-4.bg-gray-300
@@ -70,6 +71,4 @@ block content
             use(xlink:href='/icons/sprites/solid.svg#right-to-bracket' fill='currentColor')
     p
       | Existing gym member? 
-      a.text-sm.text-darkCyan.underline.underline-offset-2.decoration-dotted(href='/login' class='hover:brightness-125 hover:decoration-solid')
-        | Login
-        | here!
+      +link('Login here!', '/login')
