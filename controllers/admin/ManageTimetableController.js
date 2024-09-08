@@ -19,7 +19,7 @@ import {
 } from "../../utils/validation.js";
 
 export const listAdminTimetableAction = asyncHandler(async (req, res, next) => {
-  const [timetables] = await getAllTimetables();
+  const timetables = await getAllTimetables();
   res.status(200).render("admin/manage-timetable", {
     title: "Manage Timetable",
     timetables,
@@ -27,8 +27,8 @@ export const listAdminTimetableAction = asyncHandler(async (req, res, next) => {
 });
 
 export const showTimetableFormAction = asyncHandler(async (req, res, next) => {
-  const [classes] = await getAllClasses();
-  const [trainers] = await getTrainers();
+  const classes = await getAllClasses();
+  const trainers = await getTrainers();
   const levelOptions = await getLevels();
 
   // INIT
@@ -43,7 +43,7 @@ export const showTimetableFormAction = asyncHandler(async (req, res, next) => {
   };
 
   if (req.params.timetableId) {
-    const [timetable] = await getTimetableById(+req.params.timetableId);
+    const timetable = await getTimetableById(+req.params.timetableId);
     if (!timetable) {
       next(new AppError("NOT FOUND", 404));
     }
@@ -60,15 +60,15 @@ export const showTimetableFormAction = asyncHandler(async (req, res, next) => {
 });
 
 export const saveTimetableFormAction = asyncHandler(async (req, res, next) => {
-  const [classes] = await getAllClasses();
-  const [trainers] = await getTrainers();
+  const classes = await getAllClasses();
+  const trainers = await getTrainers();
   const levelOptions = await getLevels();
 
   const timetableId = req.body.timetableId ? +req.body.timetableId : null;
 
   let existingTimetable = null;
   if (timetableId) {
-    const [existingTimetableData] = await getTimetableById(timetableId);
+    const existingTimetableData = await getTimetableById(timetableId);
     existingTimetable = existingTimetableData[0];
   }
 

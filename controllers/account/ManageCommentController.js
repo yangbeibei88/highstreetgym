@@ -12,8 +12,8 @@ export const listAccountCommentsAction = async (req, res, next) => {
 };
 
 export const saveCommentAction = asyncHandler(async (req, res, next) => {
-  const [article] = await getArticle(+req.params.articleId);
-  const [comments] = await getCommentsByArticle(+req.params.articleId);
+  const article = await getArticle(+req.params.articleId);
+  const comments = await getCommentsByArticle(+req.params.articleId);
   await sanitizeTextarea("comment", 5, 200, true).run(req);
 
   const errors = validationResult(req);

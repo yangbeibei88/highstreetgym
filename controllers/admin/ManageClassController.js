@@ -19,7 +19,7 @@ import {
 } from "../../utils/validation.js";
 
 export const listAdminClassesAction = asyncHandler(async (req, res, next) => {
-  const [classes] = await getAllClasses();
+  const classes = await getAllClasses();
 
   res.status(200).render("admin/manage-classes", {
     title: "Manage Classes",
@@ -43,7 +43,7 @@ export const showClassFormAction = asyncHandler(async (req, res, next) => {
   };
 
   if (req.params.classId) {
-    const [course] = await getClass(+req.params.classId);
+    const course = await getClass(+req.params.classId);
     if (!course) {
       next(new AppError("NOT FOUND", 404));
     }
