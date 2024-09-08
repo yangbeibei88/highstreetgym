@@ -95,3 +95,16 @@ export const insertUser = async (user) => {
     conn.release();
   }
 };
+
+export const updatePassword = async (user) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql = "UPDATE users SET password = ? WHERE userId = ?";
+    await conn.execute(sql, [user.password, user.userId]);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};

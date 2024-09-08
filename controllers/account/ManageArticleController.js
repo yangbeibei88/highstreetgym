@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import { validationResult } from "express-validator";
 import {
+  getAllArticles,
   getArticle,
   getArticlesByUser,
   getTopics,
@@ -15,14 +16,19 @@ import {
 import { AppError } from "../../utils/AppError.js";
 
 export const listAccountArticlesAction = async (req, res, next) => {
-  const [articles] = await getArticlesByUser(req.user.userId);
+  let articles;
+  if (req.user.userRole === "admin") {
+    articles = await getAllArticles();
+  } else {
+    articles = await getArticlesByUser(req.user.userId);
+  }
   res
     .status(200)
     .render("account/manage-articles", { title: "My Articles", articles });
 };
 
 export const showArticleFormAction = asyncHandler(async (req, res, next) => {
-  const [topics] = await getTopics();
+  const topics = await getTopics();
   const visibilityOptions = await getVisibilityOptions();
   // INITIALISE THE FORM
   let inputData = {
@@ -37,7 +43,7 @@ export const showArticleFormAction = asyncHandler(async (req, res, next) => {
 
   // IF IT'S ARTICLE EDIT, CHECK PARAMS ID
   if (req.params.articleId) {
-    const [article] = await getArticle(+req.params.articleId);
+    const article = await getArticle(+req.params.articleId);
     if (!article) {
       return next(new AppError("NOT FOUND", 404));
     }
@@ -53,7 +59,7 @@ export const showArticleFormAction = asyncHandler(async (req, res, next) => {
 
 export const saveArticleAction = asyncHandler(async (req, res, next) => {
   const visibilityOptions = await getVisibilityOptions();
-  const [topics] = await getTopics();
+  const topics = await getTopics();
   const topicOptions = topics.map((row) => `${row.topicId}`);
   // const articleId = req.body.articleId ? +req.body.articleId : null;
 

@@ -1,10 +1,6 @@
 extends ../layouts/main.pug 
-include ../partials/_userRoleVariable.pug
 include ../partials/_tableHeaderItem.pug
 include ../partials/_tableCellItem.pug
-
-block variables
-  +roleVariable()
 
 block content 
   .page-wrapper
@@ -14,7 +10,7 @@ block content
         h1 My Articles
     // 2) MAIN CCONTENT
     .wrapper.bg-slate-100
-      .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+      .grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
         // 2) MAIN CONTENT
         main#my-articles.col-span-1.order-2(class='md:col-span-3')
           // Search & Filter
@@ -37,19 +33,21 @@ block content
               | 10 results
             thead.text-sm.text-white.bg-darkCyan
               tr
-                +tableHeaderItem('Date Created')
-                +tableHeaderItem('Date Updated')
                 +tableHeaderItem('Title')
                 +tableHeaderItem('Topic')
+                +tableHeaderItem('Member')
+                +tableHeaderItem('Date Created')
+                +tableHeaderItem('Date Updated')
                 +tableHeaderItem('Visibility')
                 +tableHeaderItem('Edit')
             tbody
               - for(let post of articles)
                 tr
-                  +tableCellItem('date_created', post.createdAt)
-                  +tableCellItem('date_updated', post.updatedAt)
                   +tableCellItem('article_title', post.articleTitle)
                   +tableCellItem('topic', post.topicName)
+                  +tableCellItem('member', post.firstName+' '+post.lastName)
+                  +tableCellItem('date_created', post.createdAt)
+                  +tableCellItem('date_updated', post.updatedAt)
                   +tableCellItem('visibility', post.visibility)
                   td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
                     a.btn.btn-sm.btn-limeGreen(href=`/auth/account/articleForm/${post.articleId}/edit`) Edit

@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { protect } from "../controllers/AuthController.js";
+import {
+  protect,
+  updatePasswordAction,
+} from "../controllers/AuthController.js";
 import {
   createBookingAction,
   listAccountbookingsAction,
@@ -45,8 +48,8 @@ accountRouter.post(
 
 accountRouter
   .route("/timetable/:timetableId/bookingForm")
-  .get(protect, showBookingFormAction)
-  .post(protect, createBookingAction);
+  .get(showBookingFormAction)
+  .post(createBookingAction);
 
 accountRouter.get(
   "/booking-confirmation/:bookingId",
@@ -57,3 +60,5 @@ accountRouter.get(
 accountRouter
   .route("/blog/:articleId/commentForm/save")
   .post(protect, saveCommentAction);
+
+accountRouter.post("/change-password/save", updatePasswordAction);

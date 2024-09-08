@@ -8,7 +8,12 @@ import {
   validatePhoneNumber,
   validateText,
 } from "../utils/validation.js";
-import { findUserByEmail, getUser, insertUser } from "../models/UserModel.js";
+import {
+  findUserByEmail,
+  getUser,
+  insertUser,
+  updatePassword,
+} from "../models/UserModel.js";
 import { createSendToken, decodeJwt } from "../utils/jwtToken.js";
 import { AppError } from "../utils/AppError.js";
 
@@ -201,3 +206,53 @@ export const authorisedTo =
     }
     next();
   };
+
+export const updatePasswordAction = asyncHandler(async (req, res, next) => {
+  const user = await getUser(req.user.userId);
+  // 1) CHECK IF ENTERED CURRENT PASSWORD IS CORRECT
+  const verifyPasswordPromise = await bcrypt.compare(
+    req.body.currentPassword,
+    user[0].password,
+  );
+
+  console.log(verifyPasswordPromise);
+
+  if (!verifyPasswordPromise) {
+    return res.status(401).render("account/change-password", {
+      title: "Change Password - Incorrect ❌",
+      credentialError: "Incorrect password",
+    });
+  }
+  // 2) IF CURRENT PASSWORD IS CORRECT, CHECK IF NEW PASSWORD AND ITS PASSWORD CONFIRM IS MATCHED
+  await Promise.all([
+    validatePassword("newPassword", true).run(req),
+    compareString("Passwords", "newPassword", "confirmNewPassword").run(req),
+  ]);
+
+  // 2) EXTRACT VALIDATION ERRORS
+  const errors = validationResult(req);
+  console.log(errors);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).render("account/change-password", {
+      title: "Change Password - INVALID ❌",
+      errors: errors.array(),
+    });
+  }
+
+  // 4) HASH PASSWORD
+  const password = await bcrypt.hash(req.body.newPassword, 12);
+  user[0].password = password;
+  console.log(user[0]);
+
+  // UPDATE DB
+  await updatePassword(user[0]);
+
+  createSendToken(res, user[0]);
+
+  return res.render("account/change-password", {
+    title: "Change Password - Success🎉",
+    success: true,
+    successMsg: "Your password has been updated successfully!",
+  });
+});
