@@ -1,10 +1,14 @@
 import { fileURLToPath } from "node:url";
 import { resolve, dirname } from "node:path";
+// eslint-disable-next-line import/no-extraneous-dependencies, node/no-unpublished-import
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+// eslint-disable-next-line import/no-extraneous-dependencies, node/no-unpublished-import
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default {
-  mode: "development",
+  mode: process.env.NODE_ENV === "production" ? "production" : "development",
   entry: "./src/index.js",
   output: {
     path: resolve(__dirname, "../public/bundle"),
@@ -28,7 +32,8 @@ export default {
         test: /\.css$/i,
         include: resolve(__dirname, "./src"),
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
+          // "style-loader",
           // I previous have issue that webpack laaded the wrong path for font-face and background image, disable url so that webpack won't process url
           { loader: "css-loader", options: { url: false } },
           "postcss-loader",
@@ -38,7 +43,8 @@ export default {
         test: /\.css$/i,
         include: resolve(__dirname, "node_modules/quill"), // For Quill's CSS, allow URL processing
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
+          // "style-loader",
           // I previous have issue that webpack laaded the wrong path for font-face and background image, disable url so that webpack won't process url
           { loader: "css-loader", options: { url: false } },
           "postcss-loader",
@@ -56,4 +62,9 @@ export default {
       },
     ],
   },
+  optimization: {
+    minimize: true,
+    minimizer: [new CssMinimizerPlugin({})],
+  },
+  plugins: [new MiniCssExtractPlugin({ filename: "bundle.css" })],
 };

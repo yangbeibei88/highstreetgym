@@ -1,14 +1,16 @@
 extends ../layouts/main.pug 
+include ../partials/_pageHeader.pug
+include ../partials/_tableHeaderItem.pug
+include ../partials/_tableCellItem.pug
 
 block content 
   .page-wrapper
     // 1) HEADER
     header.bg-darkCyan.text-white
-      .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
-        h1 My Comments
+      +pageHeader('Comments')
     // 2) MAIN CCONTENT
     .wrapper.bg-slate-100
-      .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+      .grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
         // 2) MAIN CONTENT
         main#my-comments.col-span-1.order-2(class='md:col-span-3')
           //- // Search & Filter
@@ -31,40 +33,21 @@ block content
               | 10 results
             thead.text-sm.text-white.bg-darkCyan
               tr
-                th.hidden(class='md:table-cell')
-                  | Date Published
-                th.hidden(class='md:table-cell')
-                  | Date Updated
-                th.hidden(class='md:table-cell')
-                  | Article
-                th.hidden(class='md:table-cell')
-                  | Author
-                th.hidden(class='md:table-cell')
-                  | Comment
-                th.hidden(class='md:table-cell')
-                  | Edit
-                th.hidden(class='md:table-cell')
-                  | Delete
+                +tableHeaderItem('Date Published')
+                +tableHeaderItem('Date Updated')
+                +tableHeaderItem('Article')
+                +tableHeaderItem('Author')
+                +tableHeaderItem('My Comment')
+                +tableHeaderItem('Action')
             tbody
-              tr
-                td.grid.grid-cols-2(data-cell='date_created' class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none')
-                  | 2023-11-10 18:29:59 Sun
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='date_updated')
-                  | 2023-11-12 10:21:15 Tue
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='article_title')
-                  | My Journey to a Yoga Master
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='author')
-                  | Song
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='comment')
-                  p
-                    | Lorem ipsum dolor sit amet
-                    | consectetur adipisicing elit.
-                    | Nostrum aliquam nihil rerum
-                    | beatae labore reprehenderit
-                    | eos iste fugit ea odit.
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
-                  a.btn.btn-sm.btn-limeGreen(href='/edit') Edit
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='delete')
-                  a.btn.btn-sm.btn-red(href='/delete') Delete
+              - for(let c of comments)
+                tr 
+                  +tableCellItem('date_published', c.createdAt)
+                  +tableCellItem('date_updated', c.updatedAt)
+                  +tableCellItem('article', c.articleTitle)
+                  +tableCellItem('author', c.authorFirstName+' '+c.authorLastName)
+                  +tableCellItem('my_comment', c.comment)
+                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
+                    a.btn.btn-sm.btn-limeGreen(href='/edit') Edit
         // 3) SIDE MENU
         include ../partials/_accountSideNav.pug

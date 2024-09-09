@@ -3,13 +3,26 @@ import { validationResult } from "express-validator";
 import { sanitizeTextarea } from "../../utils/validation.js";
 import { getArticle } from "../../models/ArticleModel.js";
 import {
+  getAllComments,
   getCommentsByArticle,
+  getCommentsByUser,
   saveComment,
 } from "../../models/CommentModel.js";
 
-export const listAccountCommentsAction = async (req, res, next) => {
-  res.status(200).render("account/manage-comments", { title: "My Comments" });
-};
+export const listAccountCommentsAction = asyncHandler(
+  async (req, res, next) => {
+    let comments;
+    if (req.user.userRole === "admin") {
+      comments = await getAllComments();
+    } else {
+      comments = await getCommentsByUser(req.user.userId);
+    }
+
+    res
+      .status(200)
+      .render("account/manage-comments", { title: "My Comments", comments });
+  },
+);
 
 export const saveCommentAction = asyncHandler(async (req, res, next) => {
   const article = await getArticle(+req.params.articleId);
