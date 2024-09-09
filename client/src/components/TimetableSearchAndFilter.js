@@ -52,6 +52,7 @@ export class TimetableSearchAndFilter {
       const data = await res.json();
       this._myBookingTimetableIds = data.myBookingTimetableIds;
       this.updateTimetableList(data.timetables);
+      console.log(data.timetables);
       this.updatePagination(data.pagination);
     } catch (error) {
       console.error(`Fetch timetable error: `, error);
@@ -121,21 +122,42 @@ export class TimetableSearchAndFilter {
   }
 
   updatePagination(paginationData) {
-    if (!this.pagination) {
-      this.pagination = new Pagination({
-        currentPage: paginationData.currentPage,
-        totalPages: paginationData.totalPages,
-        totalItems: paginationData.totalItems,
-        limit: paginationData.limit,
-        onPageChange: (page) => {
-          this.handleSearchFilter(page);
-        },
-        container: "#pagination-container-timetable",
-      });
+    // // Debug: Log the received pagination data
+    // console.log("Fontend Pagination Data:", paginationData);
 
-      this.pagination.render();
-    } else {
-      this.pagination.update(paginationData.currentPage);
+    // RE-NITIALIZE PAGINATION EVERYTIME NEW DATA IS FETCHED, OTHERWISE, THE PAGINATION NUMBERS WILL STAY AT THE FIRST TIME!
+    if (this.pagination) {
+      this.pagination._container.innerHTML = "";
     }
+
+    this.pagination = new Pagination({
+      currentPage: paginationData.currentPage,
+      totalPages: paginationData.totalPages,
+      totalItems: paginationData.totalItems,
+      limit: paginationData.limit,
+      onPageChange: (page) => {
+        this.handleSearchFilter(page);
+      },
+      container: "#pagination-container-timetable",
+    });
+
+    this.pagination.render();
+
+    // if (!this.pagination) {
+    //   this.pagination = new Pagination({
+    //     currentPage: paginationData.currentPage,
+    //     totalPages: paginationData.totalPages,
+    //     totalItems: paginationData.totalItems,
+    //     limit: paginationData.limit,
+    //     onPageChange: (page) => {
+    //       this.handleSearchFilter(page);
+    //     },
+    //     container: "#pagination-container-timetable",
+    //   });
+
+    //   this.pagination.render();
+    // } else {
+    //   this.pagination.update(paginationData.currentPage);
+    // }
   }
 }

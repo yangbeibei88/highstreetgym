@@ -7,6 +7,13 @@ export class Pagination {
     onPageChange,
     container,
   }) {
+    // // Debug: Log pagination constructor values
+    // console.log("Pagination Constructor:", {
+    //   currentPage,
+    //   totalPages,
+    //   totalItems,
+    //   limit,
+    // });
     this.currentPage = currentPage;
     this.totalPages = totalPages;
     this.totalItems = totalItems;
@@ -16,41 +23,42 @@ export class Pagination {
   }
 
   render() {
-    const startIndex = (this.currentPage - 1) * this.limit + 1;
+    const startIndex =
+      this.totalItems > 0 ? (this.currentPage - 1) * this.limit + 1 : 0;
     const endIndex = Math.min(this.currentPage * this.limit, this.totalItems);
 
     const paginationHtml = `<div class="block py-4">
     <div class="flex flex-col items-center justify-center md:flex-row md:justify-between">
     <!-- Showing X to Y of Z Entries -->
-      <span class="text-sm text-gray-700 dark:text-gray-400">
+      <span class="text-sm text-center text-darkCyan">
         Showing
-        <span class="font-semibold text-gray-900 dark:text-white">
+        <span class="font-semibold">
           ${startIndex}
-        <span>
+        </span>
         to
-        <span class="font-semibold text-gray-900 dark:text-white">
+        <span class="font-semibold">
           ${endIndex}
-        <span>
+        </span>
         of
-        <span class="font-semibold text-gray-900 dark:text-white">
+        <span class="font-semibold">
           ${this.totalItems}
-        <span>
+        </span>
         Entries
       </span>
   
       <!-- Pagination Controls -->
       <nav aria-label="page navigation">
-        <ul class="flex items-center -space-x-px h-8 text-sm">
+        <ul class="flex flex-wrap items-center -space-x-px h-8 text-sm">
           <!-- First Button -->
           <li>
-            <a href="#" data-page="1" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <a href="#" data-page="1" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-darkCyan bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-limeGreen ${this.currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}">
               &laquo;&laquo; First
             </a>
           </li>
   
           <!-- Previous Button -->
           <li>
-            <a href="#" data-page="${this.currentPage - 1}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}">
+            <a href="#" data-page="${this.currentPage - 1}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-darkCyan bg-white border border-e-0 border-gray-300 hover:bg-limeGreen ${this.currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}">
               &laquo; Prev
             </a>
           </li>
@@ -60,14 +68,14 @@ export class Pagination {
   
           <!-- Next Button -->
           <li>
-            <a href="#" data-page="${this.currentPage + 1}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
+            <a href="#" data-page="${this.currentPage + 1}" class="flex items-center justify-center px-3 h-8 leading-tight text-darkCyan bg-white border border-gray-300 hover:bg-limeGreen ${this.currentPage === this.totalPages || !this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
               Next &raquo;
             </a>
           </li>
   
           <!-- Last Button -->
           <li>
-            <a href="#" data=page="${this.totalPages}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
+            <a href="#" data=page="${this.totalPages}" class="flex items-center justify-center px-3 h-8 leading-tight text-darkCyan bg-white border border-gray-300 rounded-e-lg hover:bg-limeGreen ${this.currentPage === this.totalPages || !this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
               Last &raquo;&raquo;
             </a>
           </li>
@@ -87,7 +95,7 @@ export class Pagination {
     for (let i = 1; i <= this.totalPages; i++) {
       pageNumbersHtml += `
         <li>
-          <a href="#" data-page="${i}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === i ? "bg-limeGreen text-darkCyan" : ""}">${i}</a>
+          <a href="#" data-page="${i}" class="flex items-center justify-center px-3 h-8 leading-tight text-darkCyan border border-gray-300 hover:bg-limeGreen ${this.currentPage === i ? "bg-limeGreen" : "bg-white"}">${i}</a>
         </li>
       `;
     }

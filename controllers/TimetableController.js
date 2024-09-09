@@ -65,21 +65,37 @@ export const timetableSearchFilterSortAction = asyncHandler(
 
     if (req.query.toDate) {
       filteredTimetables = filteredTimetables.filter(
-        (item) => new Date(item.startDateTime) >= new Date(req.query.toDate),
+        (item) => new Date(item.startDateTime) <= new Date(req.query.toDate),
       );
     }
-    // console.log(filteredTimetables);
-    const paginatedTimetables = pagination(
-      filteredTimetables,
-      +req.query.page || 1,
-      +req.query.limit || 10,
-    );
+
+    // // Debug: Log the filtered timetables length
+    // console.log(
+    //   `Backend Filtered Timetables Count: ${filteredTimetables.length}`,
+    // );
+
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 10;
+    const paginatedTimetables = pagination(filteredTimetables, page, limit);
+
+    // // Debug: Log pagination info
+    // console.log(`Paginated Data Length: ${paginatedTimetables.data.length}`);
+    // console.log(`Total Items (Filtered): ${paginatedTimetables.totalItems}`);
+    // console.log(`Total Pages: ${paginatedTimetables.totalPages}`);
+
     res.json({
       // timetables: filteredTimetables,
       timetables: paginatedTimetables.data,
       myBookingTimetableIds,
       myBookings,
-      pagination: paginatedTimetables,
+      pagination: {
+        currentPage: paginatedTimetables.currentPage,
+        totalItems: paginatedTimetables.totalItems,
+        totalPages: paginatedTimetables.totalPages,
+        limit: paginatedTimetables.limit,
+        next: paginatedTimetables.next || null,
+        previous: paginatedTimetables.previous || null,
+      },
     });
   },
 );
