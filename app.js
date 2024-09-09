@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import cors from "cors";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -15,6 +16,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
+
+app.use(cors());
+app.options("*", cors());
 
 // set `public` folder as static folder
 app.use(express.static(path.join(__dirname, "public")));

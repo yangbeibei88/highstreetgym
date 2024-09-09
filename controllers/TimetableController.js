@@ -5,21 +5,27 @@ import {
 } from "../models/TimetableModel.js";
 import { getAllClasses } from "../models/ClassModel.js";
 
-export const timetableListAction = asyncHandler(async (req, res, next) => {
+const getUserBookings = async (user) => {
   let myBookings = [];
   let myBookingTimetableIds = [];
+  if (user) {
+    myBookings = await getTimetableByUserId(user.userId);
+    console.log(myBookings);
+    myBookingTimetableIds = myBookings.map((booking) => booking.timetableId);
+  }
+
+  return { myBookings, myBookingTimetableIds };
+};
+
+const getTimetablsAndClasses = async () => {
   const timetables = await getAllTimetables();
   const classes = await getAllClasses();
-  console.log(req.user);
-  if (req.user) {
-    myBookings = await getTimetableByUserId(req.user.userId);
-    console.log(myBookings);
-    myBookingTimetableIds = await myBookings.reduce((acc, cur) => {
-      acc.push(cur.timetableId);
-      return acc;
-    }, []);
-    console.log(myBookingTimetableIds);
-  }
+  return { timetables, classes };
+};
+
+export const timetableListAction = asyncHandler(async (req, res, next) => {
+  const { timetables, classes } = await getTimetablsAndClasses();
+  const { myBookings, myBookingTimetableIds } = await getUserBookings(req.user);
 
   res.status(200).render("timetable", {
     title: "Timetable",
@@ -29,3 +35,39 @@ export const timetableListAction = asyncHandler(async (req, res, next) => {
     myBookingTimetableIds,
   });
 });
+
+export const timetableSearchFilterSortAction = asyncHandler(
+  async (req, res, next) => {
+    const timetables = await getAllTimetables();
+    const { myBookings, myBookingTimetableIds } = await getUserBookings(
+      req.user,
+    );
+
+    let filteredTimetables = [...timetables];
+
+    // Filter by class
+    if (req.query.classFilter) {
+      filteredTimetables = filteredTimetables.filter(
+        (item) => item.classId === +req.query.classFilter,
+      );
+    }
+
+    if (req.query.fromDate) {
+      filteredTimetables = filteredTimetables.filter(
+        (item) => new Date(item.startDateTime) >= new Date(req.query.fromDate),
+      );
+    }
+
+    if (req.query.toDate) {
+      filteredTimetables = filteredTimetables.filter(
+        (item) => new Date(item.startDateTime) >= new Date(req.query.toDate),
+      );
+    }
+    // console.log(filteredTimetables);
+    res.json({
+      timetables: filteredTimetables,
+      myBookingTimetableIds,
+      myBookings,
+    });
+  },
+);

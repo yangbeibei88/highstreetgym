@@ -6,6 +6,7 @@ import { ArticleForm } from "./components/ArticleForm.js";
 import { BookingForm } from "./components/BookingForm.js";
 import { ClassForm } from "./components/ClassForm.js";
 import { Spinner } from "./components/Spinner.js";
+import { TimetableSearchAndFilter } from "./components/TimetableSearchAndFilter.js";
 
 const bookingForm = new BookingForm();
 // const quillEditor = new QuillEditor();
@@ -13,3 +14,8 @@ const articleForm = new ArticleForm();
 
 const classForm = new ClassForm();
 const spinner = new Spinner();
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => new TimetableSearchAndFilter(),
+);

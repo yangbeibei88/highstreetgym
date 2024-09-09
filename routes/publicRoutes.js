@@ -9,7 +9,10 @@ import {
   classListAction,
   classShowAction,
 } from "../controllers/ClassController.js";
-import { timetableListAction } from "../controllers/TimetableController.js";
+import {
+  timetableListAction,
+  timetableSearchFilterSortAction,
+} from "../controllers/TimetableController.js";
 import {
   articleListAction,
   articleShowAction,
@@ -23,6 +26,7 @@ publicRouter.get("/login", renderLoginAction);
 publicRouter.get("/signup", renderSignupAction);
 publicRouter.get("/classes", classListAction);
 publicRouter.get("/timetable", timetableListAction);
+publicRouter.get("/timetable/search-filter", timetableSearchFilterSortAction);
 publicRouter.get("/blog", articleListAction);
 
 publicRouter.get("/classes/:classId", classShowAction);
