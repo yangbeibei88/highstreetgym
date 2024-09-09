@@ -1,3 +1,5 @@
+import { Pagination } from "./FnPagination.js";
+
 export class TimetableSearchAndFilter {
   constructor() {
     this._ttSearchAndFilterEl = document.getElementById("ttSearchAndFilter");
@@ -6,14 +8,13 @@ export class TimetableSearchAndFilter {
     );
     this._fromDateEl = document.querySelector("#ttSearchAndFilter #fromDate");
     this._toDateEl = document.querySelector("#ttSearchAndFilter #toDate");
-    this._paginationEl = document.querySelector("pagination");
     this._timetableList = document.querySelector("table#timetableList tbody");
     this._myBookingTimetableIds = [];
-    if (
-      !this._ttSearchAndFilterEl ||
-      !this._timetableList ||
-      this._paginationEl
-    ) {
+    this._paginationContainer = document.querySelector(
+      "#pagination-container-timetable",
+    );
+    this.pagination = null;
+    if (!this._ttSearchAndFilterEl || !this._timetableList) {
       return;
     }
     this.handleSearchFilter();
@@ -30,7 +31,7 @@ export class TimetableSearchAndFilter {
     this._toDateEl.addEventListener("change", () => this.handleSearchFilter());
   }
 
-  buildQuery() {
+  buildQuery(page = 1, limit = 10) {
     const classFilter = this._classFilterEl.value;
     const fromDate = this._fromDateEl.value;
     const toDate = this._toDateEl.value;
@@ -40,6 +41,8 @@ export class TimetableSearchAndFilter {
       classFilter: classFilter || "",
       fromDate: fromDate || "",
       toDate: toDate || "",
+      page,
+      limit,
     }).toString();
   }
 
@@ -48,14 +51,15 @@ export class TimetableSearchAndFilter {
       const res = await fetch(`/timetable/search-filter?${query}`);
       const data = await res.json();
       this._myBookingTimetableIds = data.myBookingTimetableIds;
-      this.updatedTimetableList(data.timetables);
+      this.updateTimetableList(data.timetables);
+      this.updatePagination(data.pagination);
     } catch (error) {
       console.error(`Fetch timetable error: `, error);
     }
   }
 
-  handleSearchFilter() {
-    const query = this.buildQuery();
+  handleSearchFilter(page = 1) {
+    const query = this.buildQuery(page);
     this.fetchTimetables(query);
   }
 
@@ -83,7 +87,7 @@ export class TimetableSearchAndFilter {
   `;
   }
 
-  updatedTimetableList(timetables) {
+  updateTimetableList(timetables) {
     // this._timetableList.innerHTML = "";
     this._timetableList.innerHTML = "";
 
@@ -114,5 +118,24 @@ export class TimetableSearchAndFilter {
 
       this._timetableList.appendChild(row);
     });
+  }
+
+  updatePagination(paginationData) {
+    if (!this.pagination) {
+      this.pagination = new Pagination({
+        currentPage: paginationData.currentPage,
+        totalPages: paginationData.totalPages,
+        totalItems: paginationData.totalItems,
+        limit: paginationData.limit,
+        onPageChange: (page) => {
+          this.handleSearchFilter(page);
+        },
+        container: "#pagination-container-timetable",
+      });
+
+      this.pagination.render();
+    } else {
+      this.pagination.update(paginationData.currentPage);
+    }
   }
 }

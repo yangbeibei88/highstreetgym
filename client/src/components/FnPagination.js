@@ -43,14 +43,14 @@ export class Pagination {
         <ul class="flex items-center -space-x-px h-8 text-sm">
           <!-- First Button -->
           <li>
-            <a href="?page=1" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <a href="#" data-page="1" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
               &laquo;&laquo; First
             </a>
           </li>
   
           <!-- Previous Button -->
           <li>
-            <a href="?page=${this.currentPage - 1}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}">
+            <a href="#" data-page="${this.currentPage - 1}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}">
               &laquo; Prev
             </a>
           </li>
@@ -60,14 +60,14 @@ export class Pagination {
   
           <!-- Next Button -->
           <li>
-            <a href="${this.currentPage + 1}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
+            <a href="#" data-page="${this.currentPage + 1}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
               Next &raquo;
             </a>
           </li>
   
           <!-- Last Button -->
           <li>
-            <a href="${this.totalPages}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
+            <a href="#" data=page="${this.totalPages}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${this.currentPage === this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
               Last &raquo;&raquo;
             </a>
           </li>
