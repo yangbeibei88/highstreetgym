@@ -1,14 +1,12 @@
 extends layouts/main.pug 
+include partials/_pageHeader.pug
 include partials/_tableHeaderItem.pug
 include partials/_tableCellItem.pug
 
 block content 
-  header.bg-darkCyan.text-white
-    .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
-      h1 Timetable
-      p Book a class that suits your time!
+  +pageHeader('Timetable', 'Book a class that suits your time!')
   .wrapper.bg-slate-100
-    .max-w-screen-xl.mx-20.my-10.bg-white.rounded.border
+    .container.mx-auto.my-10.bg-white.rounded.border
       // 1) FILTER
       div#ttSearchAndFilter.flex.flex-col.items-center.justify-between.p-4.space-y-3(class='lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10')
         .w-full(class='lg:w-1/3')
@@ -58,3 +56,4 @@ block content
           //-       - const isDisabled = myBookingTimetableIds.includes(s.timetableId) ? true : false
           //-       a.btn-bullet.btn-limeGreen.btn-sm(href=isDisabled ? null : `/auth/account/timetable/${s.timetableId}/bookingForm` class=isDisabled ? 'cursor-not-allowed text-gray-600 saturate-50 hover:no-underline': '')
           //-         | #{myBookingTimetableIds.includes(s.timetableId) ? 'Booked' : 'Book Now'}
+        div.pagination

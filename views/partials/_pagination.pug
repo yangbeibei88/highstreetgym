@@ -1,0 +1,30 @@
+mixin pagination(currentPage, limit, totalItems)
+  .block.py-4(aria-label='page navigation') 
+    .flex.flex-col.items-center.justify-center(class='md:flex-row md:justify-between')
+      //- LEFT PAGE, PAGES, ENTRIES
+      span.text-sm.text-gray-700(class='dark:text-gray-400')
+        | Showing 
+        span.font-semibold.text-gray-900(class='dark:text-white') #{(currentPage - 1) * limit + 1}
+        |  to 
+        span.font-semibold.text-gray-900(class='dark:text-white') #{Math.min(currentPage * limit, totalItems)}
+        |  of 
+        span.font-semibold.text-gray-900(class='dark:text-white') #{totalItems}
+        |  Entries
+      //- RIGHT PAGINATION NAV
+      nav(aria-label='page navigation')
+        ul.flex.items-center.-space-x-px.h-8.text-sm
+          li
+            a.flex.items-center.justify-center.px-3.h-8.ms-0.leading-tight.text-gray-500.bg-white.border.border-e-0.border-gray-300.rounded-s-lg(href='?page=1' class='hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white')
+              | &laquo;&laquo; First
+          li
+            a.flex.items-center.justify-center.px-3.h-8.ms-0.leading-tight.text-gray-500.bg-white.border.border-e-0.border-gray-300.rounded-s-lg(href=`?page=${pagination.currentPage - 1}` class=`hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${pagination.currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`)
+              | &laquo; Prev
+          - for(let i = 1; i <= pagination.totalPages; i++)
+            li
+              a.flex.items-center.justify-center.px-3.h-8.leading-tight.text-gray-500.bg-white.border.border-gray-300(href=`?page=${i}` class=`hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${pagination.currentPage === i ? 'bg-limeGreen text-darkCyan' : ''}`) #{i}
+          li
+            a.flex.items-center.justify-center.px-3.h-8.leading-tight.text-gray-500.bg-white.border.border-gray-300.rounded-e-lg(href=`${pagination.currentPage + 1}` class=`hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${pagination.currentPage === pagination.totalPages ? 'cursor-not-allowed opacity-50' : ''}`)
+              | Next &raquo;
+          li
+            a.flex.items-center.justify-center.px-3.h-8.leading-tight.text-gray-500.bg-white.border.border-gray-300.rounded-e-lg(href=`?${pagination.totalPages}` class='hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white')
+              | Last &raquo;&raquo;

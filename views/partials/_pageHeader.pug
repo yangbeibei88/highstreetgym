@@ -1,4 +1,5 @@
-mixin pageHeader(title)
+mixin pageHeader(title, subtitle='')
   header.bg-darkCyan.text-white
     .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
       h1 #{title}
+      p #{subtitle}

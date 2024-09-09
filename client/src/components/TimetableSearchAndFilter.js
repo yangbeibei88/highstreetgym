@@ -1,12 +1,21 @@
 export class TimetableSearchAndFilter {
   constructor() {
+    this._ttSearchAndFilterEl = document.getElementById("ttSearchAndFilter");
     this._classFilterEl = document.querySelector(
       "#ttSearchAndFilter #classFilter",
     );
     this._fromDateEl = document.querySelector("#ttSearchAndFilter #fromDate");
     this._toDateEl = document.querySelector("#ttSearchAndFilter #toDate");
-    this._myBookingTimetableIds = [];
+    this._paginationEl = document.querySelector("pagination");
     this._timetableList = document.querySelector("table#timetableList tbody");
+    this._myBookingTimetableIds = [];
+    if (
+      !this._ttSearchAndFilterEl ||
+      !this._timetableList ||
+      this._paginationEl
+    ) {
+      return;
+    }
     this.handleSearchFilter();
     this.initializeListeners();
   }

@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import { pagination } from "../utils/pagination.js";
 import {
   getAllTimetables,
   getTimetableByUserId,
@@ -22,6 +23,10 @@ const getTimetablsAndClasses = async () => {
   const classes = await getAllClasses();
   return { timetables, classes };
 };
+
+// const paginatedTimetable = async () => {
+
+// }
 
 export const timetableListAction = asyncHandler(async (req, res, next) => {
   const { timetables, classes } = await getTimetablsAndClasses();
@@ -64,10 +69,17 @@ export const timetableSearchFilterSortAction = asyncHandler(
       );
     }
     // console.log(filteredTimetables);
+    const paginatedTimetables = pagination(
+      filteredTimetables,
+      +req.query.page || 1,
+      +req.query.limit || 10,
+    );
     res.json({
-      timetables: filteredTimetables,
+      // timetables: filteredTimetables,
+      timetables: paginatedTimetables.data,
       myBookingTimetableIds,
       myBookings,
+      pagination: paginatedTimetables,
     });
   },
 );
