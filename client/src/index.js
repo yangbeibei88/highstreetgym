@@ -7,6 +7,11 @@ import { ClassForm } from "./components/ClassForm.js";
 import { Spinner } from "./components/Spinner.js";
 import { TimetableSearchAndFilter } from "./components/TimetableSearchAndFilter.js";
 import { BlogSearchAndFilter } from "./components/BlogSearchAndFilter.js";
+import { MainNav } from "./components/MainNav.js";
+import { SideNav } from "./components/SideNav.js";
+
+document.addEventListener("DOMContentLoaded", () => new MainNav());
+document.addEventListener("DOMContentLoaded", () => new SideNav());
 
 const bookingForm = new BookingForm();
 // const quillEditor = new QuillEditor();

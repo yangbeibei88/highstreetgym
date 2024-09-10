@@ -1,11 +1,11 @@
 mixin sideNavItem(name, role, slug, active)
   li(data-active=`${active}`)
-    a.block.p-4.capitalize(href=`/auth/${role}/${slug}` class=`${active === true ? 'bg-limeGreen' : 'hover:bg-limeGreen hover:underline'}`)
+    a.sideNavItem.block.p-4.capitalize(href=`/auth/${role}/${slug}` class=`${active === 'true' ? 'bg-limeGreen' : 'hover:bg-limeGreen hover:underline'}`)
       | #{name}
 
 nav.order-1
   ul#account-menu-list.text-midnightBlue.flex.flex-col.font-semibold
-    +sideNavItem('my dashboard', 'account', '', true)
+    +sideNavItem('my dashboard', 'account', '', false)
     if user.userRole === 'admin'
       +sideNavItem('classes', 'admin', 'manage-classes', false)
       +sideNavItem('timetable', 'admin', 'manage-timetable', false)
