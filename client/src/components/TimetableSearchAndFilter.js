@@ -142,22 +142,5 @@ export class TimetableSearchAndFilter {
     });
 
     this.pagination.render();
-
-    // if (!this.pagination) {
-    //   this.pagination = new Pagination({
-    //     currentPage: paginationData.currentPage,
-    //     totalPages: paginationData.totalPages,
-    //     totalItems: paginationData.totalItems,
-    //     limit: paginationData.limit,
-    //     onPageChange: (page) => {
-    //       this.handleSearchFilter(page);
-    //     },
-    //     container: "#pagination-container-timetable",
-    //   });
-
-    //   this.pagination.render();
-    // } else {
-    //   this.pagination.update(paginationData.currentPage);
-    // }
   }
 }

@@ -2,11 +2,11 @@
 import "quill/dist/quill.snow.css";
 import "./style.css";
 import { ArticleForm } from "./components/ArticleForm.js";
-// import { QuillEditor } from "./components/QuillEditor.js";
 import { BookingForm } from "./components/BookingForm.js";
 import { ClassForm } from "./components/ClassForm.js";
 import { Spinner } from "./components/Spinner.js";
 import { TimetableSearchAndFilter } from "./components/TimetableSearchAndFilter.js";
+import { BlogSearchAndFilter } from "./components/BlogSearchAndFilter.js";
 
 const bookingForm = new BookingForm();
 // const quillEditor = new QuillEditor();
@@ -19,3 +19,5 @@ document.addEventListener(
   "DOMContentLoaded",
   () => new TimetableSearchAndFilter(),
 );
+
+document.addEventListener("DOMContentLoaded", () => new BlogSearchAndFilter());

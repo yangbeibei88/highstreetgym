@@ -69,3 +69,43 @@ export const articleShowAction = asyncHandler(async (req, res, next) => {
     comments,
   });
 });
+
+export const blogSearchFilterSortAction = asyncHandler(
+  async (req, res, next) => {
+    let articles = await getAllArticles();
+    const topics = await getAllTopics();
+
+    // if not loggedin user, only see public articles
+    if (!req.user) {
+      articles = await articles.filter(
+        (article) => article.visibility === "public",
+      );
+    }
+
+    // if loggedin user, and user's role is trainer or member, can see articles except private and the loggedin user's own articles
+    if (req.user && ["trainer", "member"].includes(req.user.userRole)) {
+      articles = await articles.filter(
+        (article) =>
+          article.visibility !== "private" ||
+          article.userId === req.user.userId,
+      );
+    }
+
+    let filteredArticles = [...articles];
+
+    console.log(filteredArticles);
+
+    if (req.query.topics) {
+      const selectedTopics = req.query.topics.split(",");
+      console.log("Selected Topics: ", selectedTopics);
+      filteredArticles = filteredArticles.filter((article) =>
+        selectedTopics.includes(article.topicId.toString()),
+      );
+    }
+
+    res.json({
+      articles: filteredArticles,
+      topics,
+    });
+  },
+);

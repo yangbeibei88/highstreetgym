@@ -3,7 +3,6 @@ import morgan from "morgan";
 import cors from "cors";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import cookieParser from "cookie-parser";
 import { publicRouter } from "./routes/publicRoutes.js";
 import { authRouter } from "./routes/authRoutes.js";
