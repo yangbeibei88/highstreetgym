@@ -5,7 +5,7 @@ mixin sideNavItem(name, role, slug, active)
 
 nav.order-1
   ul#account-menu-list.text-midnightBlue.flex.flex-col.font-semibold
-    +sideNavItem('my dashboard', 'account', 'my-dashboard', true)
+    +sideNavItem('my dashboard', 'account', '', true)
     if user.userRole === 'admin'
       +sideNavItem('classes', 'admin', 'manage-classes', false)
       +sideNavItem('timetable', 'admin', 'manage-timetable', false)

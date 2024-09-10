@@ -52,7 +52,7 @@ export class TimetableSearchAndFilter {
       const data = await res.json();
       this._myBookingTimetableIds = data.myBookingTimetableIds;
       this.updateTimetableList(data.timetables);
-      console.log(data.timetables);
+      // console.log(data.timetables);
       this.updatePagination(data.pagination);
     } catch (error) {
       console.error(`Fetch timetable error: `, error);

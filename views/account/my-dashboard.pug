@@ -1,13 +1,12 @@
 extends ../layouts/main.pug 
+include ../partials/_pageHeader.pug
 include ../partials/_dashLinkItem.pug
 include ../partials/_dashStatsItem.pug
 
 block content 
   .page-wrapper
     // 1) HEADER
-    header.bg-darkCyan.text-white
-      .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
-        h1 My Dashboard
+    +pageHeader('My Dashboard')
     // 2) MAIN CCONTENT
     .wrapper.bg-slate-100
       .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
@@ -17,9 +16,9 @@ block content
           p#greeting
           // TOP ACCOUNT ITEMS
           section#content-items.flex.flex-col.items-center.justify-between(class='md:flex-row md:flex-wrap')
-            +dashLinkItem('my bookings', 'solid', 'dumbbell', 'my-bookings')
-            +dashLinkItem('my articles', 'regular', 'newspaper', 'my-articles')
-            +dashLinkItem('my comments', 'regular', 'comments', 'my-comments')
+            +dashLinkItem('my bookings', 'solid', 'dumbbell', 'manage-bookings')
+            +dashLinkItem('my articles', 'regular', 'newspaper', 'manage-articles')
+            +dashLinkItem('my comments', 'regular', 'comments', 'manage-comments')
             +dashLinkItem('my profile', 'regular', 'address-card', 'my-profile')
           // BOTTOM STATS
           section#stats.flex.flex-col.space-y-4.items-center.justify-between.py-4(class='md:flex-row md:space-x-4 md:space-y-0')

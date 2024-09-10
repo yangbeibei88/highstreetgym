@@ -28,7 +28,7 @@ export const accountRouter = Router();
 // accountRouter.use(isLoggedIn);
 accountRouter.use(protect);
 
-accountRouter.get("/my-dashboard", showMydashboardAction);
+accountRouter.get("/", showMydashboardAction);
 accountRouter.get("/manage-bookings", listAccountbookingsAction);
 accountRouter.get("/manage-articles", listAccountArticlesAction);
 accountRouter.get("/manage-comments", listAccountCommentsAction);
