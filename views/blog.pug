@@ -44,13 +44,14 @@ block content
             //-       | Oldest to Newest
             // FILTER CHECKBOX
             // TODO: add js to close filter on mobile
-            section.filterBy
+            section#blogFilterBy
               h2.text-sm.font-semibold
                 | Filters
-              details#topicFilter.bg-white.p-2.border.rounded.border-gray-300
+              details#topicFilter.bg-white.p-2.border.rounded.border-gray-300(open)
                 summary.font-semibold.pb-1
                   | By Topic
                 - for(let t of topics)
-                  .space-x-1
-                    input(type='checkbox' name='topic' id=`${t.topicId}` value=`${t.topicId}`)
+                  .checkbox-control(class='block space-x-1.5 mb-1')
+                    span.checkbox 
+                      input(type='checkbox' name='topic' id=`${t.topicId}` value=`${t.topicId}`)
                     label(for=`${t.topicId}`) #{t.topicName} (#{t.count})

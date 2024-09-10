@@ -2,17 +2,31 @@ export class BlogSearchAndFilter {
   constructor() {
     this._topicFilterEl = document.querySelector("#articleFilter #topicFilter");
     this._articleList = document.querySelector("#blog #articleList");
+    this._blogFilterEls = document.querySelectorAll("#blogFilterBy details");
     if (!this._topicFilterEl || !this._articleList) {
       return;
     }
     this.handleSearchFilter();
     this.initializeListeners();
+    this.toggleFilters();
   }
 
   initializeListeners() {
     this._topicFilterEl.addEventListener("change", () =>
       this.handleSearchFilter(),
     );
+    window.addEventListener("resize", () => this.toggleFilters());
+  }
+
+  toggleFilters() {
+    const screenWidth = window.innerWidth;
+    this._blogFilterEls.forEach((el) => {
+      if (screenWidth < 768) {
+        el.removeAttribute("open");
+      } else {
+        el.setAttribute("open", "");
+      }
+    });
   }
 
   getSelectedTopics() {
@@ -37,7 +51,7 @@ export class BlogSearchAndFilter {
     try {
       const res = await fetch(`/blog/search-filter?${query}`);
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       this.updateArticleList(data.articles);
     } catch (error) {
       console.error(`Fetch articles error: `, error);
