@@ -17,6 +17,7 @@ import {
   articleListAction,
   articleShowAction,
   blogSearchFilterSortAction,
+  limitArticles,
 } from "../controllers/ArticleController.js";
 
 export const publicRouter = Router();
@@ -28,8 +29,12 @@ publicRouter.get("/signup", renderSignupAction);
 publicRouter.get("/classes", classListAction);
 publicRouter.get("/timetable", timetableListAction);
 publicRouter.get("/timetable/search-filter", timetableSearchFilterSortAction);
-publicRouter.get("/blog", articleListAction);
-publicRouter.get("/blog/search-filter", blogSearchFilterSortAction);
+publicRouter.get("/blog", limitArticles, articleListAction);
+publicRouter.get(
+  "/blog/search-filter",
+  limitArticles,
+  blogSearchFilterSortAction,
+);
 
 publicRouter.get("/classes/:classId", classShowAction);
 publicRouter.get("/blog/:articleId", articleShowAction);

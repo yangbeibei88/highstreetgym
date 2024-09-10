@@ -7,9 +7,9 @@ import {
 import { getCommentsByArticle } from "../models/CommentModel.js";
 import { AppError } from "../utils/AppError.js";
 
-export const articleListAction = asyncHandler(async (req, res, next) => {
+// LIMIT ARTICLES VISIBILITIES ON BLOG LIST BASED ON USER ROLES AND ARTICLE VISIBLITY SETTINGS
+export const limitArticles = asyncHandler(async (req, res, next) => {
   let articles = await getAllArticles();
-  const topics = await getAllTopics();
 
   // if not loggedin user, only see public articles
   if (!req.user) {
@@ -25,6 +25,15 @@ export const articleListAction = asyncHandler(async (req, res, next) => {
         article.visibility !== "private" || article.userId === req.user.userId,
     );
   }
+
+  req.articles = articles;
+  next();
+});
+
+export const articleListAction = asyncHandler(async (req, res, next) => {
+  // let articles = await getAllArticles();
+  const articles = await req.articles;
+  const topics = await getAllTopics();
 
   return res.render("blog", {
     title: "Blog",
@@ -72,24 +81,7 @@ export const articleShowAction = asyncHandler(async (req, res, next) => {
 
 export const blogSearchFilterSortAction = asyncHandler(
   async (req, res, next) => {
-    let articles = await getAllArticles();
-    const topics = await getAllTopics();
-
-    // if not loggedin user, only see public articles
-    if (!req.user) {
-      articles = await articles.filter(
-        (article) => article.visibility === "public",
-      );
-    }
-
-    // if loggedin user, and user's role is trainer or member, can see articles except private and the loggedin user's own articles
-    if (req.user && ["trainer", "member"].includes(req.user.userRole)) {
-      articles = await articles.filter(
-        (article) =>
-          article.visibility !== "private" ||
-          article.userId === req.user.userId,
-      );
-    }
+    const articles = await req.articles;
 
     let filteredArticles = [...articles];
 
@@ -105,7 +97,6 @@ export const blogSearchFilterSortAction = asyncHandler(
 
     res.json({
       articles: filteredArticles,
-      topics,
     });
   },
 );
