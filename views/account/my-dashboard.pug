@@ -15,11 +15,13 @@ block content
           //- #TODO: GREETING + EMOJI BASED ON TIME
           p#greeting
           // TOP ACCOUNT ITEMS
-          section#content-items.flex.flex-col.items-center.justify-between(class='md:flex-row md:flex-wrap')
-            +dashLinkItem('my bookings', 'solid', 'dumbbell', 'manage-bookings')
-            +dashLinkItem('my articles', 'regular', 'newspaper', 'manage-articles')
-            +dashLinkItem('my comments', 'regular', 'comments', 'manage-comments')
+          section#content-items.flex.flex-col.justify-between(class='md:flex-row md:flex-wrap')
+            +dashLinkItem('bookings', 'solid', 'dumbbell', 'manage-bookings')
+            +dashLinkItem('articles', 'regular', 'newspaper', 'manage-articles')
+            +dashLinkItem('comments', 'regular', 'comments', 'manage-comments')
             +dashLinkItem('my profile', 'regular', 'address-card', 'my-profile')
+            if user.userRole === 'admin'
+              +dashLinkItem('data import', 'solid', 'upload', 'data-import', 'admin')
           // BOTTOM STATS
           section#stats.flex.flex-col.space-y-4.items-center.justify-between.py-4(class='md:flex-row md:space-x-4 md:space-y-0')
             +dashStatsItem('total bookings', 2)

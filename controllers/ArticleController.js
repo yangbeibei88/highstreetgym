@@ -8,7 +8,7 @@ import { getCommentsByArticle } from "../models/CommentModel.js";
 import { AppError } from "../utils/AppError.js";
 
 // LIMIT ARTICLES VISIBILITIES ON BLOG LIST BASED ON USER ROLES AND ARTICLE VISIBLITY SETTINGS
-export const limitArticles = asyncHandler(async (req, res, next) => {
+export const publicArticleRestrict = asyncHandler(async (req, res, next) => {
   let articles = await getAllArticles();
 
   // if not loggedin user, only see public articles

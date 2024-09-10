@@ -15,6 +15,27 @@ import {
 } from "../../utils/validation.js";
 import { AppError } from "../../utils/AppError.js";
 
+export const accountArticleRestrict = asyncHandler(async (req, res, next) => {
+  let article;
+  if (req.params.articleId) {
+    article = await getArticle(+req.params.articleId);
+    if (!article || article.length === 0) {
+      return next(new AppError("This article is not found.", 404));
+    }
+    const authorId = await article[0].userId;
+
+    if (req.user.userId !== authorId) {
+      return next(
+        new AppError("You are not authorised to edit this article.", 403),
+      );
+    }
+
+    req.article = article;
+  }
+
+  next();
+});
+
 export const listAccountArticlesAction = async (req, res, next) => {
   let articles;
   if (req.user.userRole === "admin") {
@@ -43,14 +64,25 @@ export const showArticleFormAction = asyncHandler(async (req, res, next) => {
     imageCover: null,
   };
 
+  inputData = await req.article;
+
+  /****REPLACED BY MIDDLEWARE */
   // IF IT'S ARTICLE EDIT, CHECK PARAMS ID
-  if (req.params.articleId) {
-    const article = await getArticle(+req.params.articleId);
-    if (!article) {
-      return next(new AppError("NOT FOUND", 404));
-    }
-    inputData = await article[0];
-  }
+  // if (req.params.articleId) {
+  //   const article = await getArticle(+req.params.articleId);
+  //   if (!article) {
+  //     return next(new AppError("This article is not found.", 404));
+  //   }
+
+  //   inputData = await article[0];
+
+  //   if (req.user.userId !== +inputData.userId) {
+  //     return next(
+  //       new AppError("You are not authorised to edit the article.", 403),
+  //     );
+  //   }
+  // }
+
   res.render("account/articleForm", {
     title: req.params.articleId ? "Edit Article" : "Create Article",
     topics,
@@ -78,7 +110,7 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
   console.log(errors);
 
   const inputData = {
-    articleId: +req.body.articleId,
+    articleId: +req.params.articleId,
     articleTitle: req.body.articleTitle,
     topicId: +req.body.topic,
     visibility: req.body.visibility,

@@ -159,9 +159,9 @@ export const protect = asyncHandler(async (req, res, next) => {
     return next(new AppError("User does not exists", 401));
   }
 
-  const authUser = user.pop();
-  req.user = authUser;
-  res.locals.user = authUser;
+  const currentUser = user.pop();
+  req.user = currentUser;
+  res.locals.user = currentUser;
   next();
 });
 
@@ -183,9 +183,9 @@ export const isLoggedIn = async (req, res, next) => {
       // 4) TODO: CHECK IF USER CHANGED PASSWORD AFTER JWT TOKEN WAS ISSUED
 
       // IF PASSED ALL, THEN AUTHORIZE TO VIEW PAGES
-      const loggedInUser = user.pop();
-      req.user = loggedInUser;
-      res.locals.user = loggedInUser;
+      const currentUser = user.pop();
+      req.user = currentUser;
+      res.locals.user = currentUser;
       // console.log(loggedInUser);
       return next();
     } catch (error) {

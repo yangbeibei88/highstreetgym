@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { isLoggedIn, protect } from "../controllers/AuthController.js";
+import { authorisedTo, protect } from "../controllers/AuthController.js";
 import {
   listAdminClassesAction,
   saveClassFormAction,
@@ -21,7 +21,7 @@ import { listUsersAction } from "../controllers/admin/ManageUserController.js";
 export const adminRouter = Router();
 
 // adminRouter.use(isLoggedIn);
-adminRouter.use(protect);
+adminRouter.use(protect, authorisedTo("admin"));
 
 adminRouter.get("/manage-classes", listAdminClassesAction);
 adminRouter.get("/manage-timetable", listAdminTimetableAction);

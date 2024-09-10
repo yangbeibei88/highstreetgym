@@ -11,6 +11,7 @@ import {
 } from "../controllers/account/ManageBookingController.js";
 import { showMydashboardAction } from "../controllers/account/AccountDashboardController.js";
 import {
+  accountArticleRestrict,
   listAccountArticlesAction,
   saveArticleAction,
   showArticleFormAction,
@@ -38,10 +39,15 @@ accountRouter.get("/change-password", showChangePasswordAction);
 
 accountRouter.route("/articleForm/create").get(showArticleFormAction);
 
-accountRouter.route("/articleForm/:articleId/edit").get(showArticleFormAction);
+accountRouter.get(
+  "/articleForm/:articleId/edit",
+  accountArticleRestrict,
+  showArticleFormAction,
+);
 
 accountRouter.post(
   "/articleForm/save",
+  accountArticleRestrict,
   imageUpload("public/images/blog").single("imageCover"),
   saveArticleAction,
 );
@@ -51,14 +57,10 @@ accountRouter
   .get(showBookingFormAction)
   .post(createBookingAction);
 
-accountRouter.get(
-  "/booking-confirmation/:bookingId",
-  protect,
-  showBookingConfirmAction,
-);
+accountRouter.get("/booking-confirmation/:bookingId", showBookingConfirmAction);
 
 accountRouter
   .route("/blog/:articleId/commentForm/save")
-  .post(protect, saveCommentAction);
+  .post(saveCommentAction);
 
 accountRouter.post("/change-password/save", updatePasswordAction);
