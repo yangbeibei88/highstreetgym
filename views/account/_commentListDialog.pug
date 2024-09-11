@@ -1,0 +1,25 @@
+mixin commentListDialog(comments)
+  dialog#articleCommentsDialog 
+    - for(let c of comments)
+      article.flex.items-center.bg-white.border.px-4.py-2.space-x-3
+        // left
+        .flex.flex-col.justify-center.items-center
+          img.size-14.rounded-full.border(src=`/images/users/${c.avatar}` alt=`${c.firstName} ${c.lastName}`)
+        // right
+        div
+          p.my-0
+            | #{c.comment}
+          span.space-x-2
+            small.px-2.py-1.rounded-full(class=`${c.userRole === 'member' ? 'bg-yellow-500' : 'bg-sky-500'}`) #{c.userRole}
+            small
+              | #{c.firstName}
+              | #{c.lastName}
+            time(datetime=`${c.createdAt.toLocaleString('en-AU', {hour12: false})}`)
+              small
+                | Posted At:
+                | #{c.createdAt.toLocaleString('en-AU', {hour12: false})}
+            if c.updatedAt
+              time(datetime=`${c.updatedAt.toLocaleString('en-AU', {hour12: false})}`)
+                small
+                  | Updated At:
+                  | #{c.updatedAt.toLocaleString('en-AU', {hour12: false})}

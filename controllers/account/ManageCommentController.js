@@ -33,7 +33,7 @@ export const saveCommentAction = asyncHandler(async (req, res, next) => {
   console.log(errors);
 
   const inputData = {
-    commentId: +req.body.commentId,
+    commentId: +req.params.commentId,
     userId: req.user.userId,
     articleId: +req.body.articleId,
     comment: req.body.comment,

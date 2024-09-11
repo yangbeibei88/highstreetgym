@@ -12,7 +12,7 @@ export const getAllArticles = async () => {
   const conn = await dbPool.getConnection();
   try {
     const sql =
-      "SELECT a.*, t.topicName, u.firstName, u.lastName, u.avatar FROM articles a INNER JOIN topics t ON a.topicId = t.topicId INNER JOIN users u ON a.userId = u.userId ORDER BY a.createdAt DESC";
+      "SELECT a.*, t.topicName, u.firstName, u.lastName, u.avatar, COUNT(c.articleId) AS commentCount FROM articles a INNER JOIN topics t ON a.topicId = t.topicId INNER JOIN users u ON a.userId = u.userId LEFT JOIN comments c ON a.articleId = c.articleId GROUP BY a.articleId ORDER BY a.createdAt DESC";
     const [rows] = await conn.execute(sql);
     return rows;
   } catch (error) {
@@ -56,7 +56,7 @@ export const getArticlesByUser = async (userId) => {
   const conn = await dbPool.getConnection();
   try {
     const sql =
-      "SELECT a.*, t.topicName, u.firstName, u.lastName, u.avatar FROM articles a INNER JOIN topics t ON a.topicId = t.topicId INNER JOIN users u ON a.userId = u.userId WHERE a.userId = ? ORDER BY a.createdAt DESC";
+      "SELECT a.*, t.topicName, u.firstName, u.lastName, u.avatar, COUNT(c.articleId) AS commentCount FROM articles a INNER JOIN topics t ON a.topicId = t.topicId INNER JOIN users u ON a.userId = u.userId LEFT JOIN comments c ON a.articleId = c.articleId WHERE a.userId = ? GROUP BY a.articleId ORDER BY a.createdAt DESC";
     const [rows] = await conn.execute(sql, [userId]);
     return rows;
   } catch (error) {

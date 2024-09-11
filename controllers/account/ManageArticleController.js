@@ -14,6 +14,7 @@ import {
   validSelect,
 } from "../../utils/validation.js";
 import { AppError } from "../../utils/AppError.js";
+import { getCommentsByArticles } from "../../models/CommentModel.js";
 
 export const accountArticleRestrict = asyncHandler(async (req, res, next) => {
   let article;
@@ -38,16 +39,32 @@ export const accountArticleRestrict = asyncHandler(async (req, res, next) => {
 
 export const listAccountArticlesAction = async (req, res, next) => {
   let articles;
+  let comments;
+  let articlesWithComments;
   if (req.user.userRole === "admin") {
     articles = await getAllArticles();
+    const articleIds = articles.map((item) => item.articleId);
+    comments = await getCommentsByArticles(articleIds);
+
+    articlesWithComments = articles.map((article) => {
+      article.comments =
+        comments.filter((comment) => comment.articleId === article.articleId) ||
+        [];
+      // console.log(article.comments);
+      return article;
+    });
+
+    console.log(articlesWithComments);
   } else {
     articles = await getArticlesByUser(req.user.userId);
   }
 
-  console.log(articles);
-  res
-    .status(200)
-    .render("account/manage-articles", { title: "My Articles", articles });
+  // console.log(articles);
+  res.status(200).render("account/manage-articles", {
+    title: "My Articles",
+    articles,
+    articlesWithComments,
+  });
 };
 
 export const showArticleFormAction = asyncHandler(async (req, res, next) => {

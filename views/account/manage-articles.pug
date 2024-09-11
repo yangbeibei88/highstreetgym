@@ -1,6 +1,7 @@
 extends ../layouts/main.pug 
 include ../partials/_tableHeaderItem.pug
 include ../partials/_tableCellItem.pug
+include ../partials/_commentCard.pug
 
 block content 
   .page-wrapper
@@ -39,6 +40,7 @@ block content
                 +tableHeaderItem('Date Created')
                 +tableHeaderItem('Date Updated')
                 +tableHeaderItem('Visibility')
+                +tableHeaderItem('Comments')
                 +tableHeaderItem('Edit')
             tbody
               - for(let post of articles)
@@ -46,10 +48,48 @@ block content
                   +tableCellItem('article_title', post.articleTitle)
                   +tableCellItem('topic', post.topicName)
                   +tableCellItem('member', post.firstName+' '+post.lastName)
-                  +tableCellItem('date_created', post.createdAt)
-                  +tableCellItem('date_updated', post.updatedAt)
+                  +tableCellItem('date_created', post.createdAt.toLocaleString('en-AU', {hour12: false}))
+                  +tableCellItem('date_updated', post.updatedAt ? post.updatedAt.toLocaleString('en-AU', {hour12: false}) : '')
                   +tableCellItem('visibility', post.visibility)
+                  //- +tableCellItem('comments', post.commentCount)
+                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='comments')
+                    button.articleCommentsDialog(type='button' data-articleId=post.articleId onclick=`openDialog('articleCommentsDialog-${post.articleId}')`) #{post.commentCount}
+
+                    - const articleWithComments = articlesWithComments.find((article) => article.articleId === post.articleId);
+
+                    dialog(id=`articleCommentsDialog-${post.articleId}` tabindex="-1" aria-hidden="true" class='overflow-y-auto fixed top-0 right-0 left-0 z-50 justify-center items-center w-48 h-64')
+                      div(class='relative p-4 w-full')
+                        //- MODAL CONTENT
+                        div(class='relative bg-white rounded-lg shadow')
+                          //- MODAL HEADER
+                          div(class='flex items-center justify-between p-4 md:p-5 border-b rounded-t')
+                            h3(class='text-lg font-semibold text-wrap w-3/4') Comments for #{post.articleTitle}
+                            button(type='button' class='text-darkCyan bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center' onclick=`closeDialog('articleCommentsDialog-${post.articleId}')`) 
+                              svg.size-6
+                                use(xlink:href='/icons/sprites/solid.svg#xmark' fill='currentColor')
+                              span.sr-only Close modal
+                          //- MODAL BODY
+                          div(class='p-4 md:p-5 space-y-4') 
+                            if articleWithComments.comments && articleWithComments.comments.length > 0
+                              ul 
+                                each c in articleWithComments.comments
+                                  +commentCard(c)
+                            else 
+                              p No comments available.
+                          //- MODAL FOOTER
+                          div(class='flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b')
+                            button(type='button' class='btn btn-sm btn-limeGreen' onclick=`closeDialog('articleCommentsDialog-${post.articleId}')`) Close 
+
                   td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
                     a.btn.btn-sm.btn-limeGreen(href=`/auth/account/articleForm/${post.articleId}/edit`) Edit
+
         // 3) SIDE MENU
         include ../partials/_accountSideNav.pug
+    script. 
+      function openDialog(id) {
+        document.getElementById(id).showModal();
+      }
+
+      function closeDialog(id) {
+        document.getElementById(id).close();
+      }
