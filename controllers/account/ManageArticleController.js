@@ -6,7 +6,8 @@ import {
   getArticlesByUser,
   getTopics,
   getVisibilityOptions,
-  saveArticle,
+  insertArticle,
+  updateArticle,
 } from "../../models/ArticleModel.js";
 import {
   sanitizeRichText,
@@ -105,11 +106,10 @@ export const showArticleFormAction = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const saveArticleAction = asyncHandler(async (req, res, next) => {
+export const validateArticleForm = asyncHandler(async (req, res, next) => {
   const visibilityOptions = await getVisibilityOptions();
   const topics = await getTopics();
   const topicOptions = topics.map((row) => `${row.topicId}`);
-  // const articleId = req.body.articleId ? +req.body.articleId : null;
 
   // 1) VALIDATE & SANITISE FIELDS
   await Promise.all([
@@ -124,7 +124,6 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
   console.log(errors);
 
   const inputData = {
-    articleId: +req.params.articleId,
     articleTitle: req.body.articleTitle,
     topicId: +req.body.topic,
     visibility: req.body.visibility,
@@ -133,10 +132,14 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
     imageCover: req.file ? req.file.filename : null,
   };
 
-  console.log(inputData);
+  if (req.params.articleId) {
+    inputData.articleId = +req.params.articleId;
+  }
+
+  console.log("article from validator", inputData);
 
   if (!errors.isEmpty() || req.fileValidationError) {
-    return res.status(400).render("auth/articleForm", {
+    return res.status(400).render("account/articleForm", {
       title: req.params.articleId ? "Edit Article" : "Create Article",
       topics,
       visibilityOptions,
@@ -146,12 +149,25 @@ export const saveArticleAction = asyncHandler(async (req, res, next) => {
     });
   }
 
-  // INSERT DATA INTO DATABASE IF NO ERR
-  const articleObj = await saveArticle(inputData);
-  console.log(articleObj);
+  req.inputData = inputData;
+  // console.log("inputdata from validator: ", req.inputData);
+  next();
+});
 
-  // res.redirect("/auth/manage-articles");
-  res.redirect(
-    `/auth/account/articleForm/${articleObj?.articleId || req.body.articleId}/edit`,
+export const createArticleAction = asyncHandler(async (req, res, next) => {
+  // const inputData = await req.inputData;
+  const articleObj = await insertArticle(req.inputData);
+  return res.redirect(`/auth/account/articleForm/${articleObj.articleId}/edit`);
+});
+
+export const updateArticleAction = asyncHandler(async (req, res, next) => {
+  // console.log(req.inputData);
+  // const inputData = await req.inputData;
+  // console.log(inputData);
+  // UPDATE DATA INTO DATABASE IF NO ERR
+  await updateArticle(req.inputData);
+
+  return res.redirect(
+    `/auth/account/articleForm/${req.inputData.articleId}/edit`,
   );
 });

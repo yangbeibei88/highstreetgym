@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { renderHomeAction } from "../controllers/IndexController.js";
 import {
   isLoggedIn,
   renderLoginAction,

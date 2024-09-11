@@ -12,9 +12,11 @@ import {
 import { showMydashboardAction } from "../controllers/account/AccountDashboardController.js";
 import {
   accountArticleRestrict,
+  createArticleAction,
   listAccountArticlesAction,
-  saveArticleAction,
   showArticleFormAction,
+  updateArticleAction,
+  validateArticleForm,
 } from "../controllers/account/ManageArticleController.js";
 import {
   listAccountCommentsAction,
@@ -35,22 +37,32 @@ accountRouter.get("/manage-articles", listAccountArticlesAction);
 accountRouter.get("/manage-comments", listAccountCommentsAction);
 accountRouter.get("/my-profile", showMyprofileAction);
 accountRouter.get("/change-password", showChangePasswordAction);
-// accountRouter.get("/logout", logoutAction);
 
-accountRouter.route("/articleForm/create").get(showArticleFormAction);
+accountRouter
+  .route("/articleForm/create")
+  .get(showArticleFormAction)
+  .post(
+    imageUpload("public/images/blog").single("imageCover"),
+    validateArticleForm,
+    createArticleAction,
+  );
 
-accountRouter.get(
-  "/articleForm/:articleId/edit",
-  accountArticleRestrict,
-  showArticleFormAction,
-);
+accountRouter
+  .route("/articleForm/:articleId/edit")
+  .get(accountArticleRestrict, showArticleFormAction)
+  .post(
+    accountArticleRestrict,
+    imageUpload("public/images/blog").single("imageCover"),
+    validateArticleForm,
+    updateArticleAction,
+  );
 
-accountRouter.post(
-  "/articleForm/save",
-  accountArticleRestrict,
-  imageUpload("public/images/blog").single("imageCover"),
-  saveArticleAction,
-);
+// accountRouter.post(
+//   "/articleForm/save",
+//   accountArticleRestrict,
+//   imageUpload("public/images/blog").single("imageCover"),
+//   saveArticleAction,
+// );
 
 accountRouter
   .route("/timetable/:timetableId/bookingForm")

@@ -13,8 +13,8 @@ block content
         // 2) MAIN CONTENT
         main#create-article.col-span-1.order-2(class='md:col-span-3')
           //- ARTICLE FORM START
-          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action='/auth/account/articleForm/save' enctype='multipart/form-data'  novalidate)
-            input(type='hidden' name='articleId' value=(inputData.articleId))
+          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' enctype='multipart/form-data' novalidate)
+            //- input(type='hidden' name='articleId' value=(inputData.articleId))
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='articleTitle') Title
               .relative.flex.items-center
