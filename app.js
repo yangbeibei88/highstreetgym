@@ -4,6 +4,8 @@ import cors from "cors";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import cookieParser from "cookie-parser";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import session from "express-session";
 import { publicRouter } from "./routes/publicRoutes.js";
 import { authRouter } from "./routes/authRoutes.js";
 import { AppError } from "./utils/AppError.js";
@@ -33,6 +35,24 @@ app.use(express.urlencoded({ extended: false }));
 
 // COOKIE PARSER
 app.use(cookieParser());
+
+// SESSION MIDDLEWARE
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { maxAge: 60000 },
+//   }),
+// );
+
+// app.use((req, res, next) => {
+//   res.locals.successMsg = req.session.successMsg;
+//   res.locals.errorMsg = req.session.errorMsg;
+//   delete req.session.successMsg;
+//   delete req.session.errorMsg;
+//   next();
+// });
 
 // ROUTES
 app.use("/", publicRouter);

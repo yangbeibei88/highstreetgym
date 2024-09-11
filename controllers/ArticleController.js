@@ -85,7 +85,7 @@ export const blogSearchFilterSortAction = asyncHandler(
 
     let filteredArticles = [...articles];
 
-    console.log(filteredArticles);
+    // console.log(filteredArticles);
 
     if (req.query.topics) {
       const selectedTopics = req.query.topics.split(",");

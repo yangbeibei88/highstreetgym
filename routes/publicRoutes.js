@@ -23,7 +23,7 @@ import {
 export const publicRouter = Router();
 
 publicRouter.use(isLoggedIn);
-publicRouter.get("/", renderHomeAction);
+publicRouter.get("/", classListAction);
 publicRouter.get("/login", renderLoginAction);
 publicRouter.get("/signup", renderSignupAction);
 publicRouter.get("/classes", classListAction);

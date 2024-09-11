@@ -14,7 +14,10 @@ import {
   validSelect,
 } from "../../utils/validation.js";
 import { AppError } from "../../utils/AppError.js";
-import { getCommentsByArticles } from "../../models/CommentModel.js";
+import {
+  getCommentsByArticles,
+  getCommentsByArticlesByUser,
+} from "../../models/CommentModel.js";
 
 export const accountArticleRestrict = asyncHandler(async (req, res, next) => {
   let article;
@@ -31,7 +34,8 @@ export const accountArticleRestrict = asyncHandler(async (req, res, next) => {
       );
     }
 
-    req.article = article;
+    // pop article to an object
+    req.article = article.pop();
   }
 
   next();
@@ -57,6 +61,15 @@ export const listAccountArticlesAction = async (req, res, next) => {
     console.log(articlesWithComments);
   } else {
     articles = await getArticlesByUser(req.user.userId);
+    const articleIds = articles.map((item) => item.articleId);
+    comments = await getCommentsByArticlesByUser(articleIds, req.user.userId);
+    articlesWithComments = articles.map((article) => {
+      article.comments =
+        comments.filter((comment) => comment.articleId === article.articleId) ||
+        [];
+      // console.log(article.comments);
+      return article;
+    });
   }
 
   // console.log(articles);
@@ -82,23 +95,7 @@ export const showArticleFormAction = asyncHandler(async (req, res, next) => {
   };
 
   inputData = await req.article;
-
-  /****REPLACED BY MIDDLEWARE */
-  // IF IT'S ARTICLE EDIT, CHECK PARAMS ID
-  // if (req.params.articleId) {
-  //   const article = await getArticle(+req.params.articleId);
-  //   if (!article) {
-  //     return next(new AppError("This article is not found.", 404));
-  //   }
-
-  //   inputData = await article[0];
-
-  //   if (req.user.userId !== +inputData.userId) {
-  //     return next(
-  //       new AppError("You are not authorised to edit the article.", 403),
-  //     );
-  //   }
-  // }
+  console.log(inputData);
 
   res.render("account/articleForm", {
     title: req.params.articleId ? "Edit Article" : "Create Article",
