@@ -27,8 +27,8 @@ block content
     .container.mx-auto.py-6
       h2 Comments
       if user
-        form#form-comment.mb-4(method='POST' action=`/auth/account/blog/${article.articleId}/commentForm/save` novalidate)
-          input(type='hidden' name='articleId' value=`${article.articleId}`)
+        form#form-comment.mb-4(method='POST' action=`/auth/account/blog/${article.articleId}/comment` novalidate)
+          //- input(type='hidden' name='articleId' value=`${article.articleId}`)
           textarea#commentInput(name='comment' placeholder='Write your comment here' required) #{inputData && inputData.comment || ''}
           +fieldErrorMsg('comment')
           button.btn-bullet.btn-limeGreen.btn-sm(type='submit') Submit

@@ -6,8 +6,9 @@ import {
   getAllComments,
   getCommentsByArticle,
   getCommentsByUser,
-  saveComment,
+  insertComment,
 } from "../../models/CommentModel.js";
+import { AppError } from "../../utils/AppError.js";
 
 export const listAccountCommentsAction = asyncHandler(
   async (req, res, next) => {
@@ -24,33 +25,67 @@ export const listAccountCommentsAction = asyncHandler(
   },
 );
 
-export const saveCommentAction = asyncHandler(async (req, res, next) => {
-  const article = await getArticle(+req.params.articleId);
-  const comments = await getCommentsByArticle(+req.params.articleId);
+export const articleCheck = asyncHandler(async (req, res, next) => {
+  let article;
+  if (req.params.articleId) {
+    article = await getArticle(+req.params.articleId);
+    if (!article || article.length === 0) {
+      return next(new AppError("This article is not found.", 404));
+    }
+    const authorId = await article[0].userId;
+    const visi = await article[0].visibility;
+
+    if (visi === "private" && req.user.userId !== authorId) {
+      return next(
+        new AppError(
+          "You are not authorised to leave comment on this article.",
+          403,
+          {
+            text: "Back to Previous Article",
+            link: req.get("referer") || "/blog",
+          },
+        ),
+      );
+    }
+
+    // pop article to an object
+    req.article = article.pop();
+  }
+
+  next();
+});
+
+export const createCommentAction = asyncHandler(async (req, res, next) => {
+  // const article = await getArticle(+req.params.articleId);
+  const articleId = await req.article.articleId;
+  const comments = await getCommentsByArticle(articleId);
   await sanitizeTextarea("comment", 5, 200, true).run(req);
 
   const errors = validationResult(req);
   console.log(errors);
 
   const inputData = {
-    commentId: +req.params.commentId,
     userId: req.user.userId,
-    articleId: +req.body.articleId,
+    articleId,
     comment: req.body.comment,
   };
   console.log(inputData);
 
   if (!errors.isEmpty()) {
     return res.status(400).render("article", {
-      title: article[0].articleTitle,
-      article,
+      title: req.article.articleTitle,
+      showHeader: false,
+      article: req.article,
       comments,
       inputData,
+      errorMsg: errors.array().map((err) => err.msg),
       errors: errors.array(),
     });
   }
 
-  await saveComment(inputData);
+  await insertComment(inputData);
 
-  return res.redirect(`/blog/${article[0].articleId}`);
+  req.session.successMsg = "Comment submitted successfully!🎉";
+
+  return res.redirect(`/blog/${req.article.articleId}`);
 });

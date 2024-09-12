@@ -21,8 +21,9 @@ import {
   validateArticleForm,
 } from "../controllers/account/ManageArticleController.js";
 import {
+  articleCheck,
+  createCommentAction,
   listAccountCommentsAction,
-  saveCommentAction,
 } from "../controllers/account/ManageCommentController.js";
 import { showMyprofileAction } from "../controllers/account/AccountProfileController.js";
 import { showChangePasswordAction } from "../controllers/account/AccountPasswordController.js";
@@ -70,8 +71,8 @@ accountRouter.get(
 );
 
 accountRouter
-  .route("/blog/:articleId/commentForm/save")
-  .post(saveCommentAction);
+  .route("/blog/:articleId/comment")
+  .post(articleCheck, createCommentAction);
 
 accountRouter
   .route("/change-password")
