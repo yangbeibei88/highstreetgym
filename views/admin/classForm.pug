@@ -3,18 +3,14 @@ include ../partials/_fieldErrorMsg.pug
 
 block content 
   .page-wrapper
-    // 1) HEADER
-    header.bg-darkCyan.text-white
-      .container.mx-auto.px-4.pt-3(class='md:px-0 md:py-4')
-        h1 #{title}
     // 2) MAIN CCONTENT
     .wrapper.bg-slate-100
       .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
         // 2) MAIN CONTENT
         main#create-article.col-span-1.order-2(class='md:col-span-3')
           //- CLASS FORM START
-          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action='/auth/admin/classForm/save' enctype='multipart/form-data' novalidate)
-            input(type='hidden' name='classId' value=(inputData.classId))
+          form#form-create-article.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' enctype='multipart/form-data' novalidate)
+            //- input(type='hidden' name='classId' value=(inputData.classId))
             .space-y-1.col-span-1(class='md:col-span-6')
               label.block.text-sm.font-semibold.text-darkCyan(for='className') Class Name
               .relative.flex.items-center
@@ -83,5 +79,5 @@ block content
                 span Submit
         // 3) COVER IMAGE PREVIEW
         section.order-1
-          img(src=`/images/classes/${inputData && inputData.imageCover ? inputData.imageCover : 'default-class-cover.jpeg'}` alt=(inputData && inputData.className || 'class-cover') class='object-cover')
+          img(src=`/images/classes/${inputData && inputData.imageCover || 'default-class-cover.jpeg'}` alt=(inputData && inputData.className || 'class-cover') class='object-cover')
 

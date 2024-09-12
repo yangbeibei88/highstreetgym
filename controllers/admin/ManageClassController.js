@@ -6,7 +6,8 @@ import {
   getClassByCode,
   getClassByName,
   getDayOptions,
-  saveClass,
+  insertClass,
+  updateClass,
 } from "../../models/ClassModel.js";
 import { AppError } from "../../utils/AppError.js";
 import {
@@ -57,19 +58,16 @@ export const showClassFormAction = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const saveClassFormAction = asyncHandler(async (req, res, next) => {
+export const validateClassForm = asyncHandler(async (req, res, next) => {
   const dayOptions = await getDayOptions();
-  const classId = req.body.classId ? +req.body.classId : null;
-
+  const classId = req.params.classId ? +req.params.classId : null;
   let existingClass = null;
+
   if (classId) {
-    const [existingClassData] = await getClass(classId);
+    const existingClassData = await getClass(classId);
     existingClass = existingClassData[0];
   }
 
-  console.log(existingClass);
-
-  console.log(req.file);
   // 1) VALIDATE & SANITISE FIELDS
   await Promise.all([
     validateText("className", 2, 50, true).run(req),
@@ -97,7 +95,6 @@ export const saveClassFormAction = asyncHandler(async (req, res, next) => {
   console.log(errors);
 
   const inputData = {
-    classId: +req.body.classId,
     classCode: +req.body.classCode,
     className: req.body.className,
     shortDesc: req.body.shortDesc,
@@ -105,24 +102,45 @@ export const saveClassFormAction = asyncHandler(async (req, res, next) => {
     minDuration: req.body.minDuration,
     maxDuration: req.body.maxDuration,
     days: req.body.days,
-    imageCover: req.file ? req.file.filename : null,
+    // eslint-disable-next-line no-nested-ternary
+    imageCover: req.file
+      ? req.file.filename
+      : existingClass.imageCover
+        ? existingClass.imageCover
+        : null,
   };
 
-  console.log(inputData);
+  if (req.params.classId) {
+    inputData.classId = +req.params.classId;
+  }
 
-  if (!errors.isEmpty() || req.fileValidatorError) {
+  console.log(req.fileValidationError);
+
+  if (!errors.isEmpty() || req.fileValidationError) {
     return res.status(400).render("admin/classForm", {
       title: req.params.classId ? "Edit Class" : "Create Class",
       dayOptions,
       inputData,
       errors: errors.array(),
-      uploadErr: req.fileValidatorError,
+      uploadErr: req.fileValidationError,
     });
   }
 
-  const classObj = await saveClass(inputData);
-  console.log(classObj);
-  res.redirect(
-    `/auth/admin/classForm/${classObj?.classId || req.body.classId}/edit`,
-  );
+  req.inputData = inputData;
+  next();
+});
+
+export const createClassAction = asyncHandler(async (req, res, next) => {
+  const classObj = await insertClass(req.inputData);
+  req.session.successMsg = `'${classObj.className}' has been created successfully!`;
+
+  res.redirect(`/auth/admin/classForm/${classObj.classId}/edit`);
+});
+
+export const updateClassAction = asyncHandler(async (req, res, next) => {
+  await updateClass(req.inputData);
+
+  req.session.successMsg = `'${req.inputData.className}' has been updated successfully!`;
+
+  res.redirect(`/auth/admin/classForm/${req.inputData.classId}/edit`);
 });

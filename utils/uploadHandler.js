@@ -5,6 +5,7 @@ import multer from "multer";
 
 const imageFilter = (req, file, cb) => {
   const imageTypes = ["image/png", "image/jpeg", "image/webp"];
+  console.log(file.mimetype);
   if (imageTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
@@ -25,6 +26,12 @@ const xmlFilter = (req, file, cb) => {
     req.fileValidationError = "File type must be text/xml";
   }
 };
+
+// export const checkFileUploadErrors = (req, res, next) => {
+//   if (req.fileValidationError) {
+
+//   }
+// }
 
 const getAvailableFilename = async (destpath, basename, ext, index = 0) => {
   const filename =

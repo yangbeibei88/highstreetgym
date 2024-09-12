@@ -77,7 +77,7 @@ export const validateEmail = (
 
   if (runInUse === true && typeof cb === "function") {
     chain = chain.custom(async (value) => {
-      const [rows] = await cb(value);
+      const rows = await cb(value);
       if (rows.length > 0) {
         throw new Error("Email already in use.");
       }
@@ -202,7 +202,7 @@ export const checkUnique = (name, cb, skipCheck = false) =>
       // SKIP UNQIUENESS CHECK IF SKIPCHECK IS TRUE
       return true;
     }
-    const [row] = await cb(value);
+    const row = await cb(value);
     if (row.length > 0) {
       throw new Error(`${value} already exists`);
     }
@@ -214,7 +214,7 @@ export const checkInDB = (name, cb) =>
     if (!value || typeof cb !== "function") {
       throw new Error(`Invalid option`);
     }
-    const [row] = await cb(value);
+    const row = await cb(value);
     if (!row) {
       throw new Error(`${value} is invalid`);
     }

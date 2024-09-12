@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { authorisedTo, protect } from "../controllers/AuthController.js";
 import {
+  createClassAction,
   listAdminClassesAction,
-  saveClassFormAction,
   showClassFormAction,
+  updateClassAction,
+  validateClassForm,
 } from "../controllers/admin/ManageClassController.js";
 import {
   listDataImportsAction,
@@ -27,16 +29,32 @@ adminRouter.get("/manage-classes", listAdminClassesAction);
 adminRouter.get("/manage-timetable", listAdminTimetableAction);
 adminRouter.get("/manage-users", listUsersAction);
 adminRouter.get("/data-import", listDataImportsAction);
-adminRouter.get("/classForm/create", showClassFormAction);
 adminRouter.get("/timetableForm/create", showTimetableFormAction);
-adminRouter.get("/classForm/:classId/edit", showClassFormAction);
 adminRouter.get("/timetableForm/:timetableId/edit", showTimetableFormAction);
 
-adminRouter.post(
-  "/classForm/save",
-  imageUpload("public/images/classes").single("imageCover"),
-  saveClassFormAction,
-);
+adminRouter
+  .route("/classForm/create")
+  .get(showClassFormAction)
+  .post(
+    imageUpload("public/images/classes").single("imageCover"),
+    validateClassForm,
+    createClassAction,
+  );
+
+adminRouter
+  .route("/classForm/:classId/edit")
+  .get(showClassFormAction)
+  .post(
+    imageUpload("public/images/classes").single("imageCover"),
+    validateClassForm,
+    updateClassAction,
+  );
+
+// adminRouter.post(
+//   "/classForm/save",
+//   imageUpload("public/images/classes").single("imageCover"),
+//   saveClassFormAction,
+// );
 
 adminRouter.post("/timetableForm/save", saveTimetableFormAction);
 
