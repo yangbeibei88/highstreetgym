@@ -9,7 +9,7 @@ block content
       | Sign Up An
       | Account
     form#form-signup.grid.grid-cols-1.py-4.gap-4(class='md:grid-cols-2' method='POST' action='/auth/signup' novalidate)
-      input#userId(type='hidden' name='userId' value=(newUser && newUser.userId || ''))
+      //- input#userId(type='hidden' name='userId' value=(newUser && newUser.userId || ''))
       .space-y-1.col-span-1(class='md:col-span-1')
         label.block.text-sm.font-semibold.text-darkCyan(for='register_firstname')
           | First

@@ -91,6 +91,8 @@ export const authenticateSignupAction = asyncHandler(async (req, res, next) => {
 
   createSendToken(res, newUserData);
 
+  req.session.successMsg = "Welcome to High Street Gym!🙌";
+
   res.redirect("/");
 });
 
@@ -111,21 +113,27 @@ export const authenticateLoginAction = asyncHandler(async (req, res, next) => {
     });
   }
 
-  // 3) CHECK IF LOGIN EMAIL & PASSWORD ARE CORRECT
+  // 3) CHECK IF LOGIN EMAIL IS IN THE DATABASE
   const user = await findUserByEmail(req.body.login_email);
+  if (!user || !user.length) {
+    return res.status(401).render("login", {
+      errorMsg: "Incorrect credentials",
+    });
+  }
+
+  // 4) CHECK IF PASSWORD IS CORRECT
+  const userPassword = await user[0].password;
   const verifyPasswordPromise = await bcrypt.compare(
     req.body.login_password,
-    user[0].password,
+    userPassword,
   );
 
   // console.log(user.length);
   console.log(verifyPasswordPromise);
 
-  if (!user.length || !verifyPasswordPromise) {
-    req.session.errorMsg = "Incorrect credentials";
+  if (!verifyPasswordPromise) {
     return res.status(401).render("login", {
-      errorMsg: req.session.errorMsg,
-      credentialError: "Incorrect credentials",
+      errorMsg: "Incorrect credentials",
     });
   }
 
@@ -232,10 +240,17 @@ export const authorisedTo =
 
 export const updatePasswordAction = asyncHandler(async (req, res, next) => {
   const user = await getUser(req.user.userId);
+  if (!user.length) {
+    return next(
+      new AppError("You are not authorised to change the password", 403),
+    );
+  }
+
+  const userPassword = await user[0].password;
   // 1) CHECK IF ENTERED CURRENT PASSWORD IS CORRECT
   const verifyPasswordPromise = await bcrypt.compare(
     req.body.currentPassword,
-    user[0].password,
+    userPassword,
   );
 
   console.log(verifyPasswordPromise);
@@ -279,6 +294,6 @@ export const updatePasswordAction = asyncHandler(async (req, res, next) => {
   return res.render("account/change-password", {
     title: "Change Password - Success🎉",
     success: true,
-    successMsg: req.session.successMsg,
+    successMsg: "Your password has been updated successfully! 🎉",
   });
 });
