@@ -5,7 +5,8 @@ import {
   getLevels,
   getTimetableById,
   getTimetableByNo,
-  saveTimetable,
+  insertTimetable,
+  updateTimetable,
 } from "../../models/TimetableModel.js";
 import { getAllClasses, getClass } from "../../models/ClassModel.js";
 import { getTrainerById, getTrainers } from "../../models/UserModel.js";
@@ -19,7 +20,7 @@ import {
 } from "../../utils/validation.js";
 
 export const listAdminTimetableAction = asyncHandler(async (req, res, next) => {
-  const timetables = await getAllTimetables();
+  const timetables = await getAllTimetables(true);
   res.status(200).render("admin/manage-timetable", {
     title: "Manage Timetable",
     timetables,
@@ -59,20 +60,18 @@ export const showTimetableFormAction = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const saveTimetableFormAction = asyncHandler(async (req, res, next) => {
+export const validateTimetableForm = asyncHandler(async (req, res, next) => {
   const classes = await getAllClasses();
   const trainers = await getTrainers();
   const levelOptions = await getLevels();
 
-  const timetableId = req.body.timetableId ? +req.body.timetableId : null;
+  const timetableId = req.params.timetableId ? +req.params.timetableId : null;
 
   let existingTimetable = null;
   if (timetableId) {
     const existingTimetableData = await getTimetableById(timetableId);
     existingTimetable = existingTimetableData[0];
   }
-
-  console.log("timetableId:", timetableId);
 
   // VALIDATE & SANITISE FIELDS
   await Promise.all([
@@ -98,7 +97,6 @@ export const saveTimetableFormAction = asyncHandler(async (req, res, next) => {
   console.log(errors);
 
   const inputData = {
-    timetableId: +req.body.timetableId,
     timetableNo: +req.body.timetableNo,
     classId: +req.body.classId,
     startDateTime: `${req.body.startDateTime.replace("T", " ")}:00`,
@@ -108,7 +106,9 @@ export const saveTimetableFormAction = asyncHandler(async (req, res, next) => {
     capacity: +req.body.capacity,
   };
 
-  console.log(inputData);
+  if (timetableId) {
+    inputData.timetableId = timetableId;
+  }
 
   if (!errors.isEmpty()) {
     return res.status(400).render("admin/timetableForm", {
@@ -121,9 +121,22 @@ export const saveTimetableFormAction = asyncHandler(async (req, res, next) => {
     });
   }
 
-  const timetableObj = await saveTimetable(inputData);
+  req.inputData = inputData;
+  next();
+});
+
+export const createTimetableAction = asyncHandler(async (req, res, next) => {
+  const timetableObj = await insertTimetable(req.inputData);
   console.log(timetableObj);
-  res.redirect(
-    `/auth/admin/timetableForm/${timetableObj?.timetableId || req.body.timetableId}/edit`,
-  );
+
+  req.session.successMsg = `timetableNo #${timetableObj.timetableId} has been created successfully!`;
+
+  res.redirect(`/auth/admin/timetableForm/${timetableObj.timetableId}/edit`);
+});
+export const updateTimetableAction = asyncHandler(async (req, res, next) => {
+  await updateTimetable(req.inputData);
+
+  req.session.successMsg = `timetableNo #${req.inputData.timetableNo} has been updated successfully!`;
+
+  res.redirect(`/auth/admin/timetableForm/${req.inputData.timetableId}/edit`);
 });

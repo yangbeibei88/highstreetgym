@@ -30,20 +30,22 @@ block content
               | 10 results
             thead.text-sm.text-white.bg-darkCyan
               tr
-                +tableHeaderItem('Date Published')
-                +tableHeaderItem('Date Updated')
+                +tableHeaderItem('Commenter')
+                +tableHeaderItem('Comment')
                 +tableHeaderItem('Article')
                 +tableHeaderItem('Author')
-                +tableHeaderItem('My Comment')
+                +tableHeaderItem('Date Published')
+                //- +tableHeaderItem('Date Updated')
                 +tableHeaderItem('Action')
             tbody
               - for(let c of comments)
                 tr 
-                  +tableCellItem('date_published', c.createdAt)
-                  +tableCellItem('date_updated', c.updatedAt)
+                  +tableCellItem('commenter', c.firstName+' '+c.lastName)
+                  +tableCellItem('comment', c.comment)
                   +tableCellItem('article', c.articleTitle)
                   +tableCellItem('author', c.authorFirstName+' '+c.authorLastName)
-                  +tableCellItem('my_comment', c.comment)
+                  +tableCellItem('date_published', c.createdAt.toLocaleString('en-AU', {hour12: false}))
+                  //- +tableCellItem('date_updated', c.updatedAt)
                   td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
                     a.btn.btn-sm.btn-limeGreen(href='/edit') Edit
         // 3) SIDE MENU

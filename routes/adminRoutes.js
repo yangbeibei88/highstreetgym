@@ -14,9 +14,11 @@ import {
 } from "../controllers/admin/DataImportController.js";
 import { imageUpload, xmlUpload } from "../utils/uploadHandler.js";
 import {
+  createTimetableAction,
   listAdminTimetableAction,
-  saveTimetableFormAction,
   showTimetableFormAction,
+  updateTimetableAction,
+  validateTimetableForm,
 } from "../controllers/admin/ManageTimetableController.js";
 import { listUsersAction } from "../controllers/admin/ManageUserController.js";
 
@@ -29,8 +31,6 @@ adminRouter.get("/manage-classes", listAdminClassesAction);
 adminRouter.get("/manage-timetable", listAdminTimetableAction);
 adminRouter.get("/manage-users", listUsersAction);
 adminRouter.get("/data-import", listDataImportsAction);
-adminRouter.get("/timetableForm/create", showTimetableFormAction);
-adminRouter.get("/timetableForm/:timetableId/edit", showTimetableFormAction);
 
 adminRouter
   .route("/classForm/create")
@@ -56,7 +56,15 @@ adminRouter
 //   saveClassFormAction,
 // );
 
-adminRouter.post("/timetableForm/save", saveTimetableFormAction);
+adminRouter
+  .route("/timetableForm/create")
+  .get(showTimetableFormAction)
+  .post(validateTimetableForm, createTimetableAction);
+
+adminRouter
+  .route("/timetableForm/:timetableId/edit")
+  .get(showTimetableFormAction)
+  .post(validateTimetableForm, updateTimetableAction);
 
 adminRouter.post(
   "/data-import/classxml",

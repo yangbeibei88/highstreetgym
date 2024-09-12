@@ -2,11 +2,14 @@ import { pool } from "../config/db.js";
 
 const dbPool = await pool();
 
-export const getAllTimetables = async () => {
+export const getAllTimetables = async (includeBefore = false) => {
   const conn = await dbPool.getConnection();
   try {
-    const sql =
-      "SELECT tt.*, cl.className, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId WHERE tt.startDateTime >= CURRENT_TIMESTAMP() ORDER BY tt.startDateTime";
+    const timeCondition =
+      includeBefore === true
+        ? ""
+        : "WHERE tt.startDateTime >= CURRENT_TIMESTAMP()";
+    const sql = `SELECT tt.*, cl.className, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId ${timeCondition} ORDER BY tt.startDateTime`;
     const [rows] = await conn.execute(sql);
     return rows;
   } catch (error) {

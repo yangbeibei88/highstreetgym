@@ -14,9 +14,9 @@ block content
         // 2) MAIN CONTENT
         main#create-article.col-span-1.order-2(class='md:col-span-3')
           //- CLASS FORM START
-          form#form-timetable.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' action='/auth/admin/timetableForm/save' novalidate)
-            input(type='hidden' name='timetableId' value=(inputData.timetableId))
-            |
+          form#form-timetable.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' novalidate)
+            //- input(type='hidden' name='timetableId' value=(inputData.timetableId))
+            //- |
             +fieldGroup('timetableNo', 'solid', 'hashtag', 'number', 'timetableNo', inputData && inputData.timetableNo, 'Timetable No', 6, { required: true, step: 1, disabled: inputData && inputData.timetableId ? true : false })
             |
             if inputData && inputData.timetableId
