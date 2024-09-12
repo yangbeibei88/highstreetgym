@@ -8,6 +8,7 @@ import {
   listAccountbookingsAction,
   showBookingConfirmAction,
   showBookingFormAction,
+  timetableCheck,
 } from "../controllers/account/ManageBookingController.js";
 import { showMydashboardAction } from "../controllers/account/AccountDashboardController.js";
 import {
@@ -58,8 +59,8 @@ accountRouter
 
 accountRouter
   .route("/timetable/:timetableId/bookingForm")
-  .get(showBookingFormAction)
-  .post(createBookingAction);
+  .get(timetableCheck, showBookingFormAction)
+  .post(timetableCheck, createBookingAction);
 
 accountRouter.get("/booking-confirmation/:bookingId", showBookingConfirmAction);
 

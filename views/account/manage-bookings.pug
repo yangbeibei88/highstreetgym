@@ -34,7 +34,7 @@ block content
               | 10 results
             thead.text-sm.text-white.bg-darkCyan
               tr
-                +tableHeaderItem('ID#')
+                +tableHeaderItem('No#')
                 +tableHeaderItem('member')
                 +tableHeaderItem('booked at')
                 +tableHeaderItem('class start')
@@ -46,7 +46,7 @@ block content
             tbody
               - for(let b of bookings)
                 tr
-                  +tableCellItem('id', b.bookingId)
+                  +tableCellItem('No', b.bookingNo)
                   +tableCellItem('member', b.userFirstName+' '+b.userLastName)
                   +tableCellItem('booking_date', b.createdAt.toLocaleString('en-AU', {hour12: false}))
                   +tableCellItem('class_datetime', new Intl.DateTimeFormat('en-GB', {dateStyle: 'full', timeStyle: 'long', timeZone: 'Australia/Brisbane'}).format(b.startDateTime))

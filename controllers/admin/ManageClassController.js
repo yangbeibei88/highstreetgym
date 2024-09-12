@@ -134,7 +134,7 @@ export const createClassAction = asyncHandler(async (req, res, next) => {
   const classObj = await insertClass(req.inputData);
   req.session.successMsg = `'${classObj.className}' has been created successfully!`;
 
-  res.redirect(`/auth/admin/classForm/${classObj.classId}/edit`);
+  return res.redirect(`/auth/admin/classForm/${classObj.classId}/edit`);
 });
 
 export const updateClassAction = asyncHandler(async (req, res, next) => {
@@ -142,5 +142,5 @@ export const updateClassAction = asyncHandler(async (req, res, next) => {
 
   req.session.successMsg = `'${req.inputData.className}' has been updated successfully!`;
 
-  res.redirect(`/auth/admin/classForm/${req.inputData.classId}/edit`);
+  return res.redirect(`/auth/admin/classForm/${req.inputData.classId}/edit`);
 });

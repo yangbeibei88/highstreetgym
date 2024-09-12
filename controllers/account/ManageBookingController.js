@@ -36,18 +36,33 @@ export const listAccountbookingsAction = asyncHandler(
   },
 );
 
+export const timetableCheck = asyncHandler(async (req, res, next) => {
+  const timetableId = req.params.timetableId ? +req.params.timetableId : null;
+
+  const timetable = await getTimetableById(timetableId);
+
+  if (!timetable || timetable.length === 0) {
+    return next(
+      new AppError("Sorry, this timetable doesn't exist.", 400, {
+        text: "Back to Timetable",
+        link: "/timetable",
+      }),
+    );
+  }
+
+  req.timetable = timetable.pop();
+
+  next();
+});
+
 // USERS WHO NEVER BOOKED A TIMETABLE CLASS ARE ALLOWED TO ACCESS BOOKING FORM
 // TODO: POPUP FOR BOOKED USER
 export const showBookingFormAction = asyncHandler(async (req, res, next) => {
-  const result = await getTimetableById(+req.params.timetableId);
   const myBookings = await getTimetableByUserId(req.user.userId);
   const myBookingTimetableIds = await myBookings.reduce((acc, cur) => {
     acc.push(cur.timetableId);
     return acc;
   }, []);
-  if (!result || result.length === 0) {
-    return next(new AppError("Timetable not found", 404));
-  }
   if (
     myBookingTimetableIds &&
     myBookingTimetableIds.includes(+req.params.timetableId)
@@ -59,18 +74,18 @@ export const showBookingFormAction = asyncHandler(async (req, res, next) => {
       }),
     );
   }
-  const timetable = await result[0];
   // console.log(timetable);
   res.status(200).render("account/bookingForm", {
     title: "Booking",
-    timetable,
+    showHeader: false,
+    timetable: req.timetable,
     referer: req.get("referer") || "/",
   });
 });
 
 export const createBookingAction = asyncHandler(async (req, res, next) => {
   const newBookingData = {
-    timetableId: +req.body.timetableId,
+    timetableId: req.timetable.timetableId,
     userId: req.user.userId,
   };
 
@@ -78,13 +93,15 @@ export const createBookingAction = asyncHandler(async (req, res, next) => {
 
   await generateBookingNo(newBooking.bookingId);
 
+  req.session.successMsg = "Booked successfully!";
+
   return res.redirect(
     `/auth/account/booking-confirmation/${newBooking.bookingId}`,
   );
 });
 
-export const showBookingConfirmAction = async (req, res, next) => {
-  const [result] = await getBookingById(req.params.bookingId);
+export const showBookingConfirmAction = asyncHandler(async (req, res, next) => {
+  const result = await getBookingById(+req.params.bookingId);
 
   if (!result) {
     return next(new AppError("Booking Confirmation Not Found", 404));
@@ -94,6 +111,7 @@ export const showBookingConfirmAction = async (req, res, next) => {
 
   res.render("account/booking-confirm", {
     title: "Booking Confirmation",
+    showHeader: false,
     booking,
   });
-};
+});
