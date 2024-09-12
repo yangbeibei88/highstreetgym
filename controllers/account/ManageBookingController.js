@@ -100,18 +100,33 @@ export const createBookingAction = asyncHandler(async (req, res, next) => {
   );
 });
 
+export const accountBookingConfirmRestrict = asyncHandler(
+  async (req, res, next) => {
+    let booking;
+    if (req.params.bookingId) {
+      booking = await getBookingById(+req.params.bookingId);
+
+      if (!booking || booking.length === 0) {
+        return next(new AppError("Booking Confirmation Not Found", 404));
+      }
+
+      const bookingUserId = await booking[0].userId;
+
+      if (req.user.userId !== bookingUserId) {
+        return next(new AppError("You are not authorised to access.", 403));
+      }
+
+      req.bookingConfirmation = booking.pop();
+    }
+
+    next();
+  },
+);
+
 export const showBookingConfirmAction = asyncHandler(async (req, res, next) => {
-  const result = await getBookingById(+req.params.bookingId);
-
-  if (!result) {
-    return next(new AppError("Booking Confirmation Not Found", 404));
-  }
-
-  const booking = await result[0];
-
   res.render("account/booking-confirm", {
     title: "Booking Confirmation",
     showHeader: false,
-    booking,
+    booking: req.bookingConfirmation,
   });
 });

@@ -4,6 +4,7 @@ import {
   updatePasswordAction,
 } from "../controllers/AuthController.js";
 import {
+  accountBookingConfirmRestrict,
   createBookingAction,
   listAccountbookingsAction,
   showBookingConfirmAction,
@@ -62,7 +63,11 @@ accountRouter
   .get(timetableCheck, showBookingFormAction)
   .post(timetableCheck, createBookingAction);
 
-accountRouter.get("/booking-confirmation/:bookingId", showBookingConfirmAction);
+accountRouter.get(
+  "/booking-confirmation/:bookingId",
+  accountBookingConfirmRestrict,
+  showBookingConfirmAction,
+);
 
 accountRouter
   .route("/blog/:articleId/commentForm/save")

@@ -2,6 +2,7 @@ extends ../layouts/main.pug
 include ../partials/_pageHeader.pug
 include ../partials/_tableHeaderItem.pug
 include ../partials/_tableCellItem.pug
+include ../partials/_link.pug
 
 block content 
   .page-wrapper
@@ -46,7 +47,8 @@ block content
             tbody
               - for(let b of bookings)
                 tr
-                  +tableCellItem('No', b.bookingNo)
+                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='No')
+                    +link(b.bookingNo, `/auth/account/booking-confirmation/${b.bookingId}`)
                   +tableCellItem('member', b.userFirstName+' '+b.userLastName)
                   +tableCellItem('booking_date', b.createdAt.toLocaleString('en-AU', {hour12: false}))
                   +tableCellItem('class_datetime', new Intl.DateTimeFormat('en-GB', {dateStyle: 'full', timeStyle: 'long', timeZone: 'Australia/Brisbane'}).format(b.startDateTime))
