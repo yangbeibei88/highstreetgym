@@ -33,6 +33,9 @@ export const getCommentsByArticle = async (id) => {
 };
 
 export const getCommentsByArticles = async (articleIds) => {
+  if (!articleIds.length) {
+    return [];
+  }
   const conn = await dbPool.getConnection();
   try {
     const placeholders = articleIds.map(() => "?").join(",");
@@ -63,11 +66,14 @@ export const getCommentsByUser = async (userId) => {
 };
 
 export const getCommentsByArticlesByUser = async (articleIds, userId) => {
+  if (!articleIds.length) {
+    return [];
+  }
   const conn = await dbPool.getConnection();
   try {
     const placeholders = articleIds.map(() => "?").join(",");
     const sql = `SELECT c.*, u1.firstName, u1.lastName, u1.avatar, u1.userRole, u2.firstName AS authorFirstName, u2.lastName AS authorLastName, u2.userRole AS authorUserRole, a.articleTitle FROM comments c RIGHT JOIN articles a ON c.articleId = a.articleId INNER JOIN users u1 ON c.userId = u1.userId INNER JOIN users u2 ON a.userId = u2.userId WHERE c.articleId IN (${placeholders}) AND a.userId = ? ORDER BY c.createdAt DESC`;
-    const [rows] = await conn.execute(sql, [articleIds, userId].flat());
+    const [rows] = await conn.execute(sql, [...articleIds, userId]);
     return rows;
   } catch (error) {
     console.log(error);

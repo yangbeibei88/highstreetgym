@@ -5,20 +5,15 @@ import {
   getTimetableByUserId,
 } from "../models/TimetableModel.js";
 
-export const classListAction = async (req, res) => {
-  try {
-    const classes = await getAllClasses();
-    console.log(classes);
-    res.status(200).render("classes", {
-      title: "All classes",
-      showHeader: false,
-      classes,
-    });
-  } catch (error) {
-    // res.status(500).json({ error: "Failed to fetch classes" });
-    console.log(error);
-  }
-};
+export const classListAction = asyncHandler(async (req, res, next) => {
+  const classes = await getAllClasses();
+  // console.log(classes);
+  res.status(200).render("classes", {
+    title: "All classes",
+    showHeader: false,
+    classes,
+  });
+});
 
 export const classShowAction = asyncHandler(async (req, res, next) => {
   let myBookings = [];

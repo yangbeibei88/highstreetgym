@@ -50,9 +50,8 @@ nav.sticky.top-0.z-30.flex.flex-wrap.items-center.justify-between.px-2.py-3.bg-d
               span Create Article 
               svg.size-6 
                 use(xlink:href='/icons/sprites/regular.svg#pen-to-square' fill='currentColor')
-          li.group.nav-item 
-            a(href='/auth/account')
-              img.size-10.rounded-full(src=`/images/users/${user.avatar}` alt='')
+          +navItemMobile('My Account', '/auth/account')
+          +navItemMobile('Logout', '/auth/logout')
         else
           +navItem('login', '/login')
           +navItem('signup', '/signup')
