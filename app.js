@@ -37,22 +37,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // SESSION MIDDLEWARE
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { maxAge: 60000 },
-//   }),
-// );
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
 
-// app.use((req, res, next) => {
-//   res.locals.successMsg = req.session.successMsg;
-//   res.locals.errorMsg = req.session.errorMsg;
-//   delete req.session.successMsg;
-//   delete req.session.errorMsg;
-//   next();
-// });
+    cookie: {
+      maxAge: 6000,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: true,
+    },
+  }),
+);
+
+app.use((req, res, next) => {
+  res.locals.successMsg = req.session.successMsg;
+  res.locals.errorMsg = req.session.errorMsg;
+  delete req.session.successMsg;
+  delete req.session.errorMsg;
+  next();
+});
 
 // ROUTES
 app.use("/", publicRouter);

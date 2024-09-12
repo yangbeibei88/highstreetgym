@@ -9,10 +9,13 @@ html(lang="en")
   body(class="flex flex-col min-h-screen justify-center")
     // MAINNAV
     include ../partials/_mainnav.pug
-    
 
-    // ROLE VARIALBE
-    block variables
+    // FLASH MESSAGE
+    include ../partials/_flashMessage.pug 
+    if successMsg 
+      +successMessage(successMsg)
+    if errorMsg 
+      +errorMessage(errorMsg)
     
     // CONTENT
     block content

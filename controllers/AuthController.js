@@ -113,6 +113,8 @@ export const authenticateLoginAction = asyncHandler(async (req, res, next) => {
   // pass in user.pop() as an object so that token function can grab userId
   createSendToken(res, user.pop());
 
+  req.session.successMsg = "You have successfully logged in!";
+
   // redirect to Home page
   res.redirect("/");
 });
@@ -125,6 +127,7 @@ export const logoutAction = (req, res, next) => {
     path: "/",
   });
   console.log("Logout cookie cleared:", req.cookies.jwt);
+  req.session.successMsg = "You have successfully logged out!";
   res.redirect("/?loggedout=true");
 };
 
