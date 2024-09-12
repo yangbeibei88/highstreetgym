@@ -37,6 +37,7 @@ export const articleListAction = asyncHandler(async (req, res, next) => {
 
   return res.render("blog", {
     title: "Blog",
+    subtitle: "Read articles from our gym members!",
     articles,
     topics,
   });
@@ -75,6 +76,7 @@ export const articleShowAction = asyncHandler(async (req, res, next) => {
   return res.render("article", {
     title: article[0].articleTitle,
     article: article[0],
+    showHeader: false,
     comments,
   });
 });

@@ -11,6 +11,7 @@ export const classListAction = async (req, res) => {
     console.log(classes);
     res.status(200).render("classes", {
       title: "All classes",
+      showHeader: false,
       classes,
     });
   } catch (error) {
@@ -35,6 +36,7 @@ export const classShowAction = asyncHandler(async (req, res, next) => {
   }
   res.status(200).render("class", {
     title: course[0].className,
+    showHeader: false,
     course,
     timetables,
     myBookings,

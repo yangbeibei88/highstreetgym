@@ -34,6 +34,7 @@ export const timetableListAction = asyncHandler(async (req, res, next) => {
 
   res.status(200).render("timetable", {
     title: "Timetable",
+    subtitle: "Book a class that suits your time!",
     classes,
     timetables,
     myBookings,

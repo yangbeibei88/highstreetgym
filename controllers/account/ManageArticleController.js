@@ -161,11 +161,14 @@ export const validateArticleForm = asyncHandler(async (req, res, next) => {
 export const createArticleAction = asyncHandler(async (req, res, next) => {
   // const inputData = await req.inputData;
   const articleObj = await insertArticle(req.inputData);
+  req.session.successMsg = `'${articleObj.articleTitle}' has been created successfully!`;
   return res.redirect(`/auth/account/articleForm/${articleObj.articleId}/edit`);
 });
 
 export const updateArticleAction = asyncHandler(async (req, res, next) => {
   await updateArticle(req.inputData);
+
+  req.session.successMsg = `'${req.inputData.articleTitle}' has been updated successfully!`;
 
   return res.redirect(
     `/auth/account/articleForm/${req.inputData.articleId}/edit`,

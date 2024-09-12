@@ -10,6 +10,11 @@ html(lang="en")
     // MAINNAV
     include ../partials/_mainnav.pug
 
+    // HEADER
+    include ../partials/_pageHeader.pug
+    if title && showHeader !== false
+      +pageHeader(title, subtitle)
+
     // FLASH MESSAGE
     include ../partials/_flashMessage.pug 
     if successMsg 
