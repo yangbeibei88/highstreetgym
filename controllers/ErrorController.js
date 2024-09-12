@@ -5,6 +5,7 @@ export const globalErrorHandler = (err, req, res, next) => {
   console.log(err.action);
   return res.status(err.statusCode).render("error", {
     title: err.statusCode,
+    showHeader: false,
     errorCode: err.statusCode,
     errorMsg: err.message,
     action: err.action,

@@ -36,7 +36,6 @@ accountRouter.get("/manage-bookings", listAccountbookingsAction);
 accountRouter.get("/manage-articles", listAccountArticlesAction);
 accountRouter.get("/manage-comments", listAccountCommentsAction);
 accountRouter.get("/my-profile", showMyprofileAction);
-accountRouter.get("/change-password", showChangePasswordAction);
 
 accountRouter
   .route("/articleForm/create")
@@ -57,13 +56,6 @@ accountRouter
     updateArticleAction,
   );
 
-// accountRouter.post(
-//   "/articleForm/save",
-//   accountArticleRestrict,
-//   imageUpload("public/images/blog").single("imageCover"),
-//   saveArticleAction,
-// );
-
 accountRouter
   .route("/timetable/:timetableId/bookingForm")
   .get(showBookingFormAction)
@@ -75,4 +67,7 @@ accountRouter
   .route("/blog/:articleId/commentForm/save")
   .post(saveCommentAction);
 
-accountRouter.post("/change-password/save", updatePasswordAction);
+accountRouter
+  .route("/change-password")
+  .get(showChangePasswordAction)
+  .post(updatePasswordAction);

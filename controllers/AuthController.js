@@ -18,11 +18,29 @@ import { createSendToken, decodeJwt } from "../utils/jwtToken.js";
 import { AppError } from "../utils/AppError.js";
 
 export const renderSignupAction = (req, res, next) => {
-  res.status(200).render("signup", { title: "Sign Up" });
+  if (req.user) {
+    return next(
+      new AppError("You cannot sign up when you are logged in!", 400, {
+        text: "Back to My Dashboard",
+        link: "/auth/account",
+      }),
+    );
+  }
+  return res
+    .status(200)
+    .render("signup", { title: "Sign Up", showHeader: false });
 };
 
 export const renderLoginAction = (req, res, next) => {
-  res.status(200).render("login", { title: "Login" });
+  if (req.user) {
+    return next(
+      new AppError("You have already Logged In!", 400, {
+        text: "Back to My Dashboard",
+        link: "/auth/account",
+      }),
+    );
+  }
+  return res.status(200).render("login", { title: "Login", showHeader: false });
 };
 
 export const authenticateSignupAction = asyncHandler(async (req, res, next) => {
@@ -104,7 +122,9 @@ export const authenticateLoginAction = asyncHandler(async (req, res, next) => {
   console.log(verifyPasswordPromise);
 
   if (!user.length || !verifyPasswordPromise) {
+    req.session.errorMsg = "Incorrect credentials";
     return res.status(401).render("login", {
+      errorMsg: req.session.errorMsg,
       credentialError: "Incorrect credentials",
     });
   }
@@ -221,9 +241,10 @@ export const updatePasswordAction = asyncHandler(async (req, res, next) => {
   console.log(verifyPasswordPromise);
 
   if (!verifyPasswordPromise) {
+    req.session.errorMsg = "Incorrect password ❌";
     return res.status(401).render("account/change-password", {
       title: "Change Password - Incorrect ❌",
-      credentialError: "Incorrect password",
+      credentialError: req.session.errorMsg,
     });
   }
   // 2) IF CURRENT PASSWORD IS CORRECT, CHECK IF NEW PASSWORD AND ITS PASSWORD CONFIRM IS MATCHED
@@ -253,9 +274,11 @@ export const updatePasswordAction = asyncHandler(async (req, res, next) => {
 
   createSendToken(res, user[0]);
 
+  req.session.successMsg = "Your password has been updated successfully! 🎉";
+
   return res.render("account/change-password", {
     title: "Change Password - Success🎉",
     success: true,
-    successMsg: "Your password has been updated successfully!",
+    successMsg: req.session.successMsg,
   });
 });
