@@ -289,8 +289,6 @@ export const updatePasswordAction = asyncHandler(async (req, res, next) => {
 
   createSendToken(res, user[0]);
 
-  req.session.successMsg = "Your password has been updated successfully! 🎉";
-
   return res.render("account/change-password", {
     title: "Change Password - Success🎉",
     success: true,

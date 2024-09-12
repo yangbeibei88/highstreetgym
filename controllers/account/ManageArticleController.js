@@ -99,7 +99,9 @@ export const showArticleFormAction = asyncHandler(async (req, res, next) => {
     imageCover: null,
   };
 
-  inputData = await req.article;
+  if (req.params.articleId) {
+    inputData = await req.article;
+  }
   console.log(inputData);
 
   res.render("account/articleForm", {
