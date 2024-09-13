@@ -17,7 +17,7 @@ export const uploadClassDataAction = asyncHandler(async (req, res, next) => {
   if (!req.file) {
     return res.status(400).render("admin/data-import", {
       title: "Data Import Error",
-      error: "No file uploaded or invalid file type.",
+      errorMsg: "No file uploaded or invalid file type.",
     });
   }
   const xmlDocument = await parseXmlFile(req.file.path, "classes");
@@ -33,7 +33,7 @@ export const uploadClassDataAction = asyncHandler(async (req, res, next) => {
 
   return res.status(200).render("admin/data-import", {
     title: "Data Import Completed!",
-    message: "Data import completed!",
+    successMsg: "Data import completed!",
     success,
     failed,
     details,
@@ -72,7 +72,7 @@ export const uploadTimetableDataAction = asyncHandler(
 
     return res.status(200).render("admin/data-import", {
       title: "Data Import Completed!",
-      message: "Data import completed!",
+      successMsg: "Data import completed!",
       success,
       failed,
       details,

@@ -4,8 +4,9 @@ import cors from "cors";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import cookieParser from "cookie-parser";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import session from "express-session";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import helmet from "helmet";
 import { publicRouter } from "./routes/publicRoutes.js";
 import { authRouter } from "./routes/authRoutes.js";
 import { AppError } from "./utils/AppError.js";
@@ -23,6 +24,17 @@ app.options("*", cors());
 
 // set `public` folder as static folder
 app.use(express.static(path.join(__dirname, "public")));
+
+// Set security HTTP headers
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "img-src": ["'self'", "https: data: blob:"],
+      "script-src": ["'self'"],
+    },
+  }),
+);
 
 // development logger
 if (process.env.NODE_ENV === "development") {

@@ -1,14 +1,26 @@
 import { fileURLToPath } from "node:url";
 import { resolve, dirname } from "node:path";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import dotenv from "dotenv";
 // eslint-disable-next-line import/no-extraneous-dependencies, node/no-unpublished-import
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 // eslint-disable-next-line import/no-extraneous-dependencies, node/no-unpublished-import
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+// eslint-disable-next-line node/no-unpublished-import
+import webpack from "webpack";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+dotenv.config({ path: resolve(__dirname, "../.env") });
+
+const { DefinePlugin } = webpack;
+
 export default {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
+  devtool:
+    process.env.NODE_ENV === "production"
+      ? "source-map"
+      : "cheap-module-source-map",
   entry: "./src/index.js",
   output: {
     path: resolve(__dirname, "../public/bundle"),
@@ -66,5 +78,10 @@ export default {
     minimize: true,
     minimizer: [new CssMinimizerPlugin({})],
   },
-  plugins: [new MiniCssExtractPlugin({ filename: "bundle.css" })],
+  plugins: [
+    new MiniCssExtractPlugin({ filename: "bundle.css" }),
+    new DefinePlugin({
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    }),
+  ],
 };

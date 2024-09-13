@@ -30,6 +30,7 @@
     "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "quill": "^2.0.2"
   }
 }
