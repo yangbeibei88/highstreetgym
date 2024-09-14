@@ -134,7 +134,7 @@ export const saveClass = async (course) => {
 export const upsertClasses = async (xmlData) => {
   const conn = await dbPool.getConnection();
   try {
-    const fieldNames = [
+    const baseFieldNames = [
       "classCode",
       "className",
       "shortDesc",
@@ -144,8 +144,8 @@ export const upsertClasses = async (xmlData) => {
       "days",
     ];
 
-    const onUpdates = [
-      "className = VALUES(className)",
+    const baseOnUpdates = [
+      // "className = VALUES(className)",
       "shortDesc = VALUES(shortDesc)",
       "longDesc = VALUES(longDesc)",
       "minDuration = VALUES(minDuration)",
@@ -161,22 +161,25 @@ export const upsertClasses = async (xmlData) => {
     await Promise.all(
       xmlData.map(async (row) => {
         try {
+          // Initialize fieldNames and onUpdates for each row
+          const fieldNames = [...baseFieldNames];
+          const onUpdates = [...baseOnUpdates];
           const values = [
             row.classCode,
             row.className,
             row.shortDesc,
             row.longDesc,
-            row.minDuration / 60,
-            row.maxDuration / 60,
-            row.days.join(","),
+            row.minDuration,
+            row.maxDuration,
+            row.days,
           ];
-          if (row.imageCover) {
+          if (row.imageCover && row.imageCover.length > 0) {
             fieldNames.push("imageCover");
             onUpdates.push("imageCover = VALUES(imageCover)");
             values.push(row.imageCover);
           }
-          const placeHolders = Array(fieldNames.length).fill("?");
-          const sql = `INSERT INTO classes (${fieldNames.join(", ")}) VALUES ${placeHolders.join(", ")} ON DUPLICATE KEY UPDATE ${onUpdates.join(", ")}`;
+          const placeHolders = Array(fieldNames.length).fill("?").join(", ");
+          const sql = `INSERT INTO classes (${fieldNames.join(", ")}) VALUES (${placeHolders}) ON DUPLICATE KEY UPDATE ${onUpdates.join(", ")}`;
 
           await conn.execute(sql, values);
         } catch (error) {

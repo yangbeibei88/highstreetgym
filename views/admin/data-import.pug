@@ -28,13 +28,15 @@ block content
               tr
                 +tableCellItem('table_name', 'Classes Table')            
                 td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='form_action')
-                  form(method="POST" action='/auth/admin/data-import/classxml' enctype='multipart/form-data') 
+                  //- action='/auth/admin/data-import/classxml'
+                  form(method="POST" enctype='multipart/form-data') 
                     input#classXmlFile(type='file' name='classXmlFile' accept='.xml')
                     button#classXmlFileSubmitBtn.btn.btn-limeGreen.btn-sm(type='submit') Submit   
               tr
                 +tableCellItem('table_name', 'Timetables Table')            
                 td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='form_action')
-                  form(method="POST" action='/auth/admin/data-import/timetablexml' enctype='multipart/form-data') 
+                  //- action='/auth/admin/data-import/timetablexml'
+                  form(method="POST" enctype='multipart/form-data') 
                     input#classXmlFile(type='file' name='timetableXmlFile' accept='.xml')
                     button#timetableXmlFileSubmitBtn.btn.btn-limeGreen.btn-sm(type='submit') Submit   
 

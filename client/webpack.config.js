@@ -13,6 +13,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 dotenv.config({ path: resolve(__dirname, "../.env") });
 
+console.log(process.env.NODE_ENV);
+
 const { DefinePlugin } = webpack;
 
 export default {

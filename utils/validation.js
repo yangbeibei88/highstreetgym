@@ -41,7 +41,7 @@ export const validateInteger = (
     chain = chain.notEmpty().withMessage(`${name} is required.`);
   }
 
-  chain.isInt().toInt().withMessage(`${name} must be a valid integer.`);
+  chain.toInt().isInt().withMessage(`${name} must be a valid integer.`);
 
   chain = chain.custom((value) => {
     const isValid = value >= min && value <= max;
