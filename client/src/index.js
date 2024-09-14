@@ -9,9 +9,12 @@ import { TimetableSearchAndFilter } from "./components/TimetableSearchAndFilter.
 import { BlogSearchAndFilter } from "./components/BlogSearchAndFilter.js";
 import { MainNav } from "./components/MainNav.js";
 import { SideNav } from "./components/SideNav.js";
+import { FlashMessage } from "./components/FlashMessage.js";
+import { CommentsDialog } from "./components/CommentsDialog.js";
 
 document.addEventListener("DOMContentLoaded", () => new MainNav());
 document.addEventListener("DOMContentLoaded", () => new SideNav());
+document.addEventListener("DOMContentLoaded", () => new FlashMessage());
 
 const bookingForm = new BookingForm();
 // const quillEditor = new QuillEditor();
@@ -26,3 +29,4 @@ document.addEventListener(
 );
 
 document.addEventListener("DOMContentLoaded", () => new BlogSearchAndFilter());
+document.addEventListener("DOMContentLoaded", () => new CommentsDialog());
