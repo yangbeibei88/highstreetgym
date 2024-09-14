@@ -2,21 +2,21 @@
 <?xml-model href="timetables.xsd"?>
 <timetables xmlns="http://localhost:8085/xmls/timetables">
   <timetable>
-    <timetableNo>15</timetableNo>
-    <classCode>101</classCode>
-    <trainerEmail>alexm@hsg.io</trainerEmail>
-    <startDateTime>2024-09-02T06:30:00</startDateTime>
-    <duration>PT60M</duration>
-    <level>advanced</level>
-    <capacity>20</capacity>
+    <timetableNo>20</timetableNo>
+    <classCode>104</classCode>
+    <trainerEmail>lisab@hsg.io</trainerEmail>
+    <startDateTime>2024-09-14T16:30:00</startDateTime>
+    <duration>PT40M</duration>
+    <level>intermediate</level>
+    <capacity>24</capacity>
   </timetable>
   <timetable>
-    <timetableNo>16</timetableNo>
-    <classCode>106</classCode>
-    <trainerEmail>maxm@hsg.io</trainerEmail>
-    <startDateTime>2024-09-02T06:30:00</startDateTime>
+    <timetableNo></timetableNo>
+    <classCode>105</classCode>
+    <trainerEmail>sophiam@hsg.io</trainerEmail>
+    <startDateTime>2024-09-14T11:30:00</startDateTime>
     <duration>PT55M</duration>
     <level>beginner</level>
-    <capacity>4</capacity>
+    <capacity>16</capacity>
   </timetable>
 </timetables>

@@ -14,7 +14,7 @@ block content
         .basis-full(class='lg:basis-1/2')
           h1.uppercase.text-lemonGreen #{course[0].className}
           h2.text-lg.text-lemonGreen #{course[0].shortDesc}
-          p #{course[0].longDesc}
+          p !{course[0].longDesc}
           a.btn.btn-limeGreen(href='#view-dates-and-book')
             span
               | View

@@ -12,6 +12,7 @@ import {
   uploadClassDataAction,
   uploadTimetableDataAction,
   validateClassXmlFile,
+  validateTimetableXmlFile,
 } from "../controllers/admin/DataImportController.js";
 import { imageUpload, xmlUpload } from "../utils/uploadHandler.js";
 import {
@@ -68,14 +69,15 @@ adminRouter
   .post(validateTimetableForm, updateTimetableAction);
 
 adminRouter.post(
-  "/data-import",
+  "/data-import/classxml",
   xmlUpload("public/uploads").single("classXmlFile"),
   validateClassXmlFile,
   uploadClassDataAction,
 );
 
 adminRouter.post(
-  "/data-import",
+  "/data-import/timetablexml",
   xmlUpload("public/uploads").single("timetableXmlFile"),
+  validateTimetableXmlFile,
   uploadTimetableDataAction,
 );

@@ -194,8 +194,18 @@ export const upsertClasses = async (xmlData) => {
 
     return {
       success: xmlData.length - failedRows.length,
-      failed: failedRows ? failedRows.length : 0,
-      details: failedRows,
+      failed: failedRows && failedRows.length ? failedRows.length : 0 * 1,
+      details:
+        failedRows && failedRows.length
+          ? Object.keys(failedRows[0])
+              .join()
+              .concat(
+                "\n",
+                failedRows
+                  .map((obj, idx) => `line ${idx}: ${Object.values(obj)}`)
+                  .join(";\n"),
+              )
+          : "",
     };
   } catch (error) {
     console.error("Critical error during import", error);

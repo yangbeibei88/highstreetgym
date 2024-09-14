@@ -147,41 +147,43 @@ export const saveTimetable = async (tt) => {
 export const upsertTimetables = async (xmlData) => {
   const conn = await dbPool.getConnection();
   try {
-    const fieldNames = [
-      "timetableNo",
-      "classCode",
-      "trainerEmail",
-      "startDateTime",
-      "duration",
-      "level",
-      "capacity",
-    ];
-
-    const onUpdates = [
-      "classCode = VALUES(classCode)",
-      "trainerEmail = VALUES(trainerEmail)",
-      "startDateTime = VALUES(startDateTime)",
-      "duration = VALUES(duration)",
-      "level = VALUES(level)",
-      "capacity = VALUES(capacity)",
-    ];
-
     const failedRows = [];
 
     await Promise.all(
       xmlData.map(async (row) => {
         try {
-          const sql = `INSERT INTO timetables (${fieldNames.join(", ")}) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE ${onUpdates.join(", ")}`;
+          const fieldNames = [
+            "timetableNo",
+            "classCode",
+            "trainerEmail",
+            "startDateTime",
+            "duration",
+            "level",
+            "capacity",
+          ];
+
+          const onUpdates = [
+            "classCode = VALUES(classCode)",
+            "trainerEmail = VALUES(trainerEmail)",
+            "startDateTime = VALUES(startDateTime)",
+            "duration = VALUES(duration)",
+            "level = VALUES(level)",
+            "capacity = VALUES(capacity)",
+          ];
+
+          const placeHolders = Array(fieldNames.length).fill("?").join(", ");
 
           const values = [
             row.timetableNo,
             row.classCode,
             row.trainerEmail,
             row.startDateTime,
-            row.duration / 60,
+            row.duration,
             row.level,
             row.capacity,
           ];
+
+          const sql = `INSERT INTO timetables (${fieldNames.join(", ")}) VALUES (${placeHolders}) ON DUPLICATE KEY UPDATE ${onUpdates.join(", ")}`;
 
           await conn.execute(sql, values);
         } catch (error) {
@@ -196,15 +198,18 @@ export const upsertTimetables = async (xmlData) => {
 
     return {
       success: xmlData.length - failedRows.length,
-      failed: failedRows ? failedRows.length : 0,
-      details: fieldNames
-        .join()
-        .concat(
-          "\n",
-          failedRows
-            .map((obj, idx) => `line ${idx}: ${Object.values(obj)}`)
-            .join(";\n"),
-        ),
+      failed: failedRows && failedRows.length ? failedRows.length : 0,
+      details:
+        failedRows && failedRows.length
+          ? Object.keys(failedRows[0])
+              .join()
+              .concat(
+                "\n",
+                failedRows
+                  .map((obj, idx) => `line ${idx}: ${Object.values(obj)}`)
+                  .join(";\n"),
+              )
+          : "",
     };
   } catch (error) {
     console.error("Critical error during import", error);

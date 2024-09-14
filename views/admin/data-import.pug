@@ -12,11 +12,11 @@ block content
         // 2) MAIN CONTENT
         main#my-articles.col-span-1.order-2(class='md:col-span-3')
           //- RESULT INFO
-          p #{message || ''}
-          p #{success ? `Success: ${success}` : ''}
-          p #{failed ? `Failed: ${failed}` : ''}
-          p #{details ? `Failed rows: ${details}` : ''}
-          p #{error || ''}
+          //- p #{message || ''}
+          //- p #{success ? `Success: ${success}` : ''}
+          //- p #{failed ? `Failed: ${failed}` : ''}
+          //- p #{details ? `Failed rows: ${details}` : ''}
+          //- p #{error || ''}
           table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
             caption.text-sm
               | XML Data Import
@@ -27,17 +27,16 @@ block content
             tbody
               tr
                 +tableCellItem('table_name', 'Classes Table')            
-                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='form_action')
-                  //- action='/auth/admin/data-import/classxml'
-                  form(method="POST" enctype='multipart/form-data') 
+                td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='form_action') 
+                  form#form-classXmlImport(method="POST" enctype='multipart/form-data' action='/auth/admin/data-import/classxml') 
                     input#classXmlFile(type='file' name='classXmlFile' accept='.xml')
                     button#classXmlFileSubmitBtn.btn.btn-limeGreen.btn-sm(type='submit') Submit   
               tr
                 +tableCellItem('table_name', 'Timetables Table')            
                 td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='form_action')
-                  //- action='/auth/admin/data-import/timetablexml'
-                  form(method="POST" enctype='multipart/form-data') 
-                    input#classXmlFile(type='file' name='timetableXmlFile' accept='.xml')
+                  
+                  form#form-timetableXmlImport(method="POST" enctype='multipart/form-data' action='/auth/admin/data-import/timetablexml') 
+                    input#timetableXmlFile(type='file' name='timetableXmlFile' accept='.xml')
                     button#timetableXmlFileSubmitBtn.btn.btn-limeGreen.btn-sm(type='submit') Submit   
 
         // 3) SIDE MENU

@@ -67,8 +67,10 @@ app.use(
 app.use((req, res, next) => {
   res.locals.successMsg = req.session.successMsg;
   res.locals.errorMsg = req.session.errorMsg;
+  res.locals.validationErrorMsg = req.session.validationErrorMsg;
   delete req.session.successMsg;
   delete req.session.errorMsg;
+  delete req.session.validationErrorMsg;
   next();
 });
 

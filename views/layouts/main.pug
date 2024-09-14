@@ -22,6 +22,8 @@ html(lang="en")
       +successMessage(successMsg)
     if errorMsg 
       +errorMessage(errorMsg)
+    if validationErrorMsg
+      +validationErrorMessage(validationErrorMsg)
     
     // CONTENT
     block content

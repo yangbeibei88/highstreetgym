@@ -104,6 +104,7 @@ export const parseAndValidateXMLFactory = (
     console.log("validDataArray: ", validDataArray);
 
     req.validData = validDataArray.filter((rowObj) => rowObj !== null);
+    req.invalidData = validDataArray.filter((rowObj) => rowObj === null);
 
     console.log("req.validData: ", req.validData);
 
