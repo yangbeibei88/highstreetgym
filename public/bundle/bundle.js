@@ -5902,6 +5902,7 @@ var AccbookingsSearchAndFilter = /*#__PURE__*/function () {
     this._accbksSearchAndFilterEl = document.getElementById("myBookingFilters");
     this._statusFilterEl = document.querySelector("#myBookingFilters #statusFilter");
     this._classFilterEl = document.querySelector("#myBookingFilters #classFilter");
+    this._bookingsContainer = document.querySelector("main#myBookings");
     this._bookingList = document.querySelector("#bookingList tbody");
     this._paginationContainer = document.querySelector("#pagination-container-myBookings");
     this.currentPage = 1;
@@ -5977,17 +5978,18 @@ var AccbookingsSearchAndFilter = /*#__PURE__*/function () {
               // console.log(data);
               this.updateBookingList(data.bookings);
               this.updatePagination(data.pagination);
-              _context.next = 14;
+              this._bookingsContainer.style.display = "block";
+              _context.next = 15;
               break;
-            case 11:
-              _context.prev = 11;
+            case 12:
+              _context.prev = 12;
               _context.t0 = _context["catch"](0);
               console.error("Fetch bookings error: ", _context.t0);
-            case 14:
+            case 15:
             case "end":
               return _context.stop();
           }
-        }, _callee, this, [[0, 11]]);
+        }, _callee, this, [[0, 12]]);
       }));
       function fetchBookings(_x) {
         return _fetchBookings.apply(this, arguments);

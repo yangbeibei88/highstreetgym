@@ -1,3 +1,4 @@
+import { query as evQuery } from "express-validator";
 import { pool } from "../config/db.js";
 
 const dbPool = await pool();
@@ -115,6 +116,66 @@ export const updatePassword = async (user) => {
   try {
     const sql = "UPDATE users SET password = ? WHERE userId = ?";
     await conn.execute(sql, [user.password, user.userId]);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+export const getFilteredUsers = async (query = {}) => {
+  const conn = await dbPool.getConnection();
+
+  let baseSql = `FROM users WHERE 1=1`;
+
+  const queryParams = [];
+
+  if (query.role) {
+    const selectedRoles = evQuery("role")
+      .optional()
+      .trim()
+      .customSanitizer((v) =>
+        v
+          .split(",")
+          .map((item) => item.trim().toLowerCase())
+          .join(","),
+      )
+      .escape();
+
+    baseSql += " AND userRole IN (?)";
+    queryParams.push(selectedRoles);
+  }
+
+  if (query.search) {
+    const searchTerm = `%${evQuery("search").optional().trim().escape()}%`;
+    baseSql += " AND (firstName LIKE ? OR lastName LIKE ?)";
+    queryParams.push(searchTerm, searchTerm);
+  }
+
+  const page = parseInt(query.page, 10) || 1;
+  const limit = parseInt(query.limit, 10) || 10;
+  const offset = (page - 1) * limit;
+
+  const paginationSql = " LIMIT ? OFFSET ?";
+  queryParams.push(limit, offset);
+
+  try {
+    const sql = `SELECT * ${baseSql} ${paginationSql}`;
+    const [filteredUsers] = await conn.execute(sql, queryParams);
+
+    const countSql = `SELECT COUNT(*) AS totalItems ${baseSql}`;
+    const [totalCountResult] = await conn.execute(
+      countSql,
+      queryParams.slice(0, -2),
+    );
+
+    const { totalItems } = totalCountResult[0];
+
+    // CALCULATE TOTAL PAGES
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return { filteredUsers, page, totalItems, totalPages, limit };
   } catch (error) {
     console.log(error);
     throw error;

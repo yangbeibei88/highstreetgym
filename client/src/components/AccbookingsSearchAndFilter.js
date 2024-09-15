@@ -10,6 +10,7 @@ export class AccbookingsSearchAndFilter {
     this._classFilterEl = document.querySelector(
       "#myBookingFilters #classFilter",
     );
+    this._bookingsContainer = document.querySelector("main#myBookings");
     this._bookingList = document.querySelector("#bookingList tbody");
     this._paginationContainer = document.querySelector(
       "#pagination-container-myBookings",
@@ -72,6 +73,7 @@ export class AccbookingsSearchAndFilter {
       // console.log(data);
       this.updateBookingList(data.bookings);
       this.updatePagination(data.pagination);
+      this._bookingsContainer.style.display = "block";
     } catch (error) {
       console.error(`Fetch bookings error: `, error);
     }

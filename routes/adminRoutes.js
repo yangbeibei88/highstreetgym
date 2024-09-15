@@ -22,7 +22,10 @@ import {
   updateTimetableAction,
   validateTimetableForm,
 } from "../controllers/admin/ManageTimetableController.js";
-import { listUsersAction } from "../controllers/admin/ManageUserController.js";
+import {
+  listUsersAction,
+  usersSearchFilterSortAction,
+} from "../controllers/admin/ManageUserController.js";
 
 export const adminRouter = Router();
 
@@ -81,3 +84,5 @@ adminRouter.post(
   validateTimetableXmlFile,
   uploadTimetableDataAction,
 );
+
+adminRouter.get("manage-users/search-filter", usersSearchFilterSortAction);

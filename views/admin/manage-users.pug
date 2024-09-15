@@ -15,35 +15,53 @@ block content
           // 1) FILTER
           .flex.flex-col.items-center.justify-between.p-4.space-y-3(class='lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10')
             .w-full(class='lg:w-1/2')
-              label(for='search-article') Search
-              input#search-user(type='search' name='search-user' placeholder='Search a user')
-            .w-full(class='lg:w-1/2 lg:justify-self-end')
-              a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/auth/admin/addUserForm/create')
-                span
-                  | Add
-                  | User
-                span
-                  svg.size-6 
-                    use(xlink:href='/icons/sprites/solid.svg#circle-plus' fill='currentColor')
+              label(for='searchUser') Search
+              input#searchUser(type='search' name='searchUser' placeholder='Search user name')
+            .w-full(class='lg:w-1/2')
+              label(for='roleFilter')
+                | Filter by
+                | Role
+              select#roleFilter(name='roleFilter')
+                option(value='')
+                  | ------ Select a Role ------
+                option(value='admin') Admin
+                option(value='trainer')
+                  | trainer
+                option(value='member')
+                  | member
+            //- .w-full(class='lg:w-1/2 lg:justify-self-end')
+            //-   a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/auth/admin/addUserForm/create')
+            //-     span
+            //-       | Add
+            //-       | User
+            //-     span
+            //-       svg.size-6 
+            //-         use(xlink:href='/icons/sprites/solid.svg#circle-plus' fill='currentColor')
           // User list table
-          table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
+          table#adminUserList.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
             caption.text-sm
               | 10 results
             thead.text-sm.text-white.bg-darkCyan
               tr
+                +tableHeaderItem('ID#')
+                +tableHeaderItem('Avatar')
                 +tableHeaderItem('User Name')
                 +tableHeaderItem('Email')
                 +tableHeaderItem('Phone')
                 +tableHeaderItem('Role')
-                +tableHeaderItem('Action')
+                +tableHeaderItem('Created At')
             tbody
               - for(let u of users)
                 tr
+                  +tableCellItem('user_id', u.userId)
+                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='Avatar')
+                    img.size-10.rounded-full(src=`/images/users/${u.avatar}`, alt=(u.firstName))
                   +tableCellItem('user_name', u.firstName+' '+u.lastName)
                   +tableCellItem('email', u.emailAddress)
                   +tableCellItem('phone', u.phoneNumber)
                   +tableCellItem('role', u.userRole)
-                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
-                    a.btn.btn-sm.btn-limeGreen(href=`/auth/admin/addUserForm/${u.userId}/edit`) Edit
+                  +tableCellItem('created_at', u.createdAt.toLocaleDateString())
+                  //- td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
+                  //-   a.btn.btn-sm.btn-limeGreen(href=`/auth/admin/addUserForm/${u.userId}/edit`) Edit
         // 3) SIDE MENU
         include ../partials/_accountSideNav.pug
