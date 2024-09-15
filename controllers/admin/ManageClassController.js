@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import { validationResult } from "express-validator";
 import {
   getAllClasses,
+  getAllClassesCount,
   getClass,
   getClassByCode,
   getClassByName,
@@ -21,10 +22,12 @@ import {
 
 export const listAdminClassesAction = asyncHandler(async (req, res, next) => {
   const classes = await getAllClasses();
+  const count = await getAllClassesCount();
 
   res.status(200).render("admin/manage-classes", {
     title: "Manage Classes",
     classes,
+    count,
   });
 });
 

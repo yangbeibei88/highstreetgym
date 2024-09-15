@@ -26,6 +26,20 @@ export const getAllClasses = async () => {
   }
 };
 
+export const getAllClassesCount = async () => {
+  const conn = await dbPool.getConnection();
+  try {
+    const sql = "SELECT COUNT(*) AS count FROM classes";
+    const [count] = await conn.execute(sql);
+    return count;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
 export const getClass = async (id) => {
   const conn = await dbPool.getConnection();
   // TODO: two parts: class & timetable
