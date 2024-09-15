@@ -5,7 +5,8 @@ export class Pagination {
     totalItems,
     limit,
     onPageChange,
-    container,
+    paginationContainer,
+    captionContainer = "",
   }) {
     // // Debug: Log pagination constructor values
     // console.log("Pagination Constructor:", {
@@ -19,13 +20,33 @@ export class Pagination {
     this.totalItems = totalItems;
     this.limit = limit;
     this.onPageChange = onPageChange;
-    this._container = document.querySelector(container);
+    this._paginationContainer = document.querySelector(paginationContainer);
+    this._captionContainer = document.querySelector(captionContainer);
   }
 
   render() {
     const startIndex =
       this.totalItems > 0 ? (this.currentPage - 1) * this.limit + 1 : 0;
     const endIndex = Math.min(this.currentPage * this.limit, this.totalItems);
+
+    const captionHtml = `
+        <!-- Showing X to Y of Z Entries -->
+      <span class="text-sm text-center text-darkCyan">
+        Showing
+        <span class="font-semibold">
+          ${startIndex}
+        </span>
+        to
+        <span class="font-semibold">
+          ${endIndex}
+        </span>
+        of
+        <span class="font-semibold">
+          ${this.totalItems}
+        </span>
+        Entries
+      </span>
+    `;
 
     const paginationHtml = `<div class="block py-4">
     <div class="flex flex-col items-center justify-center md:flex-row md:justify-between">
@@ -84,7 +105,8 @@ export class Pagination {
     </div>
   </div >`;
 
-    this._container.innerHTML = paginationHtml;
+    this._paginationContainer.innerHTML = paginationHtml;
+    this._captionContainer.innerHTML = captionHtml;
 
     this.attachListeners();
   }
@@ -104,7 +126,8 @@ export class Pagination {
   }
 
   attachListeners() {
-    const pageLinks = this._container.querySelectorAll("a[data-page]");
+    const pageLinks =
+      this._paginationContainer.querySelectorAll("a[data-page]");
 
     pageLinks.forEach((link) => {
       link.addEventListener("click", (e) => {

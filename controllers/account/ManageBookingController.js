@@ -4,6 +4,7 @@ import {
   getAllBookings,
   getBookingById,
   getBookingByUser,
+  getFilteredBookings,
   insertBookingTrans,
 } from "../../models/BookingModel.js";
 import {
@@ -11,27 +12,38 @@ import {
   getTimetableByUserId,
 } from "../../models/TimetableModel.js";
 import { AppError } from "../../utils/AppError.js";
+import { getAllClasses } from "../../models/ClassModel.js";
+
+export const accountBookingsRestrict = asyncHandler(async (req, res, next) => {
+  let bookings;
+  switch (req.user.userRole) {
+    case "admin":
+      bookings = await getAllBookings();
+      break;
+    case "member":
+      bookings = await getBookingByUser(req.user.userId);
+      break;
+
+    default:
+      bookings = await getBookingByUser(req.user.userId);
+      break;
+  }
+
+  req.bookings = bookings;
+  next();
+});
 
 export const listAccountbookingsAction = asyncHandler(
   async (req, res, next) => {
-    // req.user.userId comes from isLoggedIn middleware
-    let bookings;
-    switch (req.user.userRole) {
-      case "admin":
-        bookings = await getAllBookings();
-        break;
-      case "member":
-        bookings = await getBookingByUser(req.user.userId);
-        break;
+    const classes = await getAllClasses();
 
-      default:
-        bookings = await getBookingByUser(req.user.userId);
-        break;
-    }
+    const bookings = await req.bookings;
+
     // const [bookings] = await getBookingByUser(req.user.userId);
     return res.status(200).render("account/manage-bookings", {
       title: "My Bookings",
       bookings,
+      classes,
     });
   },
 );
@@ -130,3 +142,20 @@ export const showBookingConfirmAction = asyncHandler(async (req, res, next) => {
     booking: req.bookingConfirmation,
   });
 });
+
+export const myBookingsSearchFilterSortAction = asyncHandler(
+  async (req, res, next) => {
+    const { filteredBookings, page, totalItems, totalPages, limit } =
+      await getFilteredBookings(req.user, req.query);
+
+    res.json({
+      bookings: filteredBookings,
+      pagination: {
+        currentPage: page,
+        totalItems,
+        totalPages,
+        limit,
+      },
+    });
+  },
+);

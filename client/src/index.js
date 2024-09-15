@@ -11,6 +11,7 @@ import { MainNav } from "./components/MainNav.js";
 import { SideNav } from "./components/SideNav.js";
 import { FlashMessage } from "./components/FlashMessage.js";
 import { CommentsDialog } from "./components/CommentsDialog.js";
+import { AccbookingsSearchAndFilter } from "./components/AccbookingsSearchAndFilter.js";
 
 document.addEventListener("DOMContentLoaded", () => new MainNav());
 document.addEventListener("DOMContentLoaded", () => new SideNav());
@@ -30,3 +31,8 @@ document.addEventListener(
 
 document.addEventListener("DOMContentLoaded", () => new BlogSearchAndFilter());
 document.addEventListener("DOMContentLoaded", () => new CommentsDialog());
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => new AccbookingsSearchAndFilter(),
+);

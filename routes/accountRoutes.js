@@ -5,8 +5,10 @@ import {
 } from "../controllers/AuthController.js";
 import {
   accountBookingConfirmRestrict,
+  accountBookingsRestrict,
   createBookingAction,
   listAccountbookingsAction,
+  myBookingsSearchFilterSortAction,
   showBookingConfirmAction,
   showBookingFormAction,
   timetableCheck,
@@ -35,7 +37,11 @@ export const accountRouter = Router();
 accountRouter.use(protect);
 
 accountRouter.get("/", showMydashboardAction);
-accountRouter.get("/manage-bookings", listAccountbookingsAction);
+accountRouter.get(
+  "/manage-bookings",
+  accountBookingsRestrict,
+  listAccountbookingsAction,
+);
 accountRouter.get("/manage-articles", listAccountArticlesAction);
 accountRouter.get("/manage-comments", listAccountCommentsAction);
 accountRouter.get("/my-profile", showMyprofileAction);
@@ -78,3 +84,8 @@ accountRouter
   .route("/change-password")
   .get(showChangePasswordAction)
   .post(updatePasswordAction);
+
+accountRouter.get(
+  "/manage-bookings/search-filter",
+  myBookingsSearchFilterSortAction,
+);

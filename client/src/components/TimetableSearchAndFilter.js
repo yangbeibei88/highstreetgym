@@ -138,7 +138,8 @@ export class TimetableSearchAndFilter {
       onPageChange: (page) => {
         this.handleSearchFilter(page);
       },
-      container: "#pagination-container-timetable",
+      paginationContainer: "#pagination-container-timetable",
+      captionContainer: "table#timetableList caption",
     });
 
     this.pagination.render();
