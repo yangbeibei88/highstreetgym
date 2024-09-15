@@ -1,5 +1,5 @@
 import { Pagination } from "./FnPagination.js";
-import { HTMLTemplate } from "./HTMLTemplate.js";
+import { linkHtml, rowHtml } from "./HTMLTemplate.js";
 
 export class AccbookingsSearchAndFilter {
   constructor() {
@@ -69,7 +69,7 @@ export class AccbookingsSearchAndFilter {
         `/auth/account/manage-bookings/search-filter?${query}`,
       );
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       this.updateBookingList(data.bookings);
       this.updatePagination(data.pagination);
     } catch (error) {
@@ -93,15 +93,15 @@ export class AccbookingsSearchAndFilter {
       const row = document.createElement("tr");
 
       row.innerHTML = `
-      ${new HTMLTemplate().rowHtmlTemplate("No#", new HTMLTemplate().linkHtmlTemplate(item.bookingNo, `/auth/account/booking-confirmation/${item.bookingId}`))}
-      ${new HTMLTemplate().rowHtmlTemplate("member", `${item.userFirstName} ${item.userLastName}`)}
-      ${new HTMLTemplate().rowHtmlTemplate("booking_date", new Date(item.createdAt).toLocaleString("en-AU", { hour12: false }))}
-      ${new HTMLTemplate().rowHtmlTemplate("class_datetime", new Intl.DateTimeFormat("en-GB", { dateStyle: "full", timeStyle: "long", timeZone: "Australia/Brisbane" }).format(new Date(item.startDateTime)))}
-      ${new HTMLTemplate().rowHtmlTemplate("class", item.className)}
-      ${new HTMLTemplate().rowHtmlTemplate("duration", `${item.duration} mins`)}
-      ${new HTMLTemplate().rowHtmlTemplate("level", item.level)}
-      ${new HTMLTemplate().rowHtmlTemplate("trainer", item.trainerFirstName)}
-      ${new HTMLTemplate().rowHtmlTemplate("status", item.status)}
+      ${rowHtml("No#", linkHtml(item.bookingNo, `/auth/account/booking-confirmation/${item.bookingId}`))}
+      ${rowHtml("member", `${item.userFirstName} ${item.userLastName}`)}
+      ${rowHtml("booking_date", new Date(item.createdAt).toLocaleString("en-AU", { hour12: false }))}
+      ${rowHtml("class_datetime", new Intl.DateTimeFormat("en-GB", { dateStyle: "full", timeStyle: "long", timeZone: "Australia/Brisbane" }).format(new Date(item.startDateTime)))}
+      ${rowHtml("class", item.className)}
+      ${rowHtml("duration", `${item.duration} mins`)}
+      ${rowHtml("level", item.level)}
+      ${rowHtml("trainer", item.trainerFirstName)}
+      ${rowHtml("status", item.status)}
       `;
 
       this._bookingList.appendChild(row);

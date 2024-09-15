@@ -8,7 +8,6 @@ export class Pagination {
     paginationContainer,
     captionContainer = "",
   }) {
-    // // Debug: Log pagination constructor values
     // console.log("Pagination Constructor:", {
     //   currentPage,
     //   totalPages,

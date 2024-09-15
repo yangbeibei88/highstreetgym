@@ -1,4 +1,5 @@
 import { Pagination } from "./FnPagination.js";
+import { rowHtml } from "./HTMLTemplate.js";
 
 export class TimetableSearchAndFilter {
   constructor() {
@@ -64,10 +65,6 @@ export class TimetableSearchAndFilter {
     this.fetchTimetables(query);
   }
 
-  rowHtmlTemplate(field, value) {
-    return `<td data-cell=${field} class='grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none'>${value}</td>`;
-  }
-
   bookingButtonTemplate(timetableId) {
     const isDisabled = this._myBookingTimetableIds.includes(timetableId);
     const href = isDisabled
@@ -79,17 +76,14 @@ export class TimetableSearchAndFilter {
 
     const buttonText = isDisabled ? "Booked" : "Book Now";
 
-    return `
-    <td class="grid grid-cols-2 before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none" data-cell="action">
-      <a href="${href}" class="${classList}">
+    const btnUI = `<a href="${href}" class="${classList}">
         ${buttonText}
-      </a>
-    </td>
-  `;
+      </a>`;
+
+    return rowHtml("action", btnUI);
   }
 
   updateTimetableList(timetables) {
-    // this._timetableList.innerHTML = "";
     this._timetableList.innerHTML = "";
 
     if (timetables.length === 0) {
@@ -103,17 +97,16 @@ export class TimetableSearchAndFilter {
     }
 
     timetables.forEach((item) => {
-      const startDateTime = new Date(item.startDateTime);
       const row = document.createElement("tr");
       row.innerHTML = `
-      ${this.rowHtmlTemplate("date", startDateTime.toLocaleDateString("en-AU"))}
-      ${this.rowHtmlTemplate("weekday", startDateTime.toLocaleDateString("en-AU", { weekday: "short" }))}
-      ${this.rowHtmlTemplate("time", startDateTime.toLocaleTimeString("en-AU", { timeStyle: "short", hour12: false }))}
-      ${this.rowHtmlTemplate("class", item.className)}
-      ${this.rowHtmlTemplate("duration", item.duration)}
-      ${this.rowHtmlTemplate("level", item.level)}
-      ${this.rowHtmlTemplate("trainer", item.trainerFirstName)}
-      ${this.rowHtmlTemplate("availability", item.availability)}
+      ${rowHtml("date", new Date(item.startDateTime).toLocaleDateString("en-AU"))}
+      ${rowHtml("weekday", new Date(item.startDateTime).toLocaleDateString("en-AU", { weekday: "short" }))}
+      ${rowHtml("time", new Date(item.startDateTime).toLocaleTimeString("en-AU", { timeStyle: "short", hour12: false }))}
+      ${rowHtml("class", item.className)}
+      ${rowHtml("duration", item.duration)}
+      ${rowHtml("level", item.level)}
+      ${rowHtml("trainer", item.trainerFirstName)}
+      ${rowHtml("availability", item.availability)}
       ${this.bookingButtonTemplate(item.timetableId)}
       `;
 
@@ -122,12 +115,11 @@ export class TimetableSearchAndFilter {
   }
 
   updatePagination(paginationData) {
-    // // Debug: Log the received pagination data
     // console.log("Fontend Pagination Data:", paginationData);
 
     // RE-NITIALIZE PAGINATION EVERYTIME NEW DATA IS FETCHED, OTHERWISE, THE PAGINATION NUMBERS WILL STAY AT THE FIRST TIME!
     if (this.pagination) {
-      this.pagination._container.innerHTML = "";
+      this._paginationContainer.innerHTML = "";
     }
 
     this.pagination = new Pagination({
