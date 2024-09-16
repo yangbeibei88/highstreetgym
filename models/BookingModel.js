@@ -177,7 +177,7 @@ export const getFilteredBookings = async (user, query = {}) => {
 
   if (query.classId) {
     const selectedClasses = query.classId
-      .split("")
+      .split(",")
       .map((item) => parseInt(item, 10))
       .join(",");
     baseSql += " AND c.classId IN (?)";

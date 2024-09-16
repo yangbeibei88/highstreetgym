@@ -6,3 +6,7 @@ export const linkHtml = (text, path) => `
       ${text}
     </a>
     `;
+
+export const avatarHtml = (path, alt) => `
+  <img class="size-10 rounded-full" src=${path} alt=${alt} />
+`;

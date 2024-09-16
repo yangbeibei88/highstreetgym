@@ -1,4 +1,3 @@
-import { query as evQuery } from "express-validator";
 import { pool } from "../config/db.js";
 
 const dbPool = await pool();
@@ -131,24 +130,15 @@ export const getFilteredUsers = async (query = {}) => {
 
   const queryParams = [];
 
-  if (query.role) {
-    const selectedRoles = evQuery("role")
-      .optional()
-      .trim()
-      .customSanitizer((v) =>
-        v
-          .split(",")
-          .map((item) => item.trim().toLowerCase())
-          .join(","),
-      )
-      .escape();
-
-    baseSql += " AND userRole IN (?)";
-    queryParams.push(selectedRoles);
+  if (query.role && query.role.length > 0) {
+    const selectedRoles = query.role;
+    const placeholders = selectedRoles.map(() => "?").join(",");
+    baseSql += ` AND userRole IN (${placeholders})`;
+    queryParams.push(...selectedRoles);
   }
 
   if (query.search) {
-    const searchTerm = `%${evQuery("search").optional().trim().escape()}%`;
+    const searchTerm = `%${query.search}%`;
     baseSql += " AND (firstName LIKE ? OR lastName LIKE ?)";
     queryParams.push(searchTerm, searchTerm);
   }
@@ -163,6 +153,8 @@ export const getFilteredUsers = async (query = {}) => {
   try {
     const sql = `SELECT * ${baseSql} ${paginationSql}`;
     const [filteredUsers] = await conn.execute(sql, queryParams);
+
+    console.log(queryParams);
 
     const countSql = `SELECT COUNT(*) AS totalItems ${baseSql}`;
     const [totalCountResult] = await conn.execute(

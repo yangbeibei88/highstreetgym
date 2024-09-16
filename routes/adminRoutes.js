@@ -85,4 +85,4 @@ adminRouter.post(
   uploadTimetableDataAction,
 );
 
-adminRouter.get("manage-users/search-filter", usersSearchFilterSortAction);
+adminRouter.get("/manage-users/search-filter", usersSearchFilterSortAction);

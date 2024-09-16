@@ -86,7 +86,7 @@ export class AccbookingsSearchAndFilter {
 
   updateBookingList(bookings) {
     this._bookingList.innerHTML = "";
-    if (bookings.length === 0) {
+    if (!bookings.length) {
       this._bookingList.textContent = "No bookings found.";
       return;
     }

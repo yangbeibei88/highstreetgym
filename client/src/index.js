@@ -12,6 +12,7 @@ import { SideNav } from "./components/SideNav.js";
 import { FlashMessage } from "./components/FlashMessage.js";
 import { CommentsDialog } from "./components/CommentsDialog.js";
 import { AccbookingsSearchAndFilter } from "./components/AccbookingsSearchAndFilter.js";
+import { UsersSearchAndFilter } from "./components/UsersSearchAndFilter.js";
 
 document.addEventListener("DOMContentLoaded", () => new MainNav());
 document.addEventListener("DOMContentLoaded", () => new SideNav());
@@ -36,3 +37,4 @@ document.addEventListener(
   "DOMContentLoaded",
   () => new AccbookingsSearchAndFilter(),
 );
+document.addEventListener("DOMContentLoaded", () => new UsersSearchAndFilter());
