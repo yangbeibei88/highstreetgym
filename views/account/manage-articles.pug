@@ -13,17 +13,17 @@ block content
           // Search & Filter
           // 1) FILTER
           .flex.flex-col.items-center.justify-between.p-4.space-y-3(class='lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10')
-            .w-full(class='lg:w-1/2')
-              label(for='search-article') Search
-              input#search-article(type='search' name='search-article' placeholder='Search my articles')
-            .w-full(class='lg:w-1/2 lg:justify-self-end')
-              a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/auth/account/articleForm/create')
-                span
-                  | Create
-                  | Article
-                span
-                  svg.size-6 
-                    use(xlink:href='/icons/sprites/regular.svg#pen-to-square' fill='currentColor')
+            //- .w-full(class='lg:w-1/2')
+            //-   label(for='search-article') Search
+            //-   input#search-article(type='search' name='search-article' placeholder='Search my articles')
+            //- .w-full(class='lg:w-1/2 lg:justify-self-end')
+            a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/auth/account/articleForm/create')
+              span
+                | Create
+                | Article
+              span
+                svg.size-6 
+                  use(xlink:href='/icons/sprites/regular.svg#pen-to-square' fill='currentColor')
           // my articles table
           table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
             caption.text-sm

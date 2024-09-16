@@ -9,9 +9,11 @@ const purify = DOMPurify(window);
 
 // validate a string
 export const validateText = (name, min = 0, max = 254, required = true) => {
-  let chain = body(name).trim();
+  let chain;
   if (required) {
-    chain = chain.notEmpty().withMessage(`${name} is required.`);
+    chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
+  } else {
+    chain = body(name).optional();
   }
   if (min > 0) {
     chain = chain
@@ -98,13 +100,32 @@ export const validateEmail = (
   return chain;
 };
 
+export const validatePostcode = (name, required = false) => {
+  let chain;
+  if (required) {
+    chain = body(name)
+      .trim()
+      .toInt()
+      .notEmpty()
+      .withMessage(`${name} is required.`);
+  } else {
+    chain = body(name).optional();
+  }
+
+  chain = chain.isPostalCode("AU").withMessage(`${name} must be four digits.`);
+
+  return chain;
+};
+
 // validate phone number
 // https://en.wikipedia.org/wiki/Telephone_numbers_in_Australia#:~:text=Australia%20or%20internationally.-,Mobile%20phones,XXX%20for%20an%20international%20audience.
 export const validatePhoneNumber = (name, required = true) => {
-  let chain = body(name).trim();
+  let chain;
 
   if (required) {
-    chain = chain.notEmpty().withMessage(`${name} is required.`);
+    chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
+  } else {
+    chain = body(name).optional();
   }
 
   chain = chain
@@ -171,6 +192,8 @@ export const validSelect = (name, optionArr, required = true) => {
   let chain;
   if (required) {
     chain = body(name).notEmpty().withMessage(`${name} is required.`);
+  } else {
+    chain = body(name).optional();
   }
 
   chain = chain.custom((v) => {
@@ -227,10 +250,12 @@ export const sanitizeTextarea = (
   max = 20000,
   required = true,
 ) => {
-  let chain = body(name).trim();
+  let chain;
 
   if (required) {
-    chain.notEmpty().withMessage(`${name} is required.`);
+    chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
+  } else {
+    chain = body(name).optional();
   }
 
   if (min > 0) {

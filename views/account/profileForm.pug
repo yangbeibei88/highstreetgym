@@ -1,0 +1,100 @@
+extends ../layouts/main.pug 
+include ../partials/_fieldErrorMsg.pug
+
+block content 
+  .page-wrapper
+    // 2) MAIN CCONTENT
+    .wrapper.bg-slate-100
+      .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+        // 2) MAIN CONTENT
+        main#my-profile.col-span-1.order-2(class='md:col-span-3')
+          // my profile form
+          form#form-profile.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' enctype='multipart/form-data' novalidate)
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='profile_firstname')
+                | First
+                | Name
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/solid.svg#f' fill='currentColor')
+                input#profile_firstname.pl-11(type='text' name='profile_firstname' required='' value=(inputData && inputData.firstName || ''))
+              +fieldErrorMsg('profile_firstname')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='profile_surname')
+                | Last
+                | Name
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/solid.svg#l' fill='currentColor')
+                input#profile_surname.pl-11(type='text' name='profile_surname' required='' value=(inputData && inputData.lastName || ''))
+              +fieldErrorMsg('profile_surname')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='profile_mobilenumber')
+                | Mobile
+                | Number
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/solid.svg#mobile-screen' fill='currentColor')
+                input#profile_mobilenumber.pl-11(type='tel' name='profile_mobilenumber' placeholder='0400123456' required='' value=(inputData && inputData.phoneNumber || ''))
+              +fieldErrorMsg('profile_mobilenumber')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              label.block.text-sm.font-semibold.text-darkCyan(for='profile_email')
+                | Email
+                | Address
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/regular.svg#envelope' fill='currentColor')
+                input#profile_email.pl-11(type='email' name='profile_email' required='' value=user.emailAddress disabled)
+              
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='profile_address') Address
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/regular.svg#map' fill='currentColor')
+                input#profile_address.pl-11(type='text' name='profile_address' placeholder='123 Main Road' value=(inputData && inputData.address || ''))
+              +fieldErrorMsg('profile_address')
+            .space-y-1.col-span-1(class='md:col-span-2')
+              label.block.text-sm.font-semibold.text-darkCyan(for='profile_suburb') Suburb
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/solid.svg#city' fill='currentColor')
+                input#profile_suburb.pl-11(type='text' name='profile_suburb' value=(inputData && inputData.suburb || ''))
+              +fieldErrorMsg('profile_suburb')
+            .space-y-1.col-span-1(class='md:col-span-2')
+              label.block.text-sm.font-semibold.text-darkCyan(for='profile_postcode') Postcode
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/regular.svg#file-zipper' fill='currentColor')
+                input#profile_postcode.pl-11(type='text' name='profile_postcode' value=(inputData && inputData.postcode || ''))
+              +fieldErrorMsg('profile_postcode')
+            .space-y-1.col-span-1(class='md:col-span-2')
+              label.block.text-sm.font-semibold.text-darkCyan(for='profile_state') State
+              .relative.flex.items-center
+                svg.size-6.absolute.left-3.text-gray-500
+                  use(xlink:href='/icons/sprites/solid.svg#earth-oceania' fill='currentColor')
+                select#profile_state.text-center(name='profile_state')
+                  option(value='') ----Select a State----
+                  - for(let state of states)
+                    option(value=state selected=(inputData.state === state ? true : false)) #{state}
+              +fieldErrorMsg('profile_state')
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='profile_bio') Bio
+              .relative.flex.items-center
+                svg.size-6.absolute.text-gray-500.left-3.top-3
+                  use(xlink:href='/icons/sprites/regular.svg#sun' fill='currentColor')
+                textarea#profile_bio.pl-11(name='profile_bio' placeholder='Short intro about yourself...')
+                  | #{inputData && inputData.bio || ''}
+              +fieldErrorMsg('profile_bio')
+            .space-y-1.col-span-1(class='md:col-span-6')
+              label.block.text-sm.font-semibold.text-darkCyan(for='avatar') Avatar
+              .relative.flex.items-center
+                input#profile_avatar(type='file' name='profile_avatar')
+                img.size-16.rounded-full(src=`/images/users/${inputData && inputData.avatar || 'default-avatar-10.png'}` alt=(inputData && inputData.firstName || 'avatar'))  
+              +fieldErrorMsg('profile_avatar')
+            .space-y-1.col-span-1(class='md:col-span-3')
+              a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/auth/account') Back
+            .space-y-1.col-span-1(class='md:col-span-3')
+              button.btn-bullet.btn-limeGreen.my-5.space-x-1.w-full(type='submit')
+                span Update
+        // 3) SIDE MENU
+        include ../partials/_accountSideNav.pug

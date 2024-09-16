@@ -21,9 +21,11 @@ import {
 
 export const listAdminTimetableAction = asyncHandler(async (req, res, next) => {
   const timetables = await getAllTimetables(true);
+  const classes = await getAllClasses();
   res.status(200).render("admin/manage-timetable", {
     title: "Manage Timetable",
     timetables,
+    classes,
   });
 });
 
@@ -133,6 +135,7 @@ export const createTimetableAction = asyncHandler(async (req, res, next) => {
 
   res.redirect(`/auth/admin/timetableForm/${timetableObj.timetableId}/edit`);
 });
+
 export const updateTimetableAction = asyncHandler(async (req, res, next) => {
   await updateTimetable(req.inputData);
 

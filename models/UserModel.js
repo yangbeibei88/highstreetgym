@@ -123,6 +123,45 @@ export const updatePassword = async (user) => {
   }
 };
 
+export const updateUser = async (user) => {
+  const conn = await dbPool.getConnection();
+  try {
+    const setFields = [
+      "firstName = ?",
+      "lastName = ?",
+      "phoneNumber = ?",
+      "address = ?",
+      "suburb = ?",
+      "postcode = ?",
+      "state = ?",
+      "bio = ?",
+    ];
+
+    const values = [
+      user.firstName,
+      user.lastName,
+      user.phoneNumber,
+      user.address,
+      user.suburb,
+      user.postcode,
+      user.state,
+      user.bio,
+    ];
+
+    if (user.avatar) {
+      setFields.push("avatar = ?");
+      values.push(user.avatar);
+    }
+    const sql = `UPDATE users SET ${setFields} WHERE userId = ?`;
+    await conn.execute(sql, [...values, user.userId]);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
 export const getFilteredUsers = async (query = {}) => {
   const conn = await dbPool.getConnection();
 

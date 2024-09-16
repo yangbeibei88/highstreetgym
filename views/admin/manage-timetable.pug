@@ -12,18 +12,29 @@ block content
         main#admin-timetables.col-span-1.order-2(class='md:col-span-3')
           // Search & Filter
           // 1) FILTER
-          .flex.flex-col.items-center.justify-between.p-4.space-y-3(class='lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10')
-            .w-full(class='lg:w-1/2')
-              label(for='search-timetable') Search
-              input#search-timetable(type='search' name='search-timetable' placeholder='Search...')
-            .w-full(class='lg:w-1/2 lg:justify-self-end')
-              a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/auth/admin/timetableForm/create')
-                span
-                  | Add
-                  | Timetable
-                span
-                  svg.size-6 
-                    use(xlink:href='/icons/sprites/solid.svg#circle-plus' fill='currentColor')
+          div#manageTimetableFilters.flex.flex-col.flex-wrap.items-center.justify-between.p-4.space-y-3(class='lg:space-x-3 lg:space-y-0 lg:flex-row lg:px-10')
+            .w-full(class='lg:w-1/3')
+              label(for='classFilter') Filter by Class
+              select#classFilter(name='classId')
+                option(value='')
+                  | ------ Select a class ------
+                - for(let c of classes)
+                  option(value=c.classId) #{c.className}
+            .w-full(class='lg:w-1/3')
+              label(for='statusFilter') Filter by Status
+              select#statusFilter(name='status')
+                option(value='active')
+                  | active
+                option(value='finished')
+                  | finished
+            //- .w-full(class='lg:w-1/2 lg:justify-self-end')
+            a.btn.btn-limeGreen.btn-sm.space-x-1.ml-auto(href='/auth/admin/timetableForm/create')
+              span
+                | Add
+                | Timetable
+              span
+                svg.size-6 
+                  use(xlink:href='/icons/sprites/solid.svg#circle-plus' fill='currentColor')
           //- TIMETABLE LIST
           table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
             caption.text-sm
@@ -38,6 +49,7 @@ block content
                 +tableHeaderItem('Level')
                 +tableHeaderItem('Capacity')
                 +tableHeaderItem('Availability')
+                +tableHeaderItem('Status')
                 +tableHeaderItem('Action')
             tbody
               - for(let t of timetables)
@@ -50,6 +62,7 @@ block content
                   +tableCellItem('level', t.level)
                   +tableCellItem('capacity', t.capacity)
                   +tableCellItem('availability', t.availability)
+                  +tableCellItem('status', new Date(t.startDateTime) < Date.now() ? 'finished' : 'active')
                   td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
                     a.btn.btn-sm.btn-limeGreen(href=`/auth/admin/timetableForm/${t.timetableId}/edit`) Edit
         // 3) SIDE MENU

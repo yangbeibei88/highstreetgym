@@ -36,7 +36,7 @@ block content
                 +tableHeaderItem('Author')
                 +tableHeaderItem('Date Published')
                 //- +tableHeaderItem('Date Updated')
-                +tableHeaderItem('Action')
+                //- +tableHeaderItem('Action')
             tbody
               - for(let c of comments)
                 tr 
@@ -46,7 +46,7 @@ block content
                   +tableCellItem('author', c.authorFirstName+' '+c.authorLastName)
                   +tableCellItem('date_published', c.createdAt.toLocaleString('en-AU', {hour12: false}))
                   //- +tableCellItem('date_updated', c.updatedAt)
-                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
-                    a.btn.btn-sm.btn-limeGreen(href='/edit') Edit
+                  //- td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
+                  //-   a.btn.btn-sm.btn-limeGreen(href='/edit') Edit
         // 3) SIDE MENU
         include ../partials/_accountSideNav.pug

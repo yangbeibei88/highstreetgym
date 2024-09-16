@@ -27,7 +27,10 @@ import {
   createCommentAction,
   listAccountCommentsAction,
 } from "../controllers/account/ManageCommentController.js";
-import { showMyprofileAction } from "../controllers/account/AccountProfileController.js";
+import {
+  showMyprofileAction,
+  updateMyprofileAction,
+} from "../controllers/account/AccountProfileController.js";
 import { showChangePasswordAction } from "../controllers/account/AccountPasswordController.js";
 import { imageUpload } from "../utils/uploadHandler.js";
 
@@ -44,7 +47,6 @@ accountRouter.get(
 );
 accountRouter.get("/manage-articles", listAccountArticlesAction);
 accountRouter.get("/manage-comments", listAccountCommentsAction);
-accountRouter.get("/my-profile", showMyprofileAction);
 
 accountRouter
   .route("/articleForm/create")
@@ -89,3 +91,11 @@ accountRouter.get(
   "/manage-bookings/search-filter",
   myBookingsSearchFilterSortAction,
 );
+
+accountRouter
+  .route("/my-profile")
+  .get(showMyprofileAction)
+  .post(
+    imageUpload("public/images/users").single("profile_avatar"),
+    updateMyprofileAction,
+  );
