@@ -54,3 +54,12 @@ block content
                     span.checkbox 
                       input(type='checkbox' name='topic' id=`${t.topicId}` value=`${t.topicId}`)
                     label(for=`${t.topicId}`) #{t.topicName} (#{t.count})
+              if user
+                details#visFilter.bg-white.p-2.border.rounded.border-gray-300(open)
+                  summary.font-semibold.pb-1
+                    | By Visibility
+                  - for(let v of viss)
+                    .checkbox-control(class='block space-x-1.5 mb-1')
+                      span.checkbox 
+                        input(type='checkbox' name='visibility' id=`${v}` value=`${v}`)
+                      label(for=`${v}`) #{v}

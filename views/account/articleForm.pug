@@ -1,7 +1,7 @@
 extends ../layouts/main.pug 
 include ../partials/_fieldErrorMsg.pug
 
-block append head 
+block prepend css-links 
   link(rel="preload", href="/bundle/quill.snow.css", as="style")
   link(rel="stylesheet", href="/bundle/quill.snow.css")
 

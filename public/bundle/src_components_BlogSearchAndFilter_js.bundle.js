@@ -23,6 +23,7 @@ var BlogSearchAndFilter = /*#__PURE__*/function () {
   function BlogSearchAndFilter() {
     _classCallCheck(this, BlogSearchAndFilter);
     this._topicFilterEl = document.querySelector("#articleFilter #topicFilter");
+    this._visFilterEl = document.querySelector("#articleFilter #visFilter");
     this._articleList = document.querySelector("#blog #articleList");
     this._blogFilterEls = document.querySelectorAll("#blogFilterBy details");
     if (!this._topicFilterEl || !this._articleList) {
@@ -37,6 +38,9 @@ var BlogSearchAndFilter = /*#__PURE__*/function () {
     value: function initializeListeners() {
       var _this = this;
       this._topicFilterEl.addEventListener("change", function () {
+        return _this.handleSearchFilter();
+      });
+      this._visFilterEl.addEventListener("change", function () {
         return _this.handleSearchFilter();
       });
       window.addEventListener("resize", function () {
@@ -66,12 +70,24 @@ var BlogSearchAndFilter = /*#__PURE__*/function () {
       return selectedTopics;
     }
   }, {
+    key: "getSelectedViss",
+    value: function getSelectedViss() {
+      var selectedViss = [];
+      var checkBoxes = this._visFilterEl.querySelectorAll("input[type='checkbox']:checked");
+      checkBoxes.forEach(function (checkbox) {
+        return selectedViss.push(checkbox.value);
+      });
+      return selectedViss;
+    }
+  }, {
     key: "buildQuery",
     value: function buildQuery() {
       var selectedTopics = this.getSelectedTopics();
+      var selectedViss = this.getSelectedViss();
       // eslint-disable-next-line node/no-unsupported-features/node-builtins
       return new URLSearchParams({
-        topics: selectedTopics.length > 0 ? selectedTopics.join(",") : ""
+        topics: selectedTopics.length > 0 ? selectedTopics.join(",") : "",
+        visibilities: selectedViss.length > 0 ? selectedViss.join(",") : ""
       }).toString();
     }
   }, {

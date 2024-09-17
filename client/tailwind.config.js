@@ -1,15 +1,23 @@
 /** @type {import('tailwindcss').Config} */
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 // eslint-disable-next-line import/no-extraneous-dependencies, node/no-unpublished-import
 import forms from "@tailwindcss/forms";
 import settingScreens from "./tailwind.settings.screens.js";
 import settingsFontSizes from "./tailwind.settings.fontSizes.js";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 export default {
   content: [
-    "../public/**/*.html",
-    "../public/**/*.js",
-    "./src/**/*.{js,ts}",
-    "../views/**/*.pug",
+    resolve(__dirname, "../public/**/*.html"),
+    resolve(__dirname, "../public/**/*.js"),
+    resolve(__dirname, "./src/**/*.{js,ts}"),
+    resolve(__dirname, "../views/**/*.pug"),
+    // "../public/**/*.html",
+    // "../public/**/*.js",
+    // "./src/**/*.{js,ts}",
+    // "../views/**/*.pug",
   ],
   theme: {
     screens: {

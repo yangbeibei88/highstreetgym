@@ -51,6 +51,7 @@ export default {
       {
         test: /\.css$/i,
         include: resolve(__dirname, "./src"),
+        exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
           // "style-loader",
@@ -59,20 +60,27 @@ export default {
           "postcss-loader",
         ],
       },
-      {
-        test: /\.css$/i,
-        include: resolve(__dirname, "node_modules/quill"), // For Quill's CSS, allow URL processing
-        use: [
-          MiniCssExtractPlugin.loader,
-          // "style-loader",
-          // I previous have issue that webpack laaded the wrong path for font-face and background image, disable url so that webpack won't process url
-          { loader: "css-loader", options: { url: false } },
-          "postcss-loader",
-        ],
-      },
+      // {
+      //   test: /\.css$/i,
+      //   // since I directly copied quill css to public/bundle, no need to include quill css file from node_modules
+      //   // include: resolve(__dirname, "node_modules/quill"), // For Quill's CSS, allow URL processing
+      //   use: [
+      //     MiniCssExtractPlugin.loader,
+      //     // "style-loader",
+      //     // I previous have issue that webpack laaded the wrong path for font-face and background image, disable url so that webpack won't process url
+      //     { loader: "css-loader", options: { url: false } },
+      //     "postcss-loader",
+      //   ],
+      // },
       {
         test: /\.(j|t)s$/,
-        include: resolve(__dirname, "./src"),
+        include: [
+          resolve(__dirname, "./src"),
+          resolve(__dirname, "node_modules/quill"),
+        ],
+        exclude: (filePath) =>
+          /node_modules/.test(filePath) &&
+          !/node_modules\/quill/.test(filePath),
         use: {
           loader: "babel-loader",
           options: {

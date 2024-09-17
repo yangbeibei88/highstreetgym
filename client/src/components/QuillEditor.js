@@ -8,8 +8,12 @@ export class QuillEditor {
       modules: {
         toolbar: [
           ["bold", "italic"],
+          [{ size: ["small", false, "large", "huge"] }],
+          [{ header: [2, 3, 4, 5, 6, false] }],
           ["link", "blockquote", "code-block", "image"],
           [{ list: "ordered" }, { list: "bullet" }],
+          // remove format button
+          ["clean"],
         ],
       },
       placeholder: "Compose an epic...",

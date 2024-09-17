@@ -29,11 +29,17 @@ var QuillEditor = /*#__PURE__*/function () {
     this.hiddenInputEl = hiddenInputEl;
     this.editor = new quill__WEBPACK_IMPORTED_MODULE_0__["default"](this.editorEl, {
       modules: {
-        toolbar: [["bold", "italic"], ["link", "blockquote", "code-block", "image"], [{
+        toolbar: [["bold", "italic"], [{
+          size: ["small", false, "large", "huge"]
+        }], [{
+          header: [2, 3, 4, 5, 6, false]
+        }], ["link", "blockquote", "code-block", "image"], [{
           list: "ordered"
         }, {
           list: "bullet"
-        }]]
+        }],
+        // remove format button
+        ["clean"]]
       },
       placeholder: "Compose an epic...",
       theme: "snow"

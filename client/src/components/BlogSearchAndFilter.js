@@ -1,6 +1,7 @@
 export class BlogSearchAndFilter {
   constructor() {
     this._topicFilterEl = document.querySelector("#articleFilter #topicFilter");
+    this._visFilterEl = document.querySelector("#articleFilter #visFilter");
     this._articleList = document.querySelector("#blog #articleList");
     this._blogFilterEls = document.querySelectorAll("#blogFilterBy details");
     if (!this._topicFilterEl || !this._articleList) {
@@ -13,6 +14,9 @@ export class BlogSearchAndFilter {
 
   initializeListeners() {
     this._topicFilterEl.addEventListener("change", () =>
+      this.handleSearchFilter(),
+    );
+    this._visFilterEl.addEventListener("change", () =>
       this.handleSearchFilter(),
     );
     window.addEventListener("resize", () => this.toggleFilters());
@@ -39,11 +43,23 @@ export class BlogSearchAndFilter {
     return selectedTopics;
   }
 
+  getSelectedViss() {
+    const selectedViss = [];
+    const checkBoxes = this._visFilterEl.querySelectorAll(
+      "input[type='checkbox']:checked",
+    );
+    checkBoxes.forEach((checkbox) => selectedViss.push(checkbox.value));
+
+    return selectedViss;
+  }
+
   buildQuery() {
     const selectedTopics = this.getSelectedTopics();
+    const selectedViss = this.getSelectedViss();
     // eslint-disable-next-line node/no-unsupported-features/node-builtins
     return new URLSearchParams({
       topics: selectedTopics.length > 0 ? selectedTopics.join(",") : "",
+      visibilities: selectedViss.length > 0 ? selectedViss.join(",") : "",
     }).toString();
   }
 

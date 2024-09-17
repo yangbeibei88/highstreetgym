@@ -3,6 +3,7 @@ import {
   getAllArticles,
   getAllTopics,
   getArticle,
+  getVisibilityOptions,
 } from "../models/ArticleModel.js";
 import { getCommentsByArticle } from "../models/CommentModel.js";
 import { AppError } from "../utils/AppError.js";
@@ -34,12 +35,14 @@ export const articleListAction = asyncHandler(async (req, res, next) => {
   // let articles = await getAllArticles();
   const articles = await req.articles;
   const topics = await getAllTopics();
+  const viss = await getVisibilityOptions();
 
   return res.render("blog", {
     title: "Blog",
     subtitle: "Read articles from our gym members!",
     articles,
     topics,
+    viss,
   });
 });
 
@@ -94,6 +97,14 @@ export const blogSearchFilterSortAction = asyncHandler(
       console.log("Selected Topics: ", selectedTopics);
       filteredArticles = filteredArticles.filter((article) =>
         selectedTopics.includes(article.topicId.toString()),
+      );
+    }
+
+    if (req.query.visibilities) {
+      const selectedViss = req.query.visibilities.split(",");
+      console.log("Selected visibilities: ", selectedViss);
+      filteredArticles = filteredArticles.filter((article) =>
+        selectedViss.includes(article.visibility),
       );
     }
 
