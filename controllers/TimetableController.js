@@ -79,7 +79,6 @@ export const timetableSearchFilterSortAction = asyncHandler(
     const limit = +req.query.limit || 10;
     const paginatedTimetables = pagination(filteredTimetables, page, limit);
 
-    // // Debug: Log pagination info
     // console.log(`Paginated Data Length: ${paginatedTimetables.data.length}`);
     // console.log(`Total Items (Filtered): ${paginatedTimetables.totalItems}`);
     // console.log(`Total Pages: ${paginatedTimetables.totalPages}`);

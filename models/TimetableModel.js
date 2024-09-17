@@ -9,7 +9,9 @@ export const getAllTimetables = async (includeBefore = false) => {
       includeBefore === true
         ? ""
         : "WHERE tt.startDateTime >= CURRENT_TIMESTAMP()";
+
     const sql = `SELECT tt.*, cl.className, u.firstName AS trainerFirstName, u.lastName AS trainerLastName FROM classes cl INNER JOIN timetables tt ON cl.classId = tt.classId INNER JOIN users u ON u.userId = tt.trainerId ${timeCondition} ORDER BY tt.startDateTime`;
+
     const [rows] = await conn.execute(sql);
     return rows;
   } catch (error) {

@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { validationResult } from "express-validator";
+import { check, validationResult } from "express-validator";
 import {
   getAllTimetables,
   getLevels,
@@ -18,6 +18,7 @@ import {
   validateInteger,
   validSelect,
 } from "../../utils/validation.js";
+import { pagination } from "../../utils/pagination.js";
 
 export const listAdminTimetableAction = asyncHandler(async (req, res, next) => {
   const timetables = await getAllTimetables(true);
@@ -143,3 +144,48 @@ export const updateTimetableAction = asyncHandler(async (req, res, next) => {
 
   res.redirect(`/auth/admin/timetableForm/${req.inputData.timetableId}/edit`);
 });
+
+export const adminTimetableSearchFilterSortAction = asyncHandler(
+  async (req, res, next) => {
+    const timetables = await getAllTimetables(true);
+
+    let filteredTimetables = [...timetables];
+
+    if (req.query.classId) {
+      filteredTimetables = filteredTimetables.filter(async (item) => {
+        const classIds = await getAllClasses().map((c) => c.classId);
+        await check("classId")
+          .trim()
+          .toInt()
+          .customSanitizer((v) => (classIds.includes(v) ? v : ""))
+          .run(req);
+        return item.classId === req.query.classId;
+      });
+    }
+
+    if (req.query.status) {
+      filteredTimetables = filteredTimetables.filter(async (item) => {
+        await check("status").trim().toLowerCase().escape().run(req);
+        return req.query.status === "active"
+          ? new Date(item.startDateTime) >= Date.now()
+          : new Date(item.startDateTime) < Date.now();
+      });
+    }
+
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 10;
+    const paginatedTimetables = pagination(filteredTimetables, page, limit);
+
+    res.json({
+      timetables: paginatedTimetables.data,
+      pagination: {
+        currentPage: paginatedTimetables.currentPage,
+        totalItems: paginatedTimetables.totalItems,
+        totalPages: paginatedTimetables.totalPages,
+        limit: paginatedTimetables.limit,
+        next: paginatedTimetables.next || null,
+        previous: paginatedTimetables.previous || null,
+      },
+    });
+  },
+);

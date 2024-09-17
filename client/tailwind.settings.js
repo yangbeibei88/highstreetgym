@@ -1,3 +1,8 @@
+/**
+ * Three `tailwind.settings.*.js` files are referenced from
+ * https://davidhellmann.com/blog/development/tailwindcss-fluid-typography-with-css-clamp
+ */
+
 export default {
   typography: {
     fontSizeMin: 1,
