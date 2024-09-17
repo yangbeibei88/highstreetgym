@@ -396,8 +396,8 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/style.css");
-/* harmony import */ var _components_Spinner_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Spinner.js */ "./src/components/Spinner.js");
-/* harmony import */ var _components_MainNav_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/MainNav.js */ "./src/components/MainNav.js");
+/* harmony import */ var _components_MainNav_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/MainNav.js */ "./src/components/MainNav.js");
+/* harmony import */ var _components_Spinner_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Spinner.js */ "./src/components/Spinner.js");
 /* harmony import */ var _components_FlashMessage_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/FlashMessage.js */ "./src/components/FlashMessage.js");
 /* eslint-disable node/no-unsupported-features/es-syntax */
 /* eslint-disable no-unused-vars */
@@ -407,12 +407,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  return new _components_MainNav_js__WEBPACK_IMPORTED_MODULE_2__.MainNav();
+  return new _components_MainNav_js__WEBPACK_IMPORTED_MODULE_1__.MainNav();
 });
 document.addEventListener("DOMContentLoaded", function () {
   return new _components_FlashMessage_js__WEBPACK_IMPORTED_MODULE_3__.FlashMessage();
 });
-var spinner = new _components_Spinner_js__WEBPACK_IMPORTED_MODULE_1__.Spinner();
+document.addEventListener("DOMContentLoaded", function () {
+  return new _components_Spinner_js__WEBPACK_IMPORTED_MODULE_2__.Spinner();
+});
+
+// const spinner = new Spinner();
 
 // DYNAMIC IMPORT CHUNKS
 document.addEventListener("DOMContentLoaded", function () {
@@ -456,6 +460,14 @@ document.addEventListener("DOMContentLoaded", function () {
       return __webpack_require__.e(/*! import() */ "src_components_CommentsDialog_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/CommentsDialog.js */ "./src/components/CommentsDialog.js"));
     },
     componentNames: ["CommentsDialog"]
+  }, {
+    match: function match(path) {
+      return path === "/auth/admin/manage-timetable";
+    },
+    load: function load() {
+      return __webpack_require__.e(/*! import() */ "src_components_AdminTimetableSearchAndFilter_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/AdminTimetableSearchAndFilter.js */ "./src/components/AdminTimetableSearchAndFilter.js"));
+    },
+    componentNames: ["AdminTimetableSearchAndFilter"]
   }, {
     match: function match(path) {
       return /^\/auth\/account\/timetable\/\d+\/bookingForm$/.test(path);

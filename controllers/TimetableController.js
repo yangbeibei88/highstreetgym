@@ -83,6 +83,8 @@ export const timetableSearchFilterSortAction = asyncHandler(
     // console.log(`Total Items (Filtered): ${paginatedTimetables.totalItems}`);
     // console.log(`Total Pages: ${paginatedTimetables.totalPages}`);
 
+    console.log(req.query);
+
     res.json({
       // timetables: filteredTimetables,
       timetables: paginatedTimetables.data,

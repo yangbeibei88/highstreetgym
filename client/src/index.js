@@ -2,14 +2,15 @@
 /* eslint-disable no-unused-vars */
 // import "quill/dist/quill.snow.css";
 import "./style.css";
-import { Spinner } from "./components/Spinner.js";
 import { MainNav } from "./components/MainNav.js";
+import { Spinner } from "./components/Spinner.js";
 import { FlashMessage } from "./components/FlashMessage.js";
 
 document.addEventListener("DOMContentLoaded", () => new MainNav());
 document.addEventListener("DOMContentLoaded", () => new FlashMessage());
+document.addEventListener("DOMContentLoaded", () => new Spinner());
 
-const spinner = new Spinner();
+// const spinner = new Spinner();
 
 // DYNAMIC IMPORT CHUNKS
 document.addEventListener("DOMContentLoaded", () => {
@@ -38,6 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
       match: (path) => path === "/auth/account/manage-articles",
       load: () => import("./components/CommentsDialog.js"),
       componentNames: ["CommentsDialog"],
+    },
+    {
+      match: (path) => path === "/auth/admin/manage-timetable",
+      load: () => import("./components/AdminTimetableSearchAndFilter.js"),
+      componentNames: ["AdminTimetableSearchAndFilter"],
     },
     {
       match: (path) =>

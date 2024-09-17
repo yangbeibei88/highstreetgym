@@ -16,6 +16,7 @@ import {
 } from "../controllers/admin/DataImportController.js";
 import { imageUpload, xmlUpload } from "../utils/uploadHandler.js";
 import {
+  adminTimetableSearchFilterSortAction,
   createTimetableAction,
   listAdminTimetableAction,
   showTimetableFormAction,
@@ -86,3 +87,8 @@ adminRouter.post(
 );
 
 adminRouter.get("/manage-users/search-filter", usersSearchFilterSortAction);
+
+adminRouter.get(
+  "/manage-timetable/search-filter",
+  adminTimetableSearchFilterSortAction,
+);

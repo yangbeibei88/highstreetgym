@@ -148,33 +148,51 @@ export const updateTimetableAction = asyncHandler(async (req, res, next) => {
 export const adminTimetableSearchFilterSortAction = asyncHandler(
   async (req, res, next) => {
     const timetables = await getAllTimetables(true);
+    const classes = await getAllClasses();
+    const classIds = await classes.map((c) => c.classId);
 
     let filteredTimetables = [...timetables];
 
+    await Promise.all([
+      check("classId")
+        .optional()
+        .trim()
+        .toInt()
+        .customSanitizer((v) => {
+          if (!v) return "";
+          return classIds.includes(v) ? v : "";
+        })
+        .default("")
+        .run(req),
+      check("status").trim().toLowerCase().escape().run(req),
+    ]);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // console.log(errors);
+
     if (req.query.classId) {
-      filteredTimetables = filteredTimetables.filter(async (item) => {
-        const classIds = await getAllClasses().map((c) => c.classId);
-        await check("classId")
-          .trim()
-          .toInt()
-          .customSanitizer((v) => (classIds.includes(v) ? v : ""))
-          .run(req);
-        return item.classId === req.query.classId;
-      });
+      filteredTimetables = filteredTimetables.filter(
+        (item) => item.classId === req.query.classId,
+      );
     }
 
     if (req.query.status) {
-      filteredTimetables = filteredTimetables.filter(async (item) => {
-        await check("status").trim().toLowerCase().escape().run(req);
-        return req.query.status === "active"
+      filteredTimetables = filteredTimetables.filter((item) =>
+        req.query.status === "active"
           ? new Date(item.startDateTime) >= Date.now()
-          : new Date(item.startDateTime) < Date.now();
-      });
+          : new Date(item.startDateTime) < Date.now(),
+      );
     }
 
     const page = +req.query.page || 1;
     const limit = +req.query.limit || 10;
     const paginatedTimetables = pagination(filteredTimetables, page, limit);
+
+    console.log(req.query);
 
     res.json({
       timetables: paginatedTimetables.data,

@@ -36,12 +36,11 @@ block content
                 svg.size-6 
                   use(xlink:href='/icons/sprites/solid.svg#circle-plus' fill='currentColor')
           //- TIMETABLE LIST
-          table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
+          table#adminTimetableList.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
             caption.text-sm
-              | 10 results
             thead.text-sm.text-white.bg-darkCyan
               tr
-                +tableHeaderItem('TimetableNo')
+                +tableHeaderItem('NO#')
                 +tableHeaderItem('Class')
                 +tableHeaderItem('StartDateTime')
                 +tableHeaderItem('Duration')
@@ -52,18 +51,19 @@ block content
                 +tableHeaderItem('Status')
                 +tableHeaderItem('Action')
             tbody
-              - for(let t of timetables)
-                tr
-                  +tableCellItem('timetable_no', t.timetableNo)
-                  +tableCellItem('class_name', t.className)
-                  +tableCellItem('startDateTime', t.startDateTime.toLocaleString())
-                  +tableCellItem('duration', `${t.duration} mins`)
-                  +tableCellItem('trainer', `${t.trainerFirstName} ${t.trainerLastName}`)
-                  +tableCellItem('level', t.level)
-                  +tableCellItem('capacity', t.capacity)
-                  +tableCellItem('availability', t.availability)
-                  +tableCellItem('status', new Date(t.startDateTime) < Date.now() ? 'finished' : 'active')
-                  td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
-                    a.btn.btn-sm.btn-limeGreen(href=`/auth/admin/timetableForm/${t.timetableId}/edit`) Edit
+              //- - for(let t of timetables)
+              //-   tr
+              //-     +tableCellItem('NO#', t.timetableNo)
+              //-     +tableCellItem('class_name', t.className)
+              //-     +tableCellItem('startDateTime', t.startDateTime.toLocaleString())
+              //-     +tableCellItem('duration', `${t.duration} mins`)
+              //-     +tableCellItem('trainer', `${t.trainerFirstName} ${t.trainerLastName}`)
+              //-     +tableCellItem('level', t.level)
+              //-     +tableCellItem('capacity', t.capacity)
+              //-     +tableCellItem('availability', t.availability)
+              //-     +tableCellItem('status', new Date(t.startDateTime) < Date.now() ? 'finished' : 'active')
+              //-     td.grid.grid-cols-2(class='before:content-[attr(data-cell)] before:uppercase before:font-semibold md:text-center md:table-cell md:before:content-none' data-cell='edit')
+              //-       a.btn.btn-sm.btn-limeGreen(href=`/auth/admin/timetableForm/${t.timetableId}/edit`) Edit
+          div#pagination-container-admin-timetable
         // 3) SIDE MENU
         include ../partials/_accountSideNav.pug
