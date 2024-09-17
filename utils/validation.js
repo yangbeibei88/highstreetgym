@@ -288,10 +288,12 @@ export const sanitizeRichText = (
   max = 20000,
   required = true,
 ) => {
-  let chain = body(name).trim();
+  let chain;
 
   if (required) {
-    chain.notEmpty().withMessage(`${name} is required.`);
+    chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
+  } else {
+    chain = body(name).optional();
   }
 
   if (min > 0) {
