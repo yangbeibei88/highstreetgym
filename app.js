@@ -82,7 +82,12 @@ app.use("/auth", authRouter);
 
 // HANDLE UNHANDLED ROUTES
 app.all("*", (req, res, next) => {
-  next(new AppError(`${req.originalUrl} NOT FOUND`, 404));
+  next(
+    new AppError(`${req.originalUrl} NOT FOUND`, 404, {
+      text: "Back to Home \u2192",
+      link: "/",
+    }),
+  );
 });
 
 app.use(globalErrorHandler);
