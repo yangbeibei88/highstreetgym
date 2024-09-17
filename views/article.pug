@@ -19,6 +19,8 @@ block content
               | #{article.firstName}
               | #{article.lastName}
             small.text-xs #{article.createdAt.toLocaleDateString('en-AU')}
+            if user.userId === article.userId
+              a.btn.btn-sm.btn-limeGreen.ml-auto(href=`/auth/account/articleForm/${article.articleId}/edit`) Edit
         img.w-full.h-96.rounded-lg.shadow-lg.object-cover(src=`/images/blog/${article.imageCover}` alt=`${article.articleTitle}`)
       main#article-content
       p

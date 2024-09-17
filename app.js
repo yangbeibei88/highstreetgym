@@ -14,7 +14,7 @@ import { globalErrorHandler } from "./controllers/ErrorController.js";
 
 export const app = express();
 
-app.enable("trust proxy");
+// app.enable("trust proxy");
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -22,7 +22,7 @@ app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(cors());
-app.options("*", cors());
+// app.options("*", cors());
 
 // set `public` folder as static folder
 app.use(express.static(path.join(__dirname, "public")));

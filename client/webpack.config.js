@@ -11,6 +11,8 @@ import webpack from "webpack";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+// console.log(__dirname);
+
 dotenv.config({ path: resolve(__dirname, "../.env") });
 
 console.log(process.env.NODE_ENV);
@@ -27,8 +29,12 @@ export default {
   output: {
     path: resolve(__dirname, "../public/bundle"),
     filename: "bundle.js",
-    publicPath: "/", // ensure all urls in css file are treated as absolute (absolute to public folder)
+    publicPath: "/bundle/", // ensure all urls in css file are treated as absolute (absolute to public folder)
     // clean: true,
+    module: true,
+  },
+  experiments: {
+    outputModule: true,
   },
   devServer: {
     static: {
