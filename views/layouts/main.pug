@@ -1,13 +1,15 @@
 doctype html
 html(lang="en")
   head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
-    link(rel="preload", href="/bundle/bundle.css", as="style")
-    link(rel="stylesheet", href="/bundle/bundle.css")
-    //- link(rel="modulepreload", href="/bundle/bundle.js", as="script")
-    title High Street Gym | #{title}
+    block head
+      meta(charset="UTF-8")
+      meta(name="viewport", content="width=device-width, initial-scale=1.0")
+      link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+      link(rel="preload", href="/bundle/bundle.css", as="style")
+      link(rel="stylesheet", href="/bundle/bundle.css")
+      //- link(rel="modulepreload", href="/bundle/bundle.js", as="script")
+      title High Street Gym | #{title}
+
   body(class="flex flex-col min-h-screen justify-center")
     // MAINNAV
     include ../partials/_mainnav.pug

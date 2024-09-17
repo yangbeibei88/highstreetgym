@@ -1,4 +1,4 @@
-(self["webpackChunkhsg_frontend"] = self["webpackChunkhsg_frontend"] || []).push([["src_components_TimetableSearchAndFilter_js"],{
+(self["webpackChunkhsg_frontend"] = self["webpackChunkhsg_frontend"] || []).push([["src_components_UsersSearchAndFilter_js"],{
 
 /***/ "./src/components/FnPagination.js":
 /*!****************************************!*\
@@ -112,15 +112,15 @@ var avatarHtml = function avatarHtml(path, alt) {
 
 /***/ }),
 
-/***/ "./src/components/TimetableSearchAndFilter.js":
-/*!****************************************************!*\
-  !*** ./src/components/TimetableSearchAndFilter.js ***!
-  \****************************************************/
+/***/ "./src/components/UsersSearchAndFilter.js":
+/*!************************************************!*\
+  !*** ./src/components/UsersSearchAndFilter.js ***!
+  \************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   TimetableSearchAndFilter: () => (/* binding */ TimetableSearchAndFilter)
+/* harmony export */   UsersSearchAndFilter: () => (/* binding */ UsersSearchAndFilter)
 /* harmony export */ });
 /* harmony import */ var _FnPagination_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FnPagination.js */ "./src/components/FnPagination.js");
 /* harmony import */ var _HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HTMLTemplate.js */ "./src/components/HTMLTemplate.js");
@@ -135,155 +135,144 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
-var TimetableSearchAndFilter = /*#__PURE__*/function () {
-  function TimetableSearchAndFilter() {
-    _classCallCheck(this, TimetableSearchAndFilter);
-    this._ttSearchAndFilterEl = document.getElementById("ttSearchAndFilter");
-    this._classFilterEl = document.querySelector("#ttSearchAndFilter #classFilter");
-    this._fromDateEl = document.querySelector("#ttSearchAndFilter #fromDate");
-    this._toDateEl = document.querySelector("#ttSearchAndFilter #toDate");
-    this._timetableList = document.querySelector("table#timetableList tbody");
-    this._myBookingTimetableIds = [];
-    this._paginationContainer = document.querySelector("#pagination-container-timetable");
-    this.pagination = null;
-    if (!this._ttSearchAndFilterEl || !this._timetableList) {
+var UsersSearchAndFilter = /*#__PURE__*/function () {
+  function UsersSearchAndFilter() {
+    _classCallCheck(this, UsersSearchAndFilter);
+    this._userSearchAndFilterEl = document.querySelector("#userFilters");
+    this._userList = document.querySelector("table#userList tbody");
+    this._manageUsersContainer = document.querySelector("main#manage-users");
+    this._roleFilterEl = document.querySelector("#userFilters #roleFilter");
+    this._searchEl = document.querySelector("#userFilters #searchUser");
+    this._paginationContainer = document.querySelector("#pagination-container-users");
+    if (!this._userSearchAndFilterEl || !this._userList) {
       return;
     }
+    this.currentPage = 1;
+    this.limit = 10;
+    this.pagination = null;
     this.handleSearchFilter();
     this.initializeListeners();
   }
-  return _createClass(TimetableSearchAndFilter, [{
+  return _createClass(UsersSearchAndFilter, [{
     key: "initializeListeners",
     value: function initializeListeners() {
       var _this = this;
-      this._classFilterEl.addEventListener("change", function () {
+      this._roleFilterEl.addEventListener("change", function () {
         return _this.handleSearchFilter();
       });
-      this._fromDateEl.addEventListener("change", function () {
-        return _this.handleSearchFilter();
-      });
-      this._toDateEl.addEventListener("change", function () {
+      this._searchEl.addEventListener("input", function () {
         return _this.handleSearchFilter();
       });
     }
   }, {
+    key: "getSelectedRoles",
+    value: function getSelectedRoles() {
+      var selectedRoles = [];
+      Array.from(this._roleFilterEl.selectedOptions).forEach(function (item) {
+        return selectedRoles.push(item.value);
+      });
+      return selectedRoles;
+    }
+  }, {
+    key: "getSearchTerm",
+    value: function getSearchTerm() {
+      return this._searchEl.value;
+    }
+  }, {
     key: "buildQuery",
     value: function buildQuery() {
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var limit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
-      var classFilter = this._classFilterEl.value;
-      var fromDate = this._fromDateEl.value;
-      var toDate = this._toDateEl.value;
-
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.currentPage;
+      var limit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.limit;
+      var selectedRoles = this.getSelectedRoles();
+      var searchTerm = this.getSearchTerm();
       // eslint-disable-next-line node/no-unsupported-features/node-builtins
       return new URLSearchParams({
-        classFilter: classFilter || "",
-        fromDate: fromDate || "",
-        toDate: toDate || "",
+        role: selectedRoles.length > 0 ? selectedRoles.join(",") : "",
+        search: searchTerm || "",
         page: page,
         limit: limit
       }).toString();
     }
   }, {
-    key: "fetchTimetables",
+    key: "fetchUsers",
     value: function () {
-      var _fetchTimetables = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(query) {
+      var _fetchUsers = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(query) {
         var res, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return fetch("/timetable/search-filter?".concat(query));
+              return fetch("/auth/admin/manage-users/search-filter?".concat(query));
             case 3:
               res = _context.sent;
               _context.next = 6;
               return res.json();
             case 6:
               data = _context.sent;
-              this._myBookingTimetableIds = data.myBookingTimetableIds;
-              this.updateTimetableList(data.timetables);
-              // console.log(data.timetables);
+              // console.log(data);
+              this.updateUserList(data.users);
               this.updatePagination(data.pagination);
+              this._manageUsersContainer.style.display = "block";
               _context.next = 15;
               break;
             case 12:
               _context.prev = 12;
               _context.t0 = _context["catch"](0);
-              console.error("Fetch timetable error: ", _context.t0);
+              console.error("fetch users error: ", _context.t0);
             case 15:
             case "end":
               return _context.stop();
           }
         }, _callee, this, [[0, 12]]);
       }));
-      function fetchTimetables(_x) {
-        return _fetchTimetables.apply(this, arguments);
+      function fetchUsers(_x) {
+        return _fetchUsers.apply(this, arguments);
       }
-      return fetchTimetables;
+      return fetchUsers;
     }()
   }, {
     key: "handleSearchFilter",
     value: function handleSearchFilter() {
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       var query = this.buildQuery(page);
-      this.fetchTimetables(query);
+      this.fetchUsers(query);
     }
   }, {
-    key: "bookingButtonTemplate",
-    value: function bookingButtonTemplate(timetableId) {
-      var isDisabled = this._myBookingTimetableIds.includes(timetableId);
-      var href = isDisabled ? "#" : "/auth/account/timetable/".concat(timetableId, "/bookingForm");
-      var classList = isDisabled ? "btn-bullet btn-limeGreen btn-sm cursor-not-allowed text-gray-600 saturate-50 hover:no-underline" : "btn-bullet btn-limeGreen btn-sm";
-      var buttonText = isDisabled ? "Booked" : "Book Now";
-      var btnUI = "<a href=\"".concat(href, "\" class=\"").concat(classList, "\">\n        ").concat(buttonText, "\n      </a>");
-      return (0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("action", btnUI);
-    }
-  }, {
-    key: "updateTimetableList",
-    value: function updateTimetableList(timetables) {
+    key: "updateUserList",
+    value: function updateUserList(users) {
       var _this2 = this;
-      this._timetableList.innerHTML = "";
-      if (timetables.length === 0) {
-        var row = document.createElement("tr");
-        var noDataCell = document.createElement("td");
-        noDataCell.colSpan = 9;
-        noDataCell.textContent = "No class sessions found.";
-        row.appendChild(noDataCell);
-        this._timetableList.appendChild(row);
-        return;
+      this._userList.innerHTML = "";
+      if (!users.length) {
+        this._userList.textContent = "No users found";
       }
-      timetables.forEach(function (item) {
+      users.forEach(function (item) {
         var row = document.createElement("tr");
-        row.innerHTML = "\n      ".concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("date", new Date(item.startDateTime).toLocaleDateString("en-AU")), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("weekday", new Date(item.startDateTime).toLocaleDateString("en-AU", {
-          weekday: "short"
-        })), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("time", new Date(item.startDateTime).toLocaleTimeString("en-AU", {
-          timeStyle: "short",
-          hour12: false
-        })), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("class", item.className), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("duration", item.duration), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("level", item.level), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("trainer", item.trainerFirstName), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("availability", item.availability), "\n      ").concat(_this2.bookingButtonTemplate(item.timetableId), "\n      ");
-        _this2._timetableList.appendChild(row);
+        row.innerHTML = "\n      ".concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("ID#", item.userId), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("avatar", (0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.avatarHtml)("/images/users/".concat(item.avatar), item.firstName)), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("user_name", "".concat(item.firstName, " ").concat(item.lastName)), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("email", item.emailAddress), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("phone", item.phoneNumber), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("role", item.userRole), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("created_at", new Date(item.createdAt).toLocaleDateString()), "\n      ");
+        _this2._userList.appendChild(row);
       });
     }
   }, {
     key: "updatePagination",
     value: function updatePagination(paginationData) {
       var _this3 = this;
-      // console.log("Fontend Pagination Data:", paginationData);
-
-      // RE-NITIALIZE PAGINATION EVERYTIME NEW DATA IS FETCHED, OTHERWISE, THE PAGINATION NUMBERS WILL STAY AT THE FIRST TIME!
       if (this.pagination) {
         this._paginationContainer.innerHTML = "";
       }
+      var currentPage = paginationData.currentPage,
+        totalPages = paginationData.totalPages,
+        totalItems = paginationData.totalItems,
+        limit = paginationData.limit;
       this.pagination = new _FnPagination_js__WEBPACK_IMPORTED_MODULE_0__.Pagination({
-        currentPage: paginationData.currentPage,
-        totalPages: paginationData.totalPages,
-        totalItems: paginationData.totalItems,
-        limit: paginationData.limit,
+        currentPage: currentPage,
+        totalPages: totalPages,
+        totalItems: totalItems,
+        limit: limit,
         onPageChange: function onPageChange(page) {
           _this3.handleSearchFilter(page);
         },
-        paginationContainer: "#pagination-container-timetable",
-        captionContainer: "table#timetableList caption"
+        paginationContainer: "#pagination-container-users",
+        captionContainer: "table#userList caption"
       });
       this.pagination.render();
     }
@@ -293,4 +282,4 @@ var TimetableSearchAndFilter = /*#__PURE__*/function () {
 /***/ })
 
 }])
-//# sourceMappingURL=src_components_TimetableSearchAndFilter_js.bundle.js.map
+//# sourceMappingURL=src_components_UsersSearchAndFilter_js.bundle.js.map

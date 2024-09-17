@@ -6,7 +6,8 @@ import settingsFontSizes from "./tailwind.settings.fontSizes.js";
 
 export default {
   content: [
-    "../public/**/*.{html,js}",
+    "../public/**/*.html",
+    "../public/**/*.js",
     "./src/**/*.{js,ts}",
     "../views/**/*.pug",
   ],

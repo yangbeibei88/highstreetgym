@@ -1,6 +1,10 @@
 extends ../layouts/main.pug 
 include ../partials/_fieldErrorMsg.pug
 
+block append head 
+  link(rel="preload", href="/bundle/quill.snow.css", as="style")
+  link(rel="stylesheet", href="/bundle/quill.snow.css")
+
 block content 
   .page-wrapper
     // 2) MAIN CCONTENT
