@@ -17,7 +17,7 @@ block content
         .relative.flex.items-center
           svg.size-6.absolute.left-3.text-gray-500
             use(xlink:href='/icons/sprites/solid.svg#f' fill='currentColor')
-          input#register_firstname.pl-11(type='text' name='register_firstname' placeholder='John' required autocomplete='given-name' value=(newUser && newUser.firstname || ''))
+          input#register_firstname.pl-11(type='text' name='register_firstname' placeholder='John' required autocomplete='given-name' value=(newUser && newUser.firstName || ''))
         +fieldErrorMsg('register_firstname')
       .space-y-1.col-span-1(class='md:col-span-1')
         label.block.text-sm.font-semibold.text-darkCyan(for='register_surname')
@@ -26,7 +26,7 @@ block content
         .relative.flex.items-center
           svg.size-6.absolute.left-3.text-gray-500
             use(xlink:href='/icons/sprites/solid.svg#l' fill='currentColor')
-          input#register_surname.pl-11(type='text' name='register_surname' placeholder='Doe' required='' autocomplete='family-name' value=(newUser && newUser.surname || ''))
+          input#register_surname.pl-11(type='text' name='register_surname' placeholder='Doe' required='' autocomplete='family-name' value=(newUser && newUser.lastName || ''))
         +fieldErrorMsg('register_surname')
       .space-y-1.col-span-1(class='md:col-span-2')
         label.block.text-sm.font-semibold.text-darkCyan(for='register_email')
@@ -35,7 +35,7 @@ block content
         .relative.flex.items-center
           svg.size-6.absolute.left-3.text-gray-500
             use(xlink:href='/icons/sprites/regular.svg#envelope' fill='currentColor')
-          input#register_email.pl-11(type='email' name='register_email' placeholder='name@example.com' required='' autocomplete='username' value=(newUser && newUser.email || ''))
+          input#register_email.pl-11(type='email' name='register_email' placeholder='name@example.com' required='' autocomplete='username' value=(newUser && newUser.emailAddress || ''))
         +fieldErrorMsg('register_email')
       .space-y-1.col-span-1(class='md:col-span-2')
         label.block.text-sm.font-semibold.text-darkCyan(for='register_mobilenumber')
