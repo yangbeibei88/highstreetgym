@@ -1,9 +1,9 @@
 mixin navItem(text, linkPath)
   li.group.nav-item
-    a.px-3.py-2.leading-4.text-lemonGreen.capitalize(href=linkPath class='group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen' aria-hidden='true') #{text}
+    a.px-3.py-2.leading-4.text-lemonGreen.capitalize(href=linkPath class='group-hover:text-limeGreen group-hover:underline group-hover:underline-offset-8 group-hover:decoration-limeGreen') #{text}
 mixin navItemMobile(text, linkPath)
   li.group.nav-item
-    a.px-3.py-2.leading-4.text-darkCyan.capitalize(href=linkPath class='group-hover:brightness-125 group-hover:underline group-hover:underline-offset-8 group-hover:decoration-darkCyan' aria-hidden='true') #{text}
+    a.px-3.py-2.leading-4.text-darkCyan.capitalize(href=linkPath class='group-hover:brightness-125 group-hover:underline group-hover:underline-offset-8 group-hover:decoration-darkCyan') #{text}
 
 nav.sticky.top-0.z-30.flex.flex-wrap.items-center.justify-between.px-2.py-3.bg-darkCyan.shadow
   .container.mx-auto.flex.flex-wrap.items-center.justify-between
@@ -14,9 +14,9 @@ nav.sticky.top-0.z-30.flex.flex-wrap.items-center.justify-between.px-2.py-3.bg-d
       // right nav toggle on mobile
       button#navbarToggle.text-limeGreen.cursor-pointer(type='button' class='z-50 lg:hidden' aria-controls='mobile-mainnav' aria-expanded='false')
         span(class='sr-only') Menu
-        svg#toggleOpen.size-9(aria-hidden='true' class='hidden text-darkCyan hover:bg-limeGreen')
+        svg#toggleOpen.size-9(class='hidden text-darkCyan hover:bg-limeGreen')
           use(xlink:href='/icons/sprites/solid.svg#xmark' fill='currentColor')
-        svg#toggleClosed.size-9(aria-hidden='true' class='block m-1 p-1 hover:bg-limeGreen hover:text-darkCyan')
+        svg#toggleClosed.size-9(class='block m-1 p-1 hover:bg-limeGreen hover:text-darkCyan')
           use(xlink:href='/icons/sprites/solid.svg#bars' fill='currentColor')
     // MIDDLE: MENU ITEMS
     .collapse-navbar.items-center.hidden.order-2(class='lg:order-1 lg:flex lg:flex-row')

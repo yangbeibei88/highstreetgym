@@ -100,12 +100,14 @@ export const blogSearchFilterSortAction = asyncHandler(
       );
     }
 
-    if (req.query.visibilities) {
-      const selectedViss = req.query.visibilities.split(",");
-      console.log("Selected visibilities: ", selectedViss);
-      filteredArticles = filteredArticles.filter((article) =>
-        selectedViss.includes(article.visibility),
-      );
+    if (req.user) {
+      if (req.query.visibilities) {
+        const selectedViss = req.query.visibilities.split(",");
+        console.log("Selected visibilities: ", selectedViss);
+        filteredArticles = filteredArticles.filter((article) =>
+          selectedViss.includes(article.visibility),
+        );
+      }
     }
 
     res.json({

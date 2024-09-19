@@ -40,9 +40,11 @@ var BlogSearchAndFilter = /*#__PURE__*/function () {
       this._topicFilterEl.addEventListener("change", function () {
         return _this.handleSearchFilter();
       });
-      this._visFilterEl.addEventListener("change", function () {
-        return _this.handleSearchFilter();
-      });
+      if (this._visFilterEl) {
+        this._visFilterEl.addEventListener("change", function () {
+          return _this.handleSearchFilter();
+        });
+      }
       window.addEventListener("resize", function () {
         return _this.toggleFilters();
       });
@@ -73,10 +75,15 @@ var BlogSearchAndFilter = /*#__PURE__*/function () {
     key: "getSelectedViss",
     value: function getSelectedViss() {
       var selectedViss = [];
-      var checkBoxes = this._visFilterEl.querySelectorAll("input[type='checkbox']:checked");
-      checkBoxes.forEach(function (checkbox) {
-        return selectedViss.push(checkbox.value);
-      });
+      var checkBoxes;
+      if (this._visFilterEl) {
+        checkBoxes = this._visFilterEl.querySelectorAll("input[type='checkbox']:checked");
+      }
+      if (checkBoxes) {
+        checkBoxes.forEach(function (checkbox) {
+          return selectedViss.push(checkbox.value);
+        });
+      }
       return selectedViss;
     }
   }, {

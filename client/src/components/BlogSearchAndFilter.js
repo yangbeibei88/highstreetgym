@@ -16,9 +16,12 @@ export class BlogSearchAndFilter {
     this._topicFilterEl.addEventListener("change", () =>
       this.handleSearchFilter(),
     );
-    this._visFilterEl.addEventListener("change", () =>
-      this.handleSearchFilter(),
-    );
+
+    if (this._visFilterEl) {
+      this._visFilterEl.addEventListener("change", () =>
+        this.handleSearchFilter(),
+      );
+    }
     window.addEventListener("resize", () => this.toggleFilters());
   }
 
@@ -45,10 +48,17 @@ export class BlogSearchAndFilter {
 
   getSelectedViss() {
     const selectedViss = [];
-    const checkBoxes = this._visFilterEl.querySelectorAll(
-      "input[type='checkbox']:checked",
-    );
-    checkBoxes.forEach((checkbox) => selectedViss.push(checkbox.value));
+    let checkBoxes;
+
+    if (this._visFilterEl) {
+      checkBoxes = this._visFilterEl.querySelectorAll(
+        "input[type='checkbox']:checked",
+      );
+    }
+
+    if (checkBoxes) {
+      checkBoxes.forEach((checkbox) => selectedViss.push(checkbox.value));
+    }
 
     return selectedViss;
   }
