@@ -42,7 +42,8 @@ export const classXmlValidationRules = [
   check("classCode")
     .toInt()
     .isInt({ min: 1, max: 9999999999 })
-    .withMessage("classCode must be a valid integer between 1 and 9999999999."),
+    .withMessage("classCode must be a valid integer between 1 and 9999999999.")
+    .bail(),
   check("className")
     .customSanitizer((v) => (v.length > 50 ? v.slice(0, 50) : v))
     .isLength({ min: 2, max: 50 })

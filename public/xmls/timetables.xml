@@ -11,7 +11,7 @@
     <capacity>24</capacity>
   </timetable>
   <timetable>
-    <timetableNo></timetableNo>
+    <timetableNo>21</timetableNo>
     <classCode>105</classCode>
     <trainerEmail>sophiam@hsg.io</trainerEmail>
     <startDateTime>2024-09-14T11:30:00</startDateTime>

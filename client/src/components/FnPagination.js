@@ -95,7 +95,7 @@ export class Pagination {
   
           <!-- Last Button -->
           <li>
-            <a href="#" data=page="${this.totalPages}" class="flex items-center justify-center px-3 h-8 leading-tight text-darkCyan bg-white border border-gray-300 rounded-e-lg hover:bg-limeGreen ${this.currentPage === this.totalPages || !this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
+            <a href="#" data-page="${this.totalPages}" class="flex items-center justify-center px-3 h-8 leading-tight text-darkCyan bg-white border border-gray-300 rounded-e-lg hover:bg-limeGreen ${this.currentPage === this.totalPages || !this.totalPages ? "cursor-not-allowed opacity-50" : ""}">
               Last &raquo;&raquo;
             </a>
           </li>
