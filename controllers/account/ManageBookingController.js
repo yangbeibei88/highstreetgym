@@ -55,7 +55,16 @@ export const timetableCheck = asyncHandler(async (req, res, next) => {
 
   if (!timetable || timetable.length === 0) {
     return next(
-      new AppError("Sorry, this timetable doesn't exist.", 400, {
+      new AppError("Sorry, this timetable class doesn't exist.", 400, {
+        text: "Back to Timetable",
+        link: "/timetable",
+      }),
+    );
+  }
+
+  if (!timetable[0].availability) {
+    return next(
+      new AppError("Sorry, this timetable class has been fully booked.", 400, {
         text: "Back to Timetable",
         link: "/timetable",
       }),

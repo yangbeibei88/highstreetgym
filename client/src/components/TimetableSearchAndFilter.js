@@ -65,8 +65,9 @@ export class TimetableSearchAndFilter {
     this.fetchTimetables(query);
   }
 
-  bookingButtonTemplate(timetableId) {
-    const isDisabled = this._myBookingTimetableIds.includes(timetableId);
+  bookingButtonTemplate(timetableId, avail) {
+    const isDisabled =
+      this._myBookingTimetableIds.includes(timetableId) || !avail;
     const href = isDisabled
       ? "#"
       : `/auth/account/timetable/${timetableId}/bookingForm`;
@@ -107,7 +108,7 @@ export class TimetableSearchAndFilter {
       ${rowHtml("level", item.level)}
       ${rowHtml("trainer", item.trainerFirstName)}
       ${rowHtml("availability", item.availability)}
-      ${this.bookingButtonTemplate(item.timetableId)}
+      ${this.bookingButtonTemplate(item.timetableId, item.availability)}
       `;
 
       this._timetableList.appendChild(row);

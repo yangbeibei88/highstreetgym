@@ -231,8 +231,8 @@ var TimetableSearchAndFilter = /*#__PURE__*/function () {
     }
   }, {
     key: "bookingButtonTemplate",
-    value: function bookingButtonTemplate(timetableId) {
-      var isDisabled = this._myBookingTimetableIds.includes(timetableId);
+    value: function bookingButtonTemplate(timetableId, avail) {
+      var isDisabled = this._myBookingTimetableIds.includes(timetableId) || !avail;
       var href = isDisabled ? "#" : "/auth/account/timetable/".concat(timetableId, "/bookingForm");
       var classList = isDisabled ? "btn-bullet btn-limeGreen btn-sm cursor-not-allowed text-gray-600 saturate-50 hover:no-underline" : "btn-bullet btn-limeGreen btn-sm";
       var buttonText = isDisabled ? "Booked" : "Book Now";
@@ -260,7 +260,7 @@ var TimetableSearchAndFilter = /*#__PURE__*/function () {
         })), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("time", new Date(item.startDateTime).toLocaleTimeString("en-AU", {
           timeStyle: "short",
           hour12: false
-        })), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("class", item.className), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("duration", item.duration), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("level", item.level), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("trainer", item.trainerFirstName), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("availability", item.availability), "\n      ").concat(_this2.bookingButtonTemplate(item.timetableId), "\n      ");
+        })), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("class", item.className), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("duration", item.duration), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("level", item.level), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("trainer", item.trainerFirstName), "\n      ").concat((0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("availability", item.availability), "\n      ").concat(_this2.bookingButtonTemplate(item.timetableId, item.availability), "\n      ");
         _this2._timetableList.appendChild(row);
       });
     }
