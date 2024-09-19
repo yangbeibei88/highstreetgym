@@ -47,7 +47,7 @@ export const getBookingByUser = async (userId) => {
   }
 };
 
-// DON'T USE THIS, USET TRASACTION
+// trigger `update_availability_after_new_booking` in bookings table takes care of updating availability of timetables tables
 export const insertBooking = async (booking) => {
   const conn = await dbPool.getConnection();
   try {
@@ -92,50 +92,53 @@ export const getBookingCountById = async (timetableId) => {
   }
 };
 
-export const insertBookingTrans = async (booking) => {
-  const conn = await dbPool.getConnection();
-  try {
-    // 1) BEGAIN TRANSACTION
-    await conn.beginTransaction();
+/**
+ * USE `insertBooking`, database trigger update availability
+ */
+// export const insertBookingTrans = async (booking) => {
+//   const conn = await dbPool.getConnection();
+//   try {
+//     // 1) BEGAIN TRANSACTION
+//     await conn.beginTransaction();
 
-    const sql1 = "INSERT INTO bookings (timetableId, userId) VALUES (?, ?)";
-    const getCapacity =
-      "SELECT timetableId, capacity FROM timetables WHERE timetableId = ?";
-    const getBookingCount =
-      "SELECT tt.timetableId, COUNT(b.timetableId) AS bookingCount FROM timetables tt INNER JOIN bookings b ON tt.timetableId = b.timetableId WHERE b.timetableId = ?";
-    const sql2 = "UPDATE timetables SET availability = ? WHERE timetableId = ?";
+//     const sql1 = "INSERT INTO bookings (timetableId, userId) VALUES (?, ?)";
+//     const getCapacity =
+//       "SELECT timetableId, capacity FROM timetables WHERE timetableId = ?";
+//     const getBookingCount =
+//       "SELECT tt.timetableId, COUNT(b.timetableId) AS bookingCount FROM timetables tt INNER JOIN bookings b ON tt.timetableId = b.timetableId WHERE b.timetableId = ?";
+//     const sql2 = "UPDATE timetables SET availability = ? WHERE timetableId = ?";
 
-    // 2.1) EXECUTE INSERT NEW BOOKING TO BOOKINGS TABLE
-    const [newBooking] = await conn.execute(sql1, [
-      booking.timetableId,
-      booking.userId,
-    ]);
-    const [capacityResult] = await conn.execute(getCapacity, [
-      booking.timetableId,
-    ]);
-    const [bookingCountResult] = await conn.execute(getBookingCount, [
-      booking.timetableId,
-    ]);
+//     // 2.1) EXECUTE INSERT NEW BOOKING TO BOOKINGS TABLE
+//     const [newBooking] = await conn.execute(sql1, [
+//       booking.timetableId,
+//       booking.userId,
+//     ]);
+//     const [capacityResult] = await conn.execute(getCapacity, [
+//       booking.timetableId,
+//     ]);
+//     const [bookingCountResult] = await conn.execute(getBookingCount, [
+//       booking.timetableId,
+//     ]);
 
-    // 2.2) EXECUTE AVAILABILITY UPDATE TO TIMETABLES TABLE
-    await conn.execute(sql2, [
-      capacityResult[0].capacity - bookingCountResult[0].bookingCount,
-      booking.timetableId,
-    ]);
+//     // 2.2) EXECUTE AVAILABILITY UPDATE TO TIMETABLES TABLE
+//     await conn.execute(sql2, [
+//       capacityResult[0].capacity - bookingCountResult[0].bookingCount,
+//       booking.timetableId,
+//     ]);
 
-    // 3) COMMIT TRANSACTION IF ALL QUERIES EXECUTED SUCCESSFULLY
-    await conn.commit();
-    console.log("TRANSACTION COMMITTED SUCCESSFULLY!");
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
-    return { ...booking, bookingId: newBooking.insertId };
-  } catch (error) {
-    // 4) ROLLBACK TRANSACTION IF ANY ERROR
-    await conn.rollback();
-    console.error("TRANSACTION ROLLBACK ERROR: ", error);
-  } finally {
-    conn.release();
-  }
-};
+//     // 3) COMMIT TRANSACTION IF ALL QUERIES EXECUTED SUCCESSFULLY
+//     await conn.commit();
+//     console.log("TRANSACTION COMMITTED SUCCESSFULLY!");
+//     // eslint-disable-next-line node/no-unsupported-features/es-syntax
+//     return { ...booking, bookingId: newBooking.insertId };
+//   } catch (error) {
+//     // 4) ROLLBACK TRANSACTION IF ANY ERROR
+//     await conn.rollback();
+//     console.error("TRANSACTION ROLLBACK ERROR: ", error);
+//   } finally {
+//     conn.release();
+//   }
+// };
 
 export const generateBookingNo = async (bookingId) => {
   const conn = await dbPool.getConnection();
