@@ -30,7 +30,15 @@ var SideNav = /*#__PURE__*/function () {
     value: function activeState() {
       Array.from(this._sideNavItems).forEach(function (item) {
         var listItem = item.parentElement;
-        var isActive = window.location.pathname === item.pathname;
+        var pathnames = [window.location.pathname, item.pathname];
+        // const windowLocationPathname = window.location.pathname;
+        pathnames = pathnames.map(function (pn) {
+          if (pn.slice(-1) !== "/") {
+            pn += "/";
+          }
+          return pn;
+        });
+        var isActive = pathnames[0] === pathnames[1];
         if (isActive) {
           listItem.setAttribute("data-active", "true");
           item.classList.add("bg-limeGreen");

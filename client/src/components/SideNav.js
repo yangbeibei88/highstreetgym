@@ -10,7 +10,16 @@ export class SideNav {
   activeState() {
     Array.from(this._sideNavItems).forEach((item) => {
       const listItem = item.parentElement;
-      const isActive = window.location.pathname === item.pathname;
+      let pathnames = [window.location.pathname, item.pathname];
+      // const windowLocationPathname = window.location.pathname;
+      pathnames = pathnames.map((pn) => {
+        if (pn.slice(-1) !== "/") {
+          pn += "/";
+        }
+        return pn;
+      });
+
+      const isActive = pathnames[0] === pathnames[1];
 
       if (isActive) {
         listItem.setAttribute("data-active", "true");
