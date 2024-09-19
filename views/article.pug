@@ -23,7 +23,6 @@ block content
               a.btn.btn-sm.btn-limeGreen.ml-auto(href=`/auth/account/articleForm/${article.articleId}/edit`) Edit
         img.w-full.h-96.rounded-lg.shadow-lg.object-cover(src=`/images/blog/${article.imageCover}` alt=`${article.articleTitle}`)
       main#article-content
-      p
         | !{article.articleContent}
   section#comments.bg-slate-100
     .container.mx-auto.py-6
@@ -37,6 +36,6 @@ block content
       else 
         +link('Login to leave a comment 🚀', '/login')
       |
-      section#member-comments.mb-6
+      ul#member-comments.mb-6
         - for(let c of comments)
           +commentCard(c)

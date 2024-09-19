@@ -109,7 +109,7 @@ export class BlogSearchAndFilter {
               <img
                 src="/images/users/${item.avatar}"
                 alt="${item.firstName}"
-                class="size-8 rounded-full object-cover md:size-12">
+                class="size-8 rounded-full border border-darkCyan object-cover md:size-12">
               <small class="text-xs">${item.firstName} ${item.lastName}</small>
               <small
                 class="text-xs">${new Date(item.createdAt).toLocaleDateString("en-AU")}</small>

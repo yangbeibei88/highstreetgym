@@ -1,5 +1,5 @@
 mixin commentCard(c)
-  article.flex.items-center.bg-white.border.px-4.py-2.space-x-3
+  li.flex.items-center.bg-white.border.px-4.py-2.space-x-3(id=`comment-${c.commentId}` data-commentid=`${c.commentId}` data-userid=`${c.userId}`)
     // left
     .flex.flex-col.justify-center.items-center
       img.size-14.rounded-full.border(src=`/images/users/${c.avatar}` alt=`${c.firstName} ${c.lastName}`)
@@ -12,12 +12,12 @@ mixin commentCard(c)
         small
           | #{c.firstName}
           | #{c.lastName}
-        time(datetime=`${c.createdAt.toLocaleString('en-AU', {hour12: false})}`)
+        time(datetime=`${c.createdAt.toISOString() || ''}`)
           small
             | Posted At:
             | #{c.createdAt.toLocaleString('en-AU', {hour12: false})}
         if c.updatedAt
-          time(datetime=`${c.updatedAt.toLocaleString('en-AU', {hour12: false})}`)
+          time(datetime=`${c.updatedAt.toISOString() || ''}}`)
             small
               | Updated At:
               | #{c.updatedAt.toLocaleString('en-AU', {hour12: false})}
