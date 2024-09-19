@@ -25,13 +25,21 @@ export const accountArticleRestrict = asyncHandler(async (req, res, next) => {
   if (req.params.articleId) {
     article = await getArticle(+req.params.articleId);
     if (!article || article.length === 0) {
-      return next(new AppError("This article is not found.", 404));
+      return next(
+        new AppError("This article is not found.", 404, {
+          text: "Back to My Articles",
+          link: "/auth/account/manage-articles",
+        }),
+      );
     }
     const authorId = await article[0].userId;
 
     if (req.user.userId !== authorId) {
       return next(
-        new AppError("You are not authorised to edit this article.", 403),
+        new AppError("You are not authorised to edit this article.", 403, {
+          text: "Back to My Articles",
+          link: "/auth/account/manage-articles",
+        }),
       );
     }
 
