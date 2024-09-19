@@ -5,7 +5,7 @@ import {
   getBookingById,
   getBookingByUser,
   getFilteredBookings,
-  insertBookingTrans,
+  insertBooking,
 } from "../../models/BookingModel.js";
 import {
   getTimetableById,
@@ -110,7 +110,8 @@ export const createBookingAction = asyncHandler(async (req, res, next) => {
     userId: req.user.userId,
   };
 
-  const newBooking = await insertBookingTrans(newBookingData);
+  // const newBooking = await insertBookingTrans(newBookingData);
+  const newBooking = await insertBooking(newBookingData);
 
   await generateBookingNo(newBooking.bookingId);
 
