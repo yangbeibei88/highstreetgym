@@ -161,12 +161,14 @@ export const getFilteredBookings = async (user, query = {}) => {
 
   let baseSql = `FROM bookings b INNER JOIN users u1 ON b.userId = u1.userId INNER JOIN timetables tt ON b.timetableId = tt.timetableId INNER JOIN classes c ON tt.classId = c.classId INNER JOIN users u2 ON tt.trainerId = u2.userId`;
 
+  const userIds = [];
   const queryParams = [];
 
   if (user.userRole === "admin") {
     baseSql += " WHERE 1=1";
   } else {
-    baseSql += " WHERE userId = ?";
+    baseSql += " WHERE u1.userId = ?";
+    userIds.push(user.userId);
   }
 
   if (query.status) {
@@ -198,19 +200,24 @@ export const getFilteredBookings = async (user, query = {}) => {
   const paginationSql = " LIMIT ? OFFSET ?";
   queryParams.push(limit, offset);
 
+  console.log("queryParams before try: ", queryParams);
+
   try {
     const bookingSql = `SELECT b.*, u1.firstName AS userFirstName, u1.lastName AS userLastName, tt.startDateTime, tt.duration, tt.level, c.className, u2.firstName AS trainerFirstName, u2.lastName AS trainerLastName ${baseSql} ${sortSql} ${paginationSql}`;
 
-    console.log(queryParams);
+    console.log("userId + queryParams in try: ", [...userIds, ...queryParams]);
 
-    const [filteredBookings] = await conn.execute(bookingSql, queryParams);
+    const [filteredBookings] = await conn.execute(bookingSql, [
+      ...userIds,
+      ...queryParams,
+    ]);
 
     const countSql = `SELECT COUNT(*) AS totalItems ${baseSql}`;
 
     // EXLUDE LIMIT AND OFFSET PARAMS TO CALCUATE TOTAL COUNT
     const [totalCountResult] = await conn.execute(
       countSql,
-      queryParams.slice(0, -2),
+      [...userIds, ...queryParams].slice(0, -2),
     );
 
     const { totalItems } = totalCountResult[0];
