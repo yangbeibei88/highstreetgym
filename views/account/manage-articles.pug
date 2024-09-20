@@ -27,7 +27,7 @@ block content
           // my articles table
           table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
             caption.text-sm
-              | 10 results
+              | #{articles && articles.length || 0} results
             thead.text-sm.text-white.bg-darkCyan
               tr
                 +tableHeaderItem('Title')
