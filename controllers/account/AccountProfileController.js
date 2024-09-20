@@ -46,7 +46,12 @@ export const updateMyprofileAction = asyncHandler(async (req, res, next) => {
     state: req.body.profile_state,
     bio: req.body.profile_bio,
     userId: req.user.userId,
-    avatar: req.file ? req.file.filename : null,
+    // eslint-disable-next-line no-nested-ternary
+    avatar: req.file
+      ? req.file.filename
+      : req.user.avatar
+        ? req.user.avatar
+        : null,
   };
 
   console.log("before validation: ", inputData);
