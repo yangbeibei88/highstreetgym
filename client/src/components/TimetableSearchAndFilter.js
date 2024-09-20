@@ -75,7 +75,15 @@ export class TimetableSearchAndFilter {
       ? "btn-bullet btn-limeGreen btn-sm cursor-not-allowed text-gray-600 saturate-50 hover:no-underline"
       : "btn-bullet btn-limeGreen btn-sm";
 
-    const buttonText = isDisabled ? "Booked" : "Book Now";
+    // const buttonText = isDisabled ? "Booked" : "Book Now";
+    let buttonText;
+    if (isDisabled) {
+      buttonText = this._myBookingTimetableIds.includes(timetableId)
+        ? "Booked"
+        : "Full";
+    } else {
+      buttonText = "Book Now";
+    }
 
     const btnUI = `<a href="${href}" class="${classList}">
         ${buttonText}

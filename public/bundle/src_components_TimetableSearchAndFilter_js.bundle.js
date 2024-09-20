@@ -235,7 +235,14 @@ var TimetableSearchAndFilter = /*#__PURE__*/function () {
       var isDisabled = this._myBookingTimetableIds.includes(timetableId) || !avail;
       var href = isDisabled ? "#" : "/auth/account/timetable/".concat(timetableId, "/bookingForm");
       var classList = isDisabled ? "btn-bullet btn-limeGreen btn-sm cursor-not-allowed text-gray-600 saturate-50 hover:no-underline" : "btn-bullet btn-limeGreen btn-sm";
-      var buttonText = isDisabled ? "Booked" : "Book Now";
+
+      // const buttonText = isDisabled ? "Booked" : "Book Now";
+      var buttonText;
+      if (isDisabled) {
+        buttonText = this._myBookingTimetableIds.includes(timetableId) ? "Booked" : "Full";
+      } else {
+        buttonText = "Book Now";
+      }
       var btnUI = "<a href=\"".concat(href, "\" class=\"").concat(classList, "\">\n        ").concat(buttonText, "\n      </a>");
       return (0,_HTMLTemplate_js__WEBPACK_IMPORTED_MODULE_1__.rowHtml)("action", btnUI);
     }
