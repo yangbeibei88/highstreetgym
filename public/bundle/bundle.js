@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/auth/admin/classForm/create" || /^\/auth\/admin\/classForm\/\d+\/edit$/.test(path);
     },
     load: function load() {
-      return Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_quill_quill_js"), __webpack_require__.e("src_components_QuillEditor_js"), __webpack_require__.e("src_components_ClassForm_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/ClassForm.js */ "./src/components/ClassForm.js"));
+      return Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_quill_quill_js"), __webpack_require__.e("src_components_ClassForm_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/ClassForm.js */ "./src/components/ClassForm.js"));
     },
     componentNames: ["ClassForm"]
   }, {
@@ -489,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/auth/account/articleForm/create" || /^\/auth\/account\/articleForm\/\d+\/edit$/.test(path);
     },
     load: function load() {
-      return Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_quill_quill_js"), __webpack_require__.e("src_components_QuillEditor_js"), __webpack_require__.e("src_components_ArticleForm_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/ArticleForm.js */ "./src/components/ArticleForm.js"));
+      return Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_quill_quill_js"), __webpack_require__.e("src_components_ArticleForm_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/ArticleForm.js */ "./src/components/ArticleForm.js"));
     },
     componentNames: ["ArticleForm"]
   }, {

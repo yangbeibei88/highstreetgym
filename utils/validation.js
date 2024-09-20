@@ -271,13 +271,17 @@ export const sanitizeTextarea = (
       .withMessage(`${name} is too long, should not exceed ${max} characters.`);
   }
 
-  chain = chain.customSanitizer((value) => {
-    const sanitizedContent = purify.sanitize(value, {
-      ALLOWED_TAGS: [],
-      ALLOWED_ATTR: [],
-    });
-    return sanitizedContent;
-  });
+  chain = chain
+    .customSanitizer((value) => {
+      const sanitizedContent = purify.sanitize(value, {
+        ALLOWED_TAGS: [],
+        ALLOWED_ATTR: [],
+      });
+      return sanitizedContent.toString();
+    })
+    .trim()
+    .notEmpty()
+    .withMessage(`${name} is required.`);
 
   return chain;
 };
@@ -309,25 +313,31 @@ export const sanitizeRichText = (
       .withMessage(`${name} is too long, should not exceed ${max} characters.`);
   }
 
-  chain = chain.customSanitizer((value) => {
-    const sanitizedContent = purify.sanitize(value, {
-      ALLOWED_TAGS: [
-        "p",
-        "b",
-        "a",
-        "br",
-        "ul",
-        "li",
-        "ol",
-        "strong",
-        "em",
-        "img",
-      ],
-      FORBID_ATTR: ["class"],
-      RETURN_TRUSTED_TYPE: true,
-    });
-    return sanitizedContent.toString();
-  });
+  chain = chain
+    .customSanitizer((value) => {
+      const sanitizedContent = purify.sanitize(value, {
+        ALLOWED_TAGS: [
+          "p",
+          "b",
+          "a",
+          "br",
+          "ul",
+          "li",
+          "ol",
+          "strong",
+          "em",
+          "img",
+        ],
+        FORBID_TAGS: ["script"],
+        FORBID_ATTR: ["class"],
+        FORBID_CONTENTS: ["script"],
+        RETURN_TRUSTED_TYPE: true,
+      });
+      return sanitizedContent.toString();
+    })
+    .trim()
+    .notEmpty()
+    .withMessage(`${name} is required.`);
 
   return chain;
 };
