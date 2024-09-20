@@ -315,7 +315,7 @@ export const sanitizeRichText = (
 
   chain = chain
     .customSanitizer((value) => {
-      const sanitizedContent = purify.sanitize(value, {
+      let sanitizedContent = purify.sanitize(value, {
         ALLOWED_TAGS: [
           "p",
           "b",
@@ -331,9 +331,30 @@ export const sanitizeRichText = (
         FORBID_TAGS: ["script"],
         FORBID_ATTR: ["class"],
         FORBID_CONTENTS: ["script"],
-        RETURN_TRUSTED_TYPE: true,
       });
-      return sanitizedContent.toString();
+      sanitizedContent = sanitizedContent.toString();
+
+      // REMOVE SCRIPT TAG AND CONTENT
+      sanitizedContent = sanitizedContent.replace(
+        /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+        "",
+      );
+      sanitizedContent = sanitizedContent.replace(
+        /&lt;script\b[^&]*(?:(?!&lt;\/script&gt;)&[^&]*)*&lt;\/script&gt;/gi,
+        "",
+      );
+
+      sanitizedContent = sanitizedContent.trim();
+      // REMOVE QUILL p wrapper
+      if (
+        !sanitizedContent ||
+        sanitizedContent === "<p></p>" ||
+        sanitizedContent === "<p><br></p>"
+      ) {
+        return "";
+      }
+
+      return sanitizedContent;
     })
     .trim()
     .notEmpty()
