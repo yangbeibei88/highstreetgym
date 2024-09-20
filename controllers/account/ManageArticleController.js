@@ -125,6 +125,14 @@ export const validateArticleForm = asyncHandler(async (req, res, next) => {
   const topics = await getTopics();
   const topicOptions = topics.map((row) => `${row.topicId}`);
 
+  const articleId = req.params.articleId ? +req.params.articleId : null;
+  let existingArticle = null;
+
+  if (articleId) {
+    const existingArticleData = await getArticle(articleId);
+    existingArticle = existingArticleData[0];
+  }
+
   // 1) VALIDATE & SANITISE FIELDS
   await Promise.all([
     validateText("articleTitle", 10, 80, true).run(req),
@@ -143,7 +151,12 @@ export const validateArticleForm = asyncHandler(async (req, res, next) => {
     visibility: req.body.visibility,
     articleContent: req.body.articleContent,
     userId: req.user.userId,
-    imageCover: req.file ? req.file.filename : null,
+    // eslint-disable-next-line no-nested-ternary
+    imageCover: req.file
+      ? req.file.filename
+      : existingArticle.imageCover
+        ? existingArticle.imageCover
+        : null,
   };
 
   if (req.params.articleId) {
