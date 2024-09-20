@@ -49,7 +49,7 @@ export const updateMyprofileAction = asyncHandler(async (req, res, next) => {
     // eslint-disable-next-line no-nested-ternary
     avatar: req.file
       ? req.file.filename
-      : req.user.avatar
+      : req.user && req.user.avatar
         ? req.user.avatar
         : null,
   };

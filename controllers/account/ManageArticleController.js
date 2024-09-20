@@ -154,7 +154,7 @@ export const validateArticleForm = asyncHandler(async (req, res, next) => {
     // eslint-disable-next-line no-nested-ternary
     imageCover: req.file
       ? req.file.filename
-      : existingArticle.imageCover
+      : existingArticle && existingArticle.imageCover
         ? existingArticle.imageCover
         : null,
   };

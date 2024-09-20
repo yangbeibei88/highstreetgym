@@ -108,7 +108,7 @@ export const validateClassForm = asyncHandler(async (req, res, next) => {
     // eslint-disable-next-line no-nested-ternary
     imageCover: req.file
       ? req.file.filename
-      : existingClass.imageCover
+      : existingClass && existingClass.imageCover
         ? existingClass.imageCover
         : null,
   };
