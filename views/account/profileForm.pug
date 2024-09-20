@@ -89,7 +89,7 @@ block content
               label.block.text-sm.font-semibold.text-darkCyan(for='avatar') Avatar
               .relative.flex.items-center
                 input#profile_avatar(type='file' name='profile_avatar')
-                img.size-16.rounded-full(src=`/images/users/${inputData && inputData.avatar || 'default-avatar-10.png'}` alt=(inputData && inputData.firstName || 'avatar'))  
+                img.size-16.rounded-full(src=`/images/users/${inputData && inputData.avatar ? inputData.avatar : 'default-avatar-10.png'}` alt=(inputData && inputData.firstName || 'avatar'))  
               +fieldErrorMsg('profile_avatar')
             .space-y-1.col-span-1(class='md:col-span-3')
               a.btn-bullet.btn-gray.my-5.space-x-1.w-full(href='/auth/account') Back

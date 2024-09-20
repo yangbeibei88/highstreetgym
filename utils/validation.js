@@ -10,11 +10,13 @@ const purify = DOMPurify(window);
 // validate a string
 export const validateText = (name, min = 0, max = 254, required = true) => {
   let chain;
+
   if (required) {
     chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
   } else {
-    chain = body(name).optional();
+    chain = body(name).optional().trim();
   }
+
   if (min > 0) {
     chain = chain
       .isLength({ min })
@@ -100,19 +102,21 @@ export const validateEmail = (
   return chain;
 };
 
-export const validatePostcode = (name, required = false) => {
+export const validatePostcode = (name, required = true) => {
   let chain;
+
   if (required) {
-    chain = body(name)
-      .trim()
-      .toInt()
-      .notEmpty()
-      .withMessage(`${name} is required.`);
+    chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
   } else {
-    chain = body(name).optional();
+    chain = body(name).optional().trim();
   }
 
-  chain = chain.isPostalCode("AU").withMessage(`${name} must be four digits.`);
+  chain = chain.custom((v) => {
+    if (v && !/^\d{4}$/.test(v)) {
+      throw new Error(`${name} must be four digits.`);
+    }
+    return true;
+  });
 
   return chain;
 };
@@ -122,11 +126,11 @@ export const validatePostcode = (name, required = false) => {
 export const validatePhoneNumber = (name, required = true) => {
   let chain;
 
-  if (required) {
-    chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
-  } else {
+  if (!required) {
     chain = body(name).optional();
   }
+
+  chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
 
   chain = chain
     .matches(/^0[2-478]\d{8}$/)
@@ -255,7 +259,7 @@ export const sanitizeTextarea = (
   if (required) {
     chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
   } else {
-    chain = body(name).optional();
+    chain = body(name).optional().trim();
   }
 
   if (min > 0) {
@@ -271,17 +275,19 @@ export const sanitizeTextarea = (
       .withMessage(`${name} is too long, should not exceed ${max} characters.`);
   }
 
-  chain = chain
-    .customSanitizer((value) => {
-      const sanitizedContent = purify.sanitize(value, {
-        ALLOWED_TAGS: [],
-        ALLOWED_ATTR: [],
-      });
-      return sanitizedContent.toString();
-    })
-    .trim()
-    .notEmpty()
-    .withMessage(`${name} is required.`);
+  chain.escape();
+
+  // chain = chain.customSanitizer((value) => {
+  //   if (value) {
+  //     const sanitizedContent = purify.sanitize(value, {
+  //       ALLOWED_TAGS: [],
+  //       ALLOWED_ATTR: [],
+  //     });
+
+  //     return sanitizedContent.toString();
+  //   }
+  //   return "";
+  // });
 
   return chain;
 };
@@ -297,7 +303,7 @@ export const sanitizeRichText = (
   if (required) {
     chain = body(name).trim().notEmpty().withMessage(`${name} is required.`);
   } else {
-    chain = body(name).optional();
+    chain = body(name).optional().trim();
   }
 
   if (min > 0) {
