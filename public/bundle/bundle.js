@@ -1,141 +1,4 @@
-/******/ var __webpack_modules__ = ({
-
-/***/ "./src/style.css":
-/*!***********************!*\
-  !*** ./src/style.css ***!
-  \***********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./src/components/FlashMessage.js":
-/*!****************************************!*\
-  !*** ./src/components/FlashMessage.js ***!
-  \****************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   FlashMessage: () => (/* binding */ FlashMessage)
-/* harmony export */ });
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
-function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var FlashMessage = /*#__PURE__*/function () {
-  function FlashMessage() {
-    _classCallCheck(this, FlashMessage);
-    this._dismissBtns = document.querySelectorAll(".dismissBtn");
-    this.addEventListener();
-  }
-  return _createClass(FlashMessage, [{
-    key: "addEventListener",
-    value: function addEventListener() {
-      this._dismissBtns.forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          var flashContainerEl = btn.closest("#flashContainer");
-          if (flashContainerEl) {
-            flashContainerEl.remove();
-          }
-        });
-      });
-    }
-  }]);
-}();
-
-/***/ }),
-
-/***/ "./src/components/MainNav.js":
-/*!***********************************!*\
-  !*** ./src/components/MainNav.js ***!
-  \***********************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   MainNav: () => (/* binding */ MainNav)
-/* harmony export */ });
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
-function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var MainNav = /*#__PURE__*/function () {
-  function MainNav() {
-    _classCallCheck(this, MainNav);
-    this._navbarToggleBtn = document.getElementById("navbarToggle");
-    this._mobileNavbarEl = document.querySelector("#mobile-mainnav");
-    this._toggleOpen = document.getElementById("toggleOpen");
-    this._toggleClosed = document.getElementById("toggleClosed");
-    this.addEventListener();
-  }
-  return _createClass(MainNav, [{
-    key: "addEventListener",
-    value: function addEventListener() {
-      var _this = this;
-      this._navbarToggleBtn.addEventListener("click", function () {
-        return _this.toggleHandler();
-      });
-    }
-  }, {
-    key: "toggleHandler",
-    value: function toggleHandler() {
-      var isExpanded = this._navbarToggleBtn.getAttribute("aria-expanded") === "true";
-      this._navbarToggleBtn.setAttribute("aria-expanded", !isExpanded);
-      this._mobileNavbarEl.classList.toggle("translate-x-full");
-      this._toggleClosed.classList.toggle("hidden");
-      this._toggleOpen.classList.toggle("hidden");
-    }
-  }]);
-}();
-
-/***/ }),
-
-/***/ "./src/components/Spinner.js":
-/*!***********************************!*\
-  !*** ./src/components/Spinner.js ***!
-  \***********************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Spinner: () => (/* binding */ Spinner)
-/* harmony export */ });
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
-function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var Spinner = /*#__PURE__*/function () {
-  function Spinner() {
-    _classCallCheck(this, Spinner);
-    this._spinnerEl = document.getElementById("spinner");
-    this.addEventListener();
-  }
-  return _createClass(Spinner, [{
-    key: "addEventListener",
-    value: function addEventListener() {
-      document.addEventListener("DOMContentLoaded", window.addEventListener("beforeunload", this.addBeforeunload.bind(this)));
-    }
-  }, {
-    key: "addBeforeunload",
-    value: function addBeforeunload() {
-      this._spinnerEl.classList.remove("hidden");
-    }
-  }]);
-}();
-
-/***/ })
-
-/******/ });
+/******/ var __webpack_modules__ = ({});
 /************************************************************************/
 /******/ // The module cache
 /******/ var __webpack_module_cache__ = {};
@@ -307,7 +170,7 @@ var Spinner = /*#__PURE__*/function () {
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		"main": 0
+/******/ 		792: 0
 /******/ 	};
 /******/ 	
 /******/ 	__webpack_require__.f.j = (chunkId, promises) => {
@@ -391,14 +254,95 @@ var Spinner = /*#__PURE__*/function () {
 /******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/style.css");
-/* harmony import */ var _components_MainNav_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/MainNav.js */ "./src/components/MainNav.js");
-/* harmony import */ var _components_Spinner_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Spinner.js */ "./src/components/Spinner.js");
-/* harmony import */ var _components_FlashMessage_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/FlashMessage.js */ "./src/components/FlashMessage.js");
+
+;// CONCATENATED MODULE: ./src/components/MainNav.js
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var MainNav = /*#__PURE__*/function () {
+  function MainNav() {
+    _classCallCheck(this, MainNav);
+    this._navbarToggleBtn = document.getElementById("navbarToggle");
+    this._mobileNavbarEl = document.querySelector("#mobile-mainnav");
+    this._toggleOpen = document.getElementById("toggleOpen");
+    this._toggleClosed = document.getElementById("toggleClosed");
+    this.addEventListener();
+  }
+  return _createClass(MainNav, [{
+    key: "addEventListener",
+    value: function addEventListener() {
+      var _this = this;
+      this._navbarToggleBtn.addEventListener("click", function () {
+        return _this.toggleHandler();
+      });
+    }
+  }, {
+    key: "toggleHandler",
+    value: function toggleHandler() {
+      var isExpanded = this._navbarToggleBtn.getAttribute("aria-expanded") === "true";
+      this._navbarToggleBtn.setAttribute("aria-expanded", !isExpanded);
+      this._mobileNavbarEl.classList.toggle("translate-x-full");
+      this._toggleClosed.classList.toggle("hidden");
+      this._toggleOpen.classList.toggle("hidden");
+    }
+  }]);
+}();
+;// CONCATENATED MODULE: ./src/components/Spinner.js
+function Spinner_typeof(o) { "@babel/helpers - typeof"; return Spinner_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, Spinner_typeof(o); }
+function Spinner_classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function Spinner_defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, Spinner_toPropertyKey(o.key), o); } }
+function Spinner_createClass(e, r, t) { return r && Spinner_defineProperties(e.prototype, r), t && Spinner_defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function Spinner_toPropertyKey(t) { var i = Spinner_toPrimitive(t, "string"); return "symbol" == Spinner_typeof(i) ? i : i + ""; }
+function Spinner_toPrimitive(t, r) { if ("object" != Spinner_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != Spinner_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var Spinner = /*#__PURE__*/function () {
+  function Spinner() {
+    Spinner_classCallCheck(this, Spinner);
+    this._spinnerEl = document.getElementById("spinner");
+    this.addEventListener();
+  }
+  return Spinner_createClass(Spinner, [{
+    key: "addEventListener",
+    value: function addEventListener() {
+      document.addEventListener("DOMContentLoaded", window.addEventListener("beforeunload", this.addBeforeunload.bind(this)));
+    }
+  }, {
+    key: "addBeforeunload",
+    value: function addBeforeunload() {
+      this._spinnerEl.classList.remove("hidden");
+    }
+  }]);
+}();
+;// CONCATENATED MODULE: ./src/components/FlashMessage.js
+function FlashMessage_typeof(o) { "@babel/helpers - typeof"; return FlashMessage_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, FlashMessage_typeof(o); }
+function FlashMessage_classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function FlashMessage_defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, FlashMessage_toPropertyKey(o.key), o); } }
+function FlashMessage_createClass(e, r, t) { return r && FlashMessage_defineProperties(e.prototype, r), t && FlashMessage_defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function FlashMessage_toPropertyKey(t) { var i = FlashMessage_toPrimitive(t, "string"); return "symbol" == FlashMessage_typeof(i) ? i : i + ""; }
+function FlashMessage_toPrimitive(t, r) { if ("object" != FlashMessage_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != FlashMessage_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var FlashMessage = /*#__PURE__*/function () {
+  function FlashMessage() {
+    FlashMessage_classCallCheck(this, FlashMessage);
+    this._dismissBtns = document.querySelectorAll(".dismissBtn");
+    this.addEventListener();
+  }
+  return FlashMessage_createClass(FlashMessage, [{
+    key: "addEventListener",
+    value: function addEventListener() {
+      this._dismissBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var flashContainerEl = btn.closest("#flashContainer");
+          if (flashContainerEl) {
+            flashContainerEl.remove();
+          }
+        });
+      });
+    }
+  }]);
+}();
+;// CONCATENATED MODULE: ./src/index.js
 /* eslint-disable node/no-unsupported-features/es-syntax */
 /* eslint-disable no-unused-vars */
 // import "quill/dist/quill.snow.css";
@@ -407,13 +351,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  return new _components_MainNav_js__WEBPACK_IMPORTED_MODULE_1__.MainNav();
+  return new MainNav();
 });
 document.addEventListener("DOMContentLoaded", function () {
-  return new _components_FlashMessage_js__WEBPACK_IMPORTED_MODULE_3__.FlashMessage();
+  return new FlashMessage();
 });
 document.addEventListener("DOMContentLoaded", function () {
-  return new _components_Spinner_js__WEBPACK_IMPORTED_MODULE_2__.Spinner();
+  return new Spinner();
 });
 
 // const spinner = new Spinner();
@@ -425,7 +369,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/timetable";
     },
     load: function load() {
-      return __webpack_require__.e(/*! import() */ "src_components_TimetableSearchAndFilter_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/TimetableSearchAndFilter.js */ "./src/components/TimetableSearchAndFilter.js"));
+      return __webpack_require__.e(/* import() */ 389).then(__webpack_require__.bind(__webpack_require__, 389));
     },
     componentNames: ["TimetableSearchAndFilter"]
   }, {
@@ -433,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/blog";
     },
     load: function load() {
-      return __webpack_require__.e(/*! import() */ "src_components_BlogSearchAndFilter_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/BlogSearchAndFilter.js */ "./src/components/BlogSearchAndFilter.js"));
+      return __webpack_require__.e(/* import() */ 372).then(__webpack_require__.bind(__webpack_require__, 372));
     },
     componentNames: ["BlogSearchAndFilter"]
   }, {
@@ -441,7 +385,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/auth/admin/manage-users";
     },
     load: function load() {
-      return __webpack_require__.e(/*! import() */ "src_components_UsersSearchAndFilter_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/UsersSearchAndFilter.js */ "./src/components/UsersSearchAndFilter.js"));
+      return __webpack_require__.e(/* import() */ 256).then(__webpack_require__.bind(__webpack_require__, 256));
     },
     componentNames: ["UsersSearchAndFilter"]
   }, {
@@ -449,7 +393,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/auth/account/manage-bookings";
     },
     load: function load() {
-      return __webpack_require__.e(/*! import() */ "src_components_AccbookingsSearchAndFilter_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/AccbookingsSearchAndFilter.js */ "./src/components/AccbookingsSearchAndFilter.js"));
+      return __webpack_require__.e(/* import() */ 327).then(__webpack_require__.bind(__webpack_require__, 327));
     },
     componentNames: ["AccbookingsSearchAndFilter"]
   }, {
@@ -457,7 +401,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/auth/account/manage-articles";
     },
     load: function load() {
-      return __webpack_require__.e(/*! import() */ "src_components_CommentsDialog_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/CommentsDialog.js */ "./src/components/CommentsDialog.js"));
+      return __webpack_require__.e(/* import() */ 425).then(__webpack_require__.bind(__webpack_require__, 425));
     },
     componentNames: ["CommentsDialog"]
   }, {
@@ -465,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/auth/admin/manage-timetable";
     },
     load: function load() {
-      return __webpack_require__.e(/*! import() */ "src_components_AdminTimetableSearchAndFilter_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/AdminTimetableSearchAndFilter.js */ "./src/components/AdminTimetableSearchAndFilter.js"));
+      return __webpack_require__.e(/* import() */ 642).then(__webpack_require__.bind(__webpack_require__, 642));
     },
     componentNames: ["AdminTimetableSearchAndFilter"]
   }, {
@@ -473,7 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return /^\/auth\/account\/timetable\/\d+\/bookingForm$/.test(path);
     },
     load: function load() {
-      return __webpack_require__.e(/*! import() */ "src_components_BookingForm_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/BookingForm.js */ "./src/components/BookingForm.js"));
+      return __webpack_require__.e(/* import() */ 526).then(__webpack_require__.bind(__webpack_require__, 526));
     },
     componentNames: ["BookingForm"]
   }, {
@@ -481,7 +425,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/auth/admin/classForm/create" || /^\/auth\/admin\/classForm\/\d+\/edit$/.test(path);
     },
     load: function load() {
-      return Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_quill_quill_js"), __webpack_require__.e("src_components_ClassForm_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/ClassForm.js */ "./src/components/ClassForm.js"));
+      return Promise.all(/* import() */[__webpack_require__.e(690), __webpack_require__.e(781)]).then(__webpack_require__.bind(__webpack_require__, 781));
     },
     componentNames: ["ClassForm"]
   }, {
@@ -489,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return path === "/auth/account/articleForm/create" || /^\/auth\/account\/articleForm\/\d+\/edit$/.test(path);
     },
     load: function load() {
-      return Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_quill_quill_js"), __webpack_require__.e("src_components_ArticleForm_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./components/ArticleForm.js */ "./src/components/ArticleForm.js"));
+      return Promise.all(/* import() */[__webpack_require__.e(690), __webpack_require__.e(351)]).then(__webpack_require__.bind(__webpack_require__, 351));
     },
     componentNames: ["ArticleForm"]
   }, {
@@ -497,7 +441,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return /^\/auth\/(admin|account)(\/.*)?$/.test(path);
     },
     load: function load() {
-      return __webpack_require__.e(/*! import() */ "src_components_SideNav_js").then(__webpack_require__.bind(__webpack_require__, /*! ./components/SideNav.js */ "./src/components/SideNav.js"));
+      return __webpack_require__.e(/* import() */ 615).then(__webpack_require__.bind(__webpack_require__, 615));
     },
     componentNames: ["SideNav"]
   }];

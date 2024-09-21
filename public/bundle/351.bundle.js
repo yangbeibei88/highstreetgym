@@ -1,16 +1,13 @@
-(self["webpackChunkhsg_frontend"] = self["webpackChunkhsg_frontend"] || []).push([["src_components_ArticleForm_js"],{
+(self["webpackChunkhsg_frontend"] = self["webpackChunkhsg_frontend"] || []).push([[351],{
 
-/***/ "./src/components/ArticleForm.js":
-/*!***************************************!*\
-  !*** ./src/components/ArticleForm.js ***!
-  \***************************************/
+/***/ 351:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ArticleForm: () => (/* binding */ ArticleForm)
 /* harmony export */ });
-/* harmony import */ var _QuillEditor_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuillEditor.js */ "./src/components/QuillEditor.js");
+/* harmony import */ var _QuillEditor_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(239);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
 function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
@@ -29,7 +26,7 @@ var ArticleForm = /*#__PURE__*/function () {
     key: "editor",
     value: function editor() {
       if (this._articleEditorEl) {
-        this.articleEditor = new _QuillEditor_js__WEBPACK_IMPORTED_MODULE_0__.QuillEditor(this._articleEditorEl, this._hiddenContentInput);
+        this.articleEditor = new _QuillEditor_js__WEBPACK_IMPORTED_MODULE_0__/* .QuillEditor */ .t(this._articleEditorEl, this._hiddenContentInput);
       }
     }
   }]);
@@ -37,17 +34,13 @@ var ArticleForm = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/components/QuillEditor.js":
-/*!***************************************!*\
-  !*** ./src/components/QuillEditor.js ***!
-  \***************************************/
+/***/ 239:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   QuillEditor: () => (/* binding */ QuillEditor)
+/* harmony export */   t: () => (/* binding */ QuillEditor)
 /* harmony export */ });
-/* harmony import */ var quill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! quill */ "./node_modules/quill/quill.js");
+/* harmony import */ var quill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(690);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
 function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
@@ -60,7 +53,7 @@ var QuillEditor = /*#__PURE__*/function () {
     _classCallCheck(this, QuillEditor);
     this.editorEl = editorEl;
     this.hiddenInputEl = hiddenInputEl;
-    this.editor = new quill__WEBPACK_IMPORTED_MODULE_0__["default"](this.editorEl, {
+    this.editor = new quill__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Ay(this.editorEl, {
       modules: {
         toolbar: [["bold", "italic"], [{
           size: ["small", false, "large", "huge"]
@@ -146,4 +139,4 @@ var QuillEditor = /*#__PURE__*/function () {
 /***/ })
 
 }])
-//# sourceMappingURL=src_components_ArticleForm_js.bundle.js.map
+//# sourceMappingURL=351.bundle.js.map

@@ -8,6 +8,8 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 // eslint-disable-next-line node/no-unpublished-import
 import webpack from "webpack";
+// eslint-disable-next-line import/no-extraneous-dependencies, node/no-unpublished-import
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -15,14 +17,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 dotenv.config({ path: resolve(__dirname, "../.env") });
 
-console.log(process.env.NODE_ENV);
-
 const { DefinePlugin } = webpack;
 
+console.log("backend: ", process.env.NODE_ENV);
+console.log("frontend: ", process.env.CLIENT_ENV);
+
 export default {
-  mode: process.env.NODE_ENV === "production" ? "production" : "development",
+  mode: process.env.CLIENT_ENV === "production" ? "production" : "development",
   devtool:
-    process.env.NODE_ENV === "production"
+    process.env.CLIENT_ENV === "production"
       ? "source-map"
       : "cheap-module-source-map",
   entry: "./src/index.js",
@@ -96,8 +99,9 @@ export default {
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: "bundle.css" }),
+    new BundleAnalyzerPlugin(),
     new DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+      "process.env.CLIENT_ENV": JSON.stringify(process.env.CLIENT_ENV),
     }),
   ],
 };

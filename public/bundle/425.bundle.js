@@ -1,9 +1,6 @@
-(self["webpackChunkhsg_frontend"] = self["webpackChunkhsg_frontend"] || []).push([["src_components_CommentsDialog_js"],{
+(self["webpackChunkhsg_frontend"] = self["webpackChunkhsg_frontend"] || []).push([[425],{
 
-/***/ "./src/components/CommentsDialog.js":
-/*!******************************************!*\
-  !*** ./src/components/CommentsDialog.js ***!
-  \******************************************/
+/***/ 425:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -56,4 +53,4 @@ var CommentsDialog = /*#__PURE__*/function () {
 /***/ })
 
 }])
-//# sourceMappingURL=src_components_CommentsDialog_js.bundle.js.map
+//# sourceMappingURL=425.bundle.js.map
