@@ -259,7 +259,7 @@ export const updatePasswordAction = asyncHandler(async (req, res, next) => {
     req.session.errorMsg = "Incorrect password ❌";
     return res.status(401).render("account/change-password", {
       title: "Change Password - Incorrect ❌",
-      credentialError: req.session.errorMsg,
+      errorMsg: req.session.errorMsg,
     });
   }
   // 2) IF CURRENT PASSWORD IS CORRECT, CHECK IF NEW PASSWORD AND ITS PASSWORD CONFIRM IS MATCHED
