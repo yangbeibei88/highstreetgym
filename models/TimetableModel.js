@@ -164,6 +164,16 @@ export const upsertTimetables = async (xmlData) => {
             "capacity",
           ];
 
+          const values = [
+            row.timetableNo,
+            row.classCode,
+            row.trainerEmail,
+            row.startDateTime,
+            row.duration,
+            row.level,
+            row.capacity,
+          ];
+
           const onUpdates = [
             "classCode = VALUES(classCode)",
             "trainerEmail = VALUES(trainerEmail)",
@@ -174,16 +184,6 @@ export const upsertTimetables = async (xmlData) => {
           ];
 
           const placeHolders = Array(fieldNames.length).fill("?").join(", ");
-
-          const values = [
-            row.timetableNo,
-            row.classCode,
-            row.trainerEmail,
-            row.startDateTime,
-            row.duration,
-            row.level,
-            row.capacity,
-          ];
 
           const sql = `INSERT INTO timetables (${fieldNames.join(", ")}) VALUES (${placeHolders}) ON DUPLICATE KEY UPDATE ${onUpdates.join(", ")}`;
 

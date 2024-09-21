@@ -12,8 +12,10 @@ const strictSanitizeRules = {
 };
 const richtextSanitizeRules = {
   ALLOWED_TAGS: ["p", "b", "a", "br", "ul", "li", "ol", "strong", "em", "img"],
+  FORBID_TAGS: ["script"],
   FORBID_ATTR: ["class"],
-  RETURN_TRUSTED_TYPE: true,
+  FORBID_CONTENTS: ["script"],
+  // RETURN_TRUSTED_TYPE: true,
 };
 
 export const classMappingConfig = {
