@@ -5,8 +5,9 @@ import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import helmet from "helmet";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { rateLimit } from "express-rate-limit";
 import { publicRouter } from "./routes/publicRoutes.js";
 import { authRouter } from "./routes/authRoutes.js";
 import { AppError } from "./utils/AppError.js";
@@ -28,20 +29,22 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Set security HTTP headers
-app.use(
-  helmet.contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-      "img-src": ["'self'", "https: data: blob:"],
-      "script-src": ["'self'"],
-    },
-  }),
-);
+app.use(helmet());
 
 // development logger
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("common"));
 }
+
+// RATE LIMITER
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  limit: 100,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: "Too many requests from this IP, please try again later.",
+});
+app.use(limiter);
 
 // BODY PARSER MIDDLEWARE
 app.use(express.json());
