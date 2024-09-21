@@ -9,12 +9,12 @@ block content
       .container.flex.flex-col.items-center.justify-center.mx-auto.pt-6.pb-10(class='lg:flex-row lg:space-x-8')
         // 1.1) image
         .basis-full(class='lg:basis-1/2')
-          img.object-cover.rounded-lg.shadow-lg(src=`/images/classes/${course[0].imageCover}` alt=`${course[0].className}`)
+          img.object-cover.rounded-lg.shadow-lg(src=`/images/classes/${course[0] && course[0].imageCover || 'default-class-cover.jpeg'}` alt=`${course[0] && course[0].className || ''}`)
         // 1.2) content
         .basis-full(class='lg:basis-1/2')
-          h1.uppercase.text-lemonGreen #{course[0].className}
-          h2.text-lg.text-lemonGreen #{course[0].shortDesc}
-          p !{course[0].longDesc}
+          h1.uppercase.text-lemonGreen #{course[0] && course[0].className || ''}
+          h2.text-lg.text-lemonGreen #{course[0] && course[0].shortDesc || ''}
+          p !{course[0] && course[0].longDesc || ''}
           a.btn.btn-limeGreen(href='#view-dates-and-book')
             span
               | View
@@ -25,10 +25,10 @@ block content
     //- optimise responsive table, refer to https://adrianroselli.com/2017/11/a-responsive-accessible-table.html
     section#view-dates-and-book
       .flex.flex-col.py-4.px-4.items-center.justify-center(class='lg:px-10')
-        h3.uppercase #{course[0].className} Timetable
+        h3.uppercase #{course[0] && course[0].className || ''} Timetable
         table.w-full.table-auto.border-collapse.border.border-darkCyan.my-4
           caption.text-sm
-            | #{timetables.length} result
+            | #{timetables && timetables.length || 0} results
           thead.text-sm.text-white.bg-darkCyan
             tr
               +tableHeaderItem('Date')

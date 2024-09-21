@@ -76,6 +76,11 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/test", (req, res) => {
+  res.send("server connected");
+  console.log("Connection successful");
+});
+
 // ROUTES
 app.use("/", publicRouter);
 app.use("/auth", authRouter);

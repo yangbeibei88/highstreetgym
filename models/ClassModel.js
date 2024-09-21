@@ -75,7 +75,7 @@ export const insertClass = async (course) => {
       course.longDesc,
       course.minDuration,
       course.maxDuration,
-      course.days.join(","),
+      course.days,
     ];
 
     if (course.imageCover) {
@@ -114,7 +114,7 @@ export const updateClass = async (course) => {
       course.longDesc,
       course.minDuration,
       course.maxDuration,
-      course.days.join(","),
+      course.days,
     ];
 
     if (course.imageCover) {

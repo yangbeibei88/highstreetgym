@@ -104,7 +104,7 @@ export const validateClassForm = asyncHandler(async (req, res, next) => {
     longDesc: req.body.longDesc,
     minDuration: req.body.minDuration,
     maxDuration: req.body.maxDuration,
-    days: req.body.days,
+    days: Array.isArray(req.body.days) ? req.body.days.join() : req.body.days,
     // eslint-disable-next-line no-nested-ternary
     imageCover: req.file
       ? req.file.filename
@@ -112,6 +112,8 @@ export const validateClassForm = asyncHandler(async (req, res, next) => {
         ? existingClass.imageCover
         : null,
   };
+
+  console.log(inputData);
 
   if (req.params.classId) {
     inputData.classId = +req.params.classId;
