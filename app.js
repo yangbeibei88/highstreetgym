@@ -8,6 +8,7 @@ import session from "express-session";
 import helmet from "helmet";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { rateLimit } from "express-rate-limit";
+import compression from "compression";
 import { publicRouter } from "./routes/publicRoutes.js";
 import { authRouter } from "./routes/authRoutes.js";
 import { AppError } from "./utils/AppError.js";
@@ -19,36 +20,14 @@ export const app = express();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "views"));
-
 app.use(cors());
 // app.options("*", cors());
-
-// set `public` folder as static folder
-app.use(express.static(path.join(__dirname, "public")));
 
 // Set security HTTP headers
 app.use(helmet());
 
-// development logger
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("common"));
-}
-
-// RATE LIMITER
-const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  limit: 100,
-  standardHeaders: "draft-7",
-  legacyHeaders: false,
-  message: "Too many requests from this IP, please try again later.",
-});
-app.use(limiter);
-
-// BODY PARSER MIDDLEWARE
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// Use compression for gzip/deflate compression
+app.use(compression());
 
 // COOKIE PARSER
 app.use(cookieParser());
@@ -69,6 +48,21 @@ app.use(
   }),
 );
 
+// BODY PARSER MIDDLEWARE
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// set `public` folder as static folder
+app.use(express.static(path.join(__dirname, "public")));
+
+// development logger
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("common"));
+}
+
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+
 app.use((req, res, next) => {
   res.locals.successMsg = req.session.successMsg;
   res.locals.errorMsg = req.session.errorMsg;
@@ -78,6 +72,16 @@ app.use((req, res, next) => {
   delete req.session.validationErrorMsg;
   next();
 });
+
+// RATE LIMITER
+const limiter = rateLimit({
+  windowMs: 1 * 10 * 1000, // 10 seconds
+  limit: 20,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: "Too many requests from this IP, please try again later.",
+});
+app.use(limiter);
 
 app.get("/test", (req, res) => {
   res.send("server connected");
