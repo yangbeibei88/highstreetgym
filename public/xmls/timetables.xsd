@@ -52,7 +52,14 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="capacity" type="xs:integer" minOccurs="0" />
+              <xs:element name="capacity" minOccurs="0">
+              <xs:simpleType>
+                <xs:restriction base="xs:integer">
+                  <xs:minInclusive value="1" />
+                  <xs:maxInclusive value="999" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
             </xs:sequence>
           </xs:complexType>
           <xs:keyref name="classCodeRef" refer="cls:uniqueClassCode">

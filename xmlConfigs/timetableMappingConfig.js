@@ -51,15 +51,12 @@ export const timetableXmlValidationRules = [
     .bail(),
   check("startDateTime").customSanitizer((v) => {
     const datetime = parseDateTime(v);
-    if (datetime) {
-      const date = datetime.split(" ")[0];
-      const time = datetime.split(" ")[1];
-      if (check(date).isDate() && check(time).isTime()) {
-        return datetime;
-      }
-      return "1970-01-01 00:00:01";
+    if (!Number.isNaN(Date.parse(datetime))) {
+      // mysql timestamp is utc time (start from 1970-01-01 00:00:01), if set fallback to 1970-01-01 00:00:01, db will get error.
+      // so add 10 hours to compensate utc
+      return datetime;
     }
-    return "1970-01-01 00:00:01";
+    return "1970-01-01 10:00:01";
   }),
   check("duration").customSanitizer((v) => {
     const durationMins = parseInt(parseDurationToSeconds(v) / 60, 10);
