@@ -87,26 +87,36 @@ export const parseAndValidateXMLFactory = (
         );
         const errors = validationResult(localReqBody);
         console.log(errors);
-        if (!errors.isEmpty()) {
-          return null;
-        }
+        // if (!errors.isEmpty()) {
+        //   return null;
+        // }
         const validData = matchedData(localReqBody, { includeOptionals: true });
-        // const sanitizedData = {};
-        // Object.keys(validData).forEach((key) => {
-        //   sanitizedData[key] = purify.sanitize(validData[key]);
-        // });
 
-        // return sanitizedData;
-        return validData;
+        return {
+          validData: errors.isEmpty() ? validData : null,
+          errors: errors.isEmpty() ? [] : errors.array(),
+        };
       }),
     );
 
+    // console.log("validDataArray: ", validDataArray);
     console.log("validDataArray: ", validDataArray);
 
-    req.validData = validDataArray.filter((rowObj) => rowObj !== null);
-    req.invalidData = validDataArray.filter((rowObj) => rowObj === null);
+    req.validData = validDataArray
+      .filter((rowObj) => rowObj.validData !== null)
+      .map((rowObj) => rowObj.validData);
+
+    req.errors = validDataArray
+      .filter((rowObj) => rowObj.errors.length > 0)
+      .map((rowObj) => rowObj.errors);
+
+    // req.validData = validDataArray.validData.filter(
+    //   (rowObj) => rowObj !== null,
+    // );
+    // req.invalidData = validDataArray.filter((rowObj) => rowObj === null);
 
     console.log("req.validData: ", req.validData);
+    console.log("req.errors", req.errors);
 
     next();
   });

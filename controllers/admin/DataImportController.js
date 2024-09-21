@@ -44,6 +44,14 @@ export const uploadClassDataAction = asyncHandler(async (req, res, next) => {
   // 3) INSERT INTO DATABASE
   const { success, failed, details } = await upsertClasses(classData);
 
+  console.log("req.errors", req.errors);
+
+  req.session.validationErrorMsg =
+    req.errors && req.errors.length > 0
+      ? req.errors
+          .flatMap((errArr) => errArr.map((errObj) => `${errObj.msg}\n`))
+          .join("")
+      : "";
   req.session.successMsg =
     success > 0 ? `${success} rows import completed!` : "";
   req.session.errorMsg =
@@ -70,6 +78,13 @@ export const uploadTimetableDataAction = asyncHandler(
     console.log("success: ", success);
     console.log("failed: ", failed);
     console.log("details: ", details);
+
+    req.session.validationErrorMsg =
+      req.errors && req.errors.length > 0
+        ? req.errors
+            .flatMap((errArr) => errArr.map((errObj) => `${errObj.msg}\n`))
+            .join("")
+        : "";
 
     req.session.successMsg =
       success > 0 ? `${success} rows import completed!` : "";
