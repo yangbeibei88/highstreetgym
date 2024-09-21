@@ -20,10 +20,10 @@ block content
             +dashLinkItem('my profile', 'regular', 'address-card', 'my-profile')
             if user.userRole === 'admin'
               +dashLinkItem('data import', 'solid', 'upload', 'data-import', 'admin')
-          // BOTTOM STATS
-          section#stats.flex.flex-col.space-y-4.items-center.justify-between.py-4(class='md:flex-row md:space-x-4 md:space-y-0')
-            +dashStatsItem('total bookings', 2)
-            +dashStatsItem('total articles', 2)
-            +dashStatsItem('total comments', 2)
+          //- // BOTTOM STATS
+          //- section#stats.flex.flex-col.space-y-4.items-center.justify-between.py-4(class='md:flex-row md:space-x-4 md:space-y-0')
+          //-   +dashStatsItem('total bookings', 2)
+          //-   +dashStatsItem('total articles', 2)
+          //-   +dashStatsItem('total comments', 2)
         // 3) SIDE MENU
         include ../partials/_accountSideNav.pug

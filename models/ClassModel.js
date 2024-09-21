@@ -159,7 +159,7 @@ export const upsertClasses = async (xmlData) => {
     ];
 
     const baseOnUpdates = [
-      // "className = VALUES(className)",
+      "className = VALUES(className)",
       "shortDesc = VALUES(shortDesc)",
       "longDesc = VALUES(longDesc)",
       "minDuration = VALUES(minDuration)",
