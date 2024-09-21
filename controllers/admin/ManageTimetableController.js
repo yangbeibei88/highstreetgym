@@ -132,7 +132,7 @@ export const createTimetableAction = asyncHandler(async (req, res, next) => {
   const timetableObj = await insertTimetable(req.inputData);
   console.log(timetableObj);
 
-  req.session.successMsg = `timetableNo #${timetableObj.timetableId} has been created successfully!`;
+  req.session.successMsg = `timetableNo #${timetableObj.timetableNo} has been created successfully!`;
 
   res.redirect(`/auth/admin/timetableForm/${timetableObj.timetableId}/edit`);
 });

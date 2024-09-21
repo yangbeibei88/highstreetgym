@@ -10,9 +10,9 @@ block content
   .page-wrapper
     // 2) MAIN CCONTENT
     .wrapper.bg-slate-100
-      .max-w-screen-xl.grid.grid-cols-1.gap-4.py-5.px-4.mx-auto(class='md:px-0 md:grid-cols-4 lg:mx-20')
+      .container.mx-auto.my-10.bg-white.rounded.border
         // 2) MAIN CONTENT
-        main#create-article.col-span-1.order-2(class='md:col-span-3')
+        main#create-timetable.col-span-1.order-2.py-4.px-6(class='md:col-span-3')
           //- CLASS FORM START
           form#form-timetable.grid.grid-cols-1.py-4.gap-y-4(class='md:grid-cols-6 md:gap-4' method='POST' novalidate)
             //- input(type='hidden' name='timetableId' value=(inputData.timetableId))
