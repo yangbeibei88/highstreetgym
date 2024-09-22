@@ -1,3 +1,5 @@
 node_modules
 .env
 dev-htmls
+config/highstreetgym.sql
+README_0.md

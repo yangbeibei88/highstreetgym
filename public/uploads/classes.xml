@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="classes.xsd"?>
+<classes xmlns="http://localhost:8085/xmls/classes">
+  <class>
+    <classCode>108</classCode>
+    <className>bodypump</className>
+    <shortDesc>The ideal workout for anyone looking to get lean, toned and fit - fast.​</shortDesc>
+    <longDesc>
+      <![CDATA[ 
+      <p>Using light to moderate weights with lots of repetition, BODYPUMP gives you a total body workout. It will burn up to 540 calories+.</p>
+      <p>Our instructors will coach you through scientifically-backed moves and techniques pumping out encouragement, motivation and great music – helping you achieve much more than on your own! You’ll leave the class feeling challenged and motivated, ready to come back for more. BODYPUMP is available as either a 55, 45 or 30-minute workout.</p>
+      ]]>
+    </longDesc>
+    <imageCover></imageCover>
+    <minDuration>PT20M</minDuration>
+    <maxDuration>PT1000M</maxDuration>
+    <days>
+      <day>WED</day>
+      <day>FRI</day>
+    </days>
+  </class>
+  <class>
+    <classCode>109</classCode>
+    <className>bodystep</className>
+    <shortDesc>A full-body cardio workout to really tone your butt and thighs.</shortDesc>
+    <longDesc>
+      <![CDATA[ 
+      <p>In a BODYSTEP workout you can expect a mixture of upbeat, rhythmic stepping, with
+      squat and lunge patterns to work the legs. Combine this with movements like burpees, push
+      upsand weight plate exercises, and the result is a fun, uplifting, full-body workout!
+      Don’t worry, there’s heaps of options so that everyone leaves feeling successful.</p>
+      <script>alert("YOU ARE HACKED!🩻")</>
+      ]]>
+    </longDesc>
+    <imageCover></imageCover>
+    <minDuration>PT30M</minDuration>
+    <maxDuration>PT55M</maxDuration>
+    <days>
+      <day>TUE</day>
+      <day>THU</day>
+    </days>
+  </class>
+</classes>
