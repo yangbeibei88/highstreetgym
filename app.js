@@ -16,7 +16,7 @@ import { globalErrorHandler } from "./controllers/ErrorController.js";
 
 export const app = express();
 
-// app.enable("trust proxy");
+app.enable("trust proxy");
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
