@@ -1,35 +1,54 @@
-import { readFile } from "node:fs/promises";
-import { JSDOM } from "jsdom";
+// import { readFile } from "node:fs/promises";
+// import fs from "node:fs";
 import asyncHandler from "express-async-handler";
+// import { JSDOM } from "jsdom";
 import { matchedData, validationResult } from "express-validator";
-import { AppError } from "../utils/AppError.js";
+import { Readable } from "stream";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import sax from "sax";
 
-export const parseXmlFile = async (filePath, rootElName) => {
-  try {
-    const data = await readFile(filePath, "utf8");
-    const dom = new JSDOM(data, { contentType: "application/xml" });
-    const { document } = dom.window;
-    const rootElement = document.querySelector(rootElName);
-    if (!rootElement) {
-      throw new AppError(
-        `Invalid XML, root element <${rootElName}> is missing`,
-        400,
-      );
-    }
-    return rootElement;
-  } catch (error) {
-    console.log(error);
-    throw error;
+/**
+ * Helper function that converts a simple tree node (built from SAX events)
+ * into a plain JavaScript object.
+ *
+ * If a node has no children, its text content is returned.
+ * Otherwise, children with the same tag name are grouped into an array.
+ */
+function nodeToObject(node) {
+  if (!node.children.length) {
+    // Return text content if present.
+    return node.text || "";
   }
-};
+  const obj = {};
+  node.children.forEach((child) => {
+    const childObj = nodeToObject(child);
+    if (obj[child.name]) {
+      if (!Array.isArray(obj[child.name])) {
+        obj[child.name] = [obj[child.name]];
+      }
+      obj[child.name].push(childObj);
+    } else {
+      obj[child.name] = childObj;
+    }
+  });
+  return obj;
+}
 
+/**
+ * Factory that creates middleware to stream the uploaded XML file,
+ * parse it using sax, and validate each child element (e.g. each <timetable>).
+ *
+ * @param {Array} xmlValidationRules - Express-validator rules.
+ * @param {Object} mappingConfig - Contains the childElement and field mapping.
+ * @param {string} rootElName - Expected root element (e.g. "timetables").
+ */
 export const parseAndValidateXMLFactory = (
-  xmlvalidationRules,
+  xmlValidationRules,
   mappingConfig,
+  // eslint-disable-next-line no-unused-vars
   rootElName,
 ) =>
   asyncHandler(async (req, res, next) => {
-    // 1) ENSURE FILE EXISTS
     if (!req.file) {
       return res.status(400).render("admin/data-import", {
         title: "Data Import Error",
@@ -37,90 +56,124 @@ export const parseAndValidateXMLFactory = (
       });
     }
 
-    // 2) READ XML FILE
-    const data = await readFile(req.file.path, "utf8");
-    console.log("original xml data", data);
+    // Create a readable stream from the file buffer.
+    const stream = new Readable();
+    stream.push(req.file.buffer);
+    stream.push(null);
 
-    const dom = new JSDOM(data, { contentType: "application/xml" });
-    const { document } = dom.window;
-    const rootElement = document.querySelector(rootElName);
+    // Create a SAX parser in strict mode with trimming and normalization.
+    const parser = sax.createStream(true, { trim: true, normalize: true });
 
-    if (!rootElement) {
-      return res.status(400).render("admin/data-import", {
-        title: "Data Import Error",
-        errorMsg: `Invalid XML, root element <${rootElName}> is missing`,
-      });
-    }
+    // We'll use a stack to build a tree for each XML element.
+    const nodeStack = [];
+    // Hold validation promises for each processed target element.
+    const validationPromises = [];
+    const validData = [];
+    const errors = [];
 
-    // 3) MAP XML TO req.body on mappingConfig
-    const childElements = rootElement.querySelectorAll(
-      mappingConfig.childElement,
-    );
-    // console.log("childElements: ", JSON.stringify(childElements));
+    // When a new tag is opened, create a new node.
+    parser.on("opentag", (node) => {
+      const newNode = {
+        name: node.name,
+        attributes: node.attributes,
+        children: [],
+        text: "",
+      };
+      // If there is a parent, add this new node as a child.
+      if (nodeStack.length) {
+        const parent = nodeStack[nodeStack.length - 1];
+        parent.children.push(newNode);
+      }
+      // Push the new node onto the stack.
+      nodeStack.push(newNode);
+    });
 
-    const validDataArray = await Promise.all(
-      Array.from(childElements).map(async (childEl) => {
-        const childData = {};
-        mappingConfig.fields.forEach(
-          ({ xmlElement, dbField, type, itemElement }) => {
-            if (type === "array" && itemElement) {
-              const items = childEl.querySelectorAll(
-                `${xmlElement} > ${itemElement}`,
-              );
-              let valueArr = Array.from(items).map((item) =>
-                item.textContent.trim().toLowerCase(),
-              );
-              // MAKE ARRAY ELEMENT UNIQUE EARLY
-              valueArr = Array.from(new Set(valueArr));
-              childData[dbField] = valueArr;
-            } else {
-              childData[dbField] =
-                childEl.querySelector(xmlElement)?.textContent.trim() || null;
-            }
-          },
-        );
+    // Append text content to the current node.
+    parser.on("text", (text) => {
+      if (nodeStack.length) {
+        const current = nodeStack[nodeStack.length - 1];
+        current.text += text;
+      }
+    });
 
-        const localReqBody = { body: childData };
+    // When a tag is closed, pop the node from the stack.
+    // eslint-disable-next-line no-unused-vars
+    parser.on("closetag", (tagName) => {
+      const node = nodeStack.pop();
+      // If this node is the target element (e.g. <timetable>), process it.
+      if (node.name === mappingConfig.childElement) {
+        // Convert the node tree to a plain object.
+        const nodeObj = nodeToObject(node);
+        // Wrap per-element processing in an async function.
+        const promise = (async () => {
+          const childData = {};
+          // Map each XML field to the expected DB field.
+          mappingConfig.fields.forEach(
+            ({ xmlElement, dbField, type, itemElement }) => {
+              const rawValue = nodeObj[xmlElement];
+              if (type === "array" && itemElement) {
+                const items =
+                  // eslint-disable-next-line no-nested-ternary
+                  rawValue && rawValue[itemElement]
+                    ? // eslint-disable-next-line no-nested-ternary
+                      Array.isArray(rawValue[itemElement])
+                      ? rawValue[itemElement].map((item) =>
+                          typeof item === "string"
+                            ? item.trim().toLowerCase()
+                            : item,
+                        )
+                      : typeof rawValue[itemElement] === "string"
+                        ? [rawValue[itemElement].trim().toLowerCase()]
+                        : []
+                    : [];
+                childData[dbField] = Array.from(new Set(items));
+              } else {
+                childData[dbField] =
+                  typeof rawValue === "string"
+                    ? rawValue.trim()
+                    : rawValue || null;
+              }
+            },
+          );
 
-        await Promise.all(
-          xmlvalidationRules.map((rule) => rule.run(localReqBody)),
-        );
-        const errors = validationResult(localReqBody);
-        console.log(errors);
-        // if (!errors.isEmpty()) {
-        //   return null;
-        // }
-        const validData = matchedData(localReqBody, { includeOptionals: true });
+          // Validate the constructed childData using express-validator.
+          const localReqBody = { body: childData };
+          await Promise.all(
+            xmlValidationRules.map((rule) => rule.run(localReqBody)),
+          );
+          const result = validationResult(localReqBody);
+          if (result.isEmpty()) {
+            validData.push(
+              matchedData(localReqBody, { includeOptionals: true }),
+            );
+          } else {
+            errors.push(result.array());
+          }
+        })();
+        validationPromises.push(promise);
+      }
+    });
 
-        return {
-          validData: errors.isEmpty() ? validData : null,
-          errors: errors.isEmpty() ? [] : errors.array(),
-        };
-      }),
-    );
+    parser.on("error", (err) => {
+      next(err);
+    });
 
-    // console.log("validDataArray: ", validDataArray);
-    console.log("validDataArray: ", validDataArray);
+    // When parsing is complete, wait for all validations then attach results to the request.
+    parser.on("end", async () => {
+      await Promise.all(validationPromises);
+      req.validData = validData;
+      req.errors = errors;
+      next();
+    });
 
-    req.validData = validDataArray
-      .filter((rowObj) => rowObj.validData !== null)
-      .map((rowObj) => rowObj.validData);
-
-    req.errors = validDataArray
-      .filter((rowObj) => rowObj.errors.length > 0)
-      .map((rowObj) => rowObj.errors);
-
-    // req.validData = validDataArray.validData.filter(
-    //   (rowObj) => rowObj !== null,
-    // );
-    // req.invalidData = validDataArray.filter((rowObj) => rowObj === null);
-
-    console.log("req.validData: ", req.validData);
-    console.log("req.errors", req.errors);
-
-    next();
+    // Pipe the file stream into the SAX parser.
+    stream.pipe(parser);
   });
 
+/**
+ * Given a mappingConfig, returns a function that maps validated XML data
+ * to the target database schema.
+ */
 export const mapToDbSchemaFactory = (mappingConfig) => (validXmlDataArr) =>
   validXmlDataArr.map((validXmlData) =>
     mappingConfig.fields.reduce((mappedData, { dbField }) => {
@@ -128,64 +181,3 @@ export const mapToDbSchemaFactory = (mappingConfig) => (validXmlDataArr) =>
       return mappedData;
     }, {}),
   );
-
-// export const mapToDbSchemaFactory = (mappingConfig) => (xmlDocument) => {
-//   const rowElements = xmlDocument.querySelectorAll(mappingConfig.childElement);
-
-//   const results = Array.from(rowElements).map((rowEl) => {
-//     const record = {};
-
-//     // INITIALIZE ROW IS VALID
-//     // let valid = true;
-
-//     mappingConfig.fields.forEach(
-//       ({ xmlElement, dbField, type, itemElement }) => {
-//         if (type === "array" && itemElement) {
-//           const items = rowEl.querySelectorAll(
-//             `${xmlElement} > ${itemElement}`,
-//           );
-//           let value = Array.from(items).map((item) =>
-//             purify.sanitize(item.textContent.trim()),
-//           );
-//           // MAKE SURES SET ENUM IS UNIQUE
-//           value = Array.from(new Set(value));
-
-//           record[dbField] = value;
-//         } else {
-//           const element = rowEl.querySelector(xmlElement);
-//           let value = element
-//             ? purify.sanitize(element.textContent.trim())
-//             : null;
-
-//           // if (!value && type !== "array") {
-//           //   valid = false;
-//           // }
-
-//           if (value !== null) {
-//             switch (type) {
-//               case "integer":
-//                 value = parseInt(value, 10);
-//                 break;
-//               case "decimal":
-//                 value = parseFloat(value);
-//                 break;
-//               case "duration":
-//                 value = parseDurationToSeconds(value);
-//                 break;
-//               case "dateTime":
-//                 value = parseDateTime(value);
-//                 break;
-//               default:
-//                 break;
-//             }
-//           }
-//           record[dbField] = value;
-//         }
-//       },
-//     );
-//     // RETURN NULL IF THE ROW IS INVALID
-//     return record;
-//   });
-//   // REMOVE INVALID ROW
-//   return results;
-// };

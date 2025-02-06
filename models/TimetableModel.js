@@ -151,48 +151,78 @@ export const upsertTimetables = async (xmlData) => {
   try {
     const failedRows = [];
 
-    await Promise.all(
-      xmlData.map(async (row) => {
-        try {
-          const fieldNames = [
-            "timetableNo",
-            "classCode",
-            "trainerEmail",
-            "startDateTime",
-            "duration",
-            "level",
-            "capacity",
-          ];
+    // await Promise.all(
+    //   xmlData.map(async (row) => {
+    //     try {
+    //       const fieldNames = [
+    //         "timetableNo",
+    //         "classCode",
+    //         "trainerEmail",
+    //         "startDateTime",
+    //         "duration",
+    //         "level",
+    //         "capacity",
+    //       ];
 
-          const values = [
-            row.timetableNo,
-            row.classCode,
-            row.trainerEmail,
-            row.startDateTime,
-            row.duration,
-            row.level,
-            row.capacity,
-          ];
+    //       const values = [
+    //         row.timetableNo,
+    //         row.classCode,
+    //         row.trainerEmail,
+    //         row.startDateTime,
+    //         row.duration,
+    //         row.level,
+    //         row.capacity,
+    //       ];
 
-          const onUpdates = [
-            "classCode = VALUES(classCode)",
-            "trainerEmail = VALUES(trainerEmail)",
-            "startDateTime = VALUES(startDateTime)",
-            "duration = VALUES(duration)",
-            "level = VALUES(level)",
-            "capacity = VALUES(capacity)",
-          ];
+    //       const onUpdates = [
+    //         "classCode = VALUES(classCode)",
+    //         "trainerEmail = VALUES(trainerEmail)",
+    //         "startDateTime = VALUES(startDateTime)",
+    //         "duration = VALUES(duration)",
+    //         "level = VALUES(level)",
+    //         "capacity = VALUES(capacity)",
+    //       ];
 
-          const placeHolders = Array(fieldNames.length).fill("?").join(", ");
+    //       const placeHolders = Array(fieldNames.length).fill("?").join(", ");
 
-          const sql = `INSERT INTO timetables (${fieldNames.join(", ")}) VALUES (${placeHolders}) ON DUPLICATE KEY UPDATE ${onUpdates.join(", ")}`;
+    //       const sql = `INSERT INTO timetables (${fieldNames.join(", ")}) VALUES (${placeHolders}) ON DUPLICATE KEY UPDATE ${onUpdates.join(", ")}`;
 
-          await conn.execute(sql, values);
-        } catch (error) {
-          failedRows.push({ success: false, row, error });
-        }
-      }),
-    );
+    //       await conn.execute(sql, values);
+    //     } catch (error) {
+    //       failedRows.push({ success: false, row, error });
+    //     }
+    //   }),
+    // );
+    if (xmlData.length > 0) {
+      const fieldNames = [
+        "timetableNo",
+        "classCode",
+        "trainerEmail",
+        "startDateTime",
+        "duration",
+        "level",
+        "capacity",
+      ];
+      const values = xmlData.map((row) => [
+        row.timetableNo,
+        row.classCode,
+        row.trainerEmail,
+        row.startDateTime,
+        row.duration,
+        row.level,
+        row.capacity,
+      ]);
+
+      const placeholders = values.map(() => "(?, ?, ?, ?, ?, ?, ?)").join(", ");
+
+      const sql = `INSERT INTO timetables (${fieldNames.join(", ")}) VALUES ${placeholders}
+                   ON DUPLICATE KEY UPDATE
+                   classCode=VALUES(classCode), trainerEmail=VALUES(trainerEmail),
+                   startDateTime=VALUES(startDateTime), duration=VALUES(duration),
+                   level=VALUES(level), capacity=VALUES(capacity)`;
+
+      await conn.execute(sql, values.flat());
+    }
 
     if (failedRows.length > 0) {
       console.log("failed rows: ", failedRows);

@@ -71,7 +71,7 @@ export const uploadTimetableDataAction = asyncHandler(
       req.validData,
     );
 
-    console.log(timetableData);
+    // console.log(timetableData);
 
     const { success, failed, details } = await upsertTimetables(timetableData);
 

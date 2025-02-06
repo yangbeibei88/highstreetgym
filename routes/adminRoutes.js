@@ -74,14 +74,16 @@ adminRouter
 
 adminRouter.post(
   "/data-import/classxml",
-  xmlUpload("public/uploads").single("classXmlFile"),
+  // xmlUpload("public/uploads").single("classXmlFile"),
+  xmlUpload.single("classXmlFile"),
   validateClassXmlFile,
   uploadClassDataAction,
 );
 
 adminRouter.post(
   "/data-import/timetablexml",
-  xmlUpload("public/uploads").single("timetableXmlFile"),
+  // xmlUpload("public/uploads").single("timetableXmlFile"),
+  xmlUpload.single("timetableXmlFile"),
   validateTimetableXmlFile,
   uploadTimetableDataAction,
 );

@@ -27,12 +27,6 @@ const xmlFilter = (req, file, cb) => {
   }
 };
 
-// export const checkFileUploadErrors = (req, res, next) => {
-//   if (req.fileValidationError) {
-
-//   }
-// }
-
 const getAvailableFilename = async (destpath, basename, ext, index = 0) => {
   const filename =
     index === 0 ? `${basename}.${ext}` : `${basename}-${index}.${ext}`;
@@ -70,6 +64,8 @@ const uploadStorage = (destPath) =>
     },
   });
 
+const xmlInMemoryStorage = multer.memoryStorage();
+
 export const imageUpload = (path) =>
   multer({
     storage: uploadStorage(path),
@@ -77,5 +73,10 @@ export const imageUpload = (path) =>
     limits: { fileSize: 5000000 },
   });
 
-export const xmlUpload = (path) =>
-  multer({ storage: uploadStorage(path), fileFilter: xmlFilter });
+export const xmlUpload = multer({
+  storage: xmlInMemoryStorage,
+  fileFilter: xmlFilter,
+});
+
+// export const xmlUpload = (path) =>
+//   multer({ storage: uploadStorage(path), fileFilter: xmlFilter });

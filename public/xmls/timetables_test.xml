@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="timetables.xsd"?>
+<timetables xmlns="http://localhost:8085/xmls/timetables">
+ <timetable>
+    <timetableNo>105</timetableNo>
+    <classCode>101</classCode>
+    <trainerEmail>alexm@hsg.io</trainerEmail>
+    <startDateTime>2025-03-03T13:00:00</startDateTime>
+    <duration>PT55M</duration>
+    <level>intermediate</level>
+    <capacity>20</capacity>
+  </timetable>
+    <timetable>
+    <timetableNo>106</timetableNo>
+    <classCode>106</classCode>
+    <trainerEmail>maxm@hsg.io</trainerEmail>
+    <startDateTime>2025-03-03T15:00:00</startDateTime>
+    <duration>PT50M</duration>
+    <level>beginner</level>
+    <capacity>4</capacity>
+  </timetable>
+  </timetables>

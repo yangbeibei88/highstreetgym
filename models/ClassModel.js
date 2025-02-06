@@ -256,3 +256,22 @@ export const getClassByCode = async (classCode) => {
     conn.release();
   }
 };
+
+/**
+ * Batch lookup: get all classes for an array of class codes.
+ */
+export const getClassesByCodes = async (codes) => {
+  if (!codes.length) return [];
+  const conn = await dbPool.getConnection();
+  try {
+    const placeholders = codes.map(() => "?").join(",");
+    const sql = `SELECT * FROM classes WHERE classCode IN (${placeholders})`;
+    const [rows] = await conn.execute(sql, codes);
+    return rows;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};

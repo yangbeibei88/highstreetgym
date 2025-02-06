@@ -71,6 +71,26 @@ export const getTrainerByEmail = async (email) => {
   }
 };
 
+/**
+ * Batch lookup: get all trainers for an array of email addresses.
+ */
+export const getTrainersByEmails = async (emails) => {
+  if (!emails.length) return [];
+  const conn = await dbPool.getConnection();
+  try {
+    const placeholders = emails.map(() => "?").join(",");
+    const sql = `SELECT * FROM users WHERE userRole = ? AND emailAddress IN (${placeholders})`;
+    const params = ["trainer", ...emails];
+    const [rows] = await conn.execute(sql, params);
+    return rows;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
 export const findUserByEmail = async (email) => {
   const conn = await dbPool.getConnection();
   try {
