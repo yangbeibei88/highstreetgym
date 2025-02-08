@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import helmet from "helmet";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { rateLimit } from "express-rate-limit";
+// import { rateLimit } from "express-rate-limit";
 import compression from "compression";
 import { publicRouter } from "./routes/publicRoutes.js";
 import { authRouter } from "./routes/authRoutes.js";
@@ -74,14 +74,14 @@ app.use((req, res, next) => {
 });
 
 // RATE LIMITER
-const limiter = rateLimit({
-  windowMs: 1 * 10 * 1000, // 10 seconds
-  limit: 20,
-  standardHeaders: "draft-7",
-  legacyHeaders: false,
-  message: "Too many requests from this IP, please try again later.",
-});
-app.use(limiter);
+// const limiter = rateLimit({
+//   windowMs: 1 * 10 * 1000, // 10 seconds
+//   limit: 20,
+//   standardHeaders: "draft-7",
+//   legacyHeaders: false,
+//   message: "Too many requests from this IP, please try again later.",
+// });
+// app.use(limiter);
 
 app.get("/test", (req, res) => {
   res.send("server connected");
