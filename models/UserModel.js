@@ -1,6 +1,6 @@
-import { pool } from "../config/db.js";
+import { pool as dbPool } from "../config/db.js";
 
-const dbPool = await pool();
+// const dbPool = await pool();
 
 export const getAllUsers = async () => {
   const conn = await dbPool.getConnection();
