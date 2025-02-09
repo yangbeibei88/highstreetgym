@@ -1,11 +1,12 @@
 import asyncHandler from "express-async-handler";
 import {
-  generateBookingNo,
+  createBookingTransaction,
+  // generateBookingNo,
   getAllBookings,
   getBookingById,
   getBookingByUser,
   getFilteredBookings,
-  insertBooking,
+  // insertBooking,
 } from "../../models/BookingModel.js";
 import {
   getTimetableById,
@@ -106,19 +107,22 @@ export const showBookingFormAction = asyncHandler(async (req, res, next) => {
 
 export const createBookingAction = asyncHandler(async (req, res, next) => {
   const newBookingData = {
-    timetableId: req.timetable.timetableId,
+    // timetableId: req.timetable.timetableId,
+    timetableId: req.params.timetableId,
     userId: req.user.userId,
   };
 
   // const newBooking = await insertBookingTrans(newBookingData);
-  const newBooking = await insertBooking(newBookingData);
+  // const newBooking = await insertBooking(newBookingData);
 
-  await generateBookingNo(newBooking.bookingId);
+  // await generateBookingNo(newBooking.bookingId);
+  const bookingResult = await createBookingTransaction(newBookingData);
 
   req.session.successMsg = "Booked successfully!";
 
   return res.redirect(
-    `/auth/account/booking-confirmation/${newBooking.bookingId}`,
+    // `/auth/account/booking-confirmation/${newBooking.bookingId}`,
+    `/auth/account/booking-confirmation/${bookingResult.bookingId}`,
   );
 });
 
