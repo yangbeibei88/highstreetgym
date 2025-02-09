@@ -140,6 +140,43 @@ export const getBookingCountById = async (timetableId) => {
 //   }
 // };
 
+export const createBookingTransaction = async (newBookingData) => {
+  const conn = await dbPool.getConnection();
+
+  try {
+    await conn.beginTransaction();
+
+    const insertSql =
+      "INSERT INTO bookings (timetableId, userId) VALUES (?, ?)";
+
+    const [insertResult] = await conn.execute(insertSql, [
+      newBookingData.timetableId,
+      newBookingData.userId,
+    ]);
+
+    const bookingId = insertResult.insertId;
+
+    const updateSql = `
+      UPDATE bookings
+      SET bookingNo = CONCAT_WS('-', REPLACE(DATE(createdAt), '-', ''), ?)
+      WHERE bookingId = ?
+    `;
+
+    await conn.execute(updateSql, [bookingId, bookingId]);
+
+    await conn.commit();
+
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    return { bookingId, ...insertResult };
+  } catch (error) {
+    await conn.rollback();
+    console.log("Transaction error in createBookingTransaction:", error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
 export const generateBookingNo = async (bookingId) => {
   const conn = await dbPool.getConnection();
   try {
