@@ -1,0 +1,4 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1739038973700,4504,POST_Request_timetables_xml_upload,200,OK,Thread_Group_admin_1 1-1,text,true,,11955,1049456,1,1,http://localhost:8085/auth/admin/data-import,4394,0,4
+1739038973700,4395,POST_Request_timetables_xml_upload-0,302,Found,Thread_Group_admin_1 1-1,text,true,,1153,1049068,1,1,http://localhost:8085/auth/admin/data-import/timetablexml,4394,0,4
+1739038978095,109,POST_Request_timetables_xml_upload-1,200,OK,Thread_Group_admin_1 1-1,text,true,,10802,388,1,1,http://localhost:8085/auth/admin/data-import,109,0,0
