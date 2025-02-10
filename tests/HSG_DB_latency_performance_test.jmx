@@ -5,6 +5,8 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection Configuration">
@@ -26,7 +28,7 @@
         <stringProp name="username">hsg_admin</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Read Thread Group">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Read Thread Group" enabled="true">
         <intProp name="ThreadGroup.num_threads">50</intProp>
         <intProp name="ThreadGroup.ramp_time">10</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -50,7 +52,7 @@
           <stringProp name="variableNames"></stringProp>
         </JDBCSampler>
         <hashTree>
-          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
+          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
               <name>saveConfig</name>
@@ -87,7 +89,7 @@
             <stringProp name="filename">C:\Users\chris\OneDrive\TAFE Course\11_ICTCLS0064 (ICTWEB514 ICTWEB518 Web Services)\AT2\ICTWEB514_ICTWEB518_AT2_BeibeiYang_474326484\HighStreetGym_dev\HighStreetGym\tests\db_latency_read_summary_report.csv</stringProp>
           </ResultCollector>
           <hashTree/>
-          <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="false">
+          <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
               <name>saveConfig</name>
@@ -162,7 +164,7 @@
           </ResultCollector>
           <hashTree/>
         </hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="classId.csv">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="classId.csv" enabled="true">
           <stringProp name="filename">C:/Users/chris/OneDrive/TAFE Course/11_ICTCLS0064 (ICTWEB514 ICTWEB518 Web Services)/AT2/ICTWEB514_ICTWEB518_AT2_BeibeiYang_474326484/classId.csv</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
           <stringProp name="variableNames">classId</stringProp>
@@ -175,7 +177,7 @@
         </CSVDataSet>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Write Thread Group">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Write Thread Group" enabled="true">
         <intProp name="ThreadGroup.num_threads">50</intProp>
         <intProp name="ThreadGroup.ramp_time">10</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -199,7 +201,7 @@
           <stringProp name="resultSetHandler">Store as String</stringProp>
         </JDBCSampler>
         <hashTree>
-          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
+          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
               <name>saveConfig</name>
@@ -236,7 +238,7 @@
             <stringProp name="filename">C:\Users\chris\OneDrive\TAFE Course\11_ICTCLS0064 (ICTWEB514 ICTWEB518 Web Services)\AT2\ICTWEB514_ICTWEB518_AT2_BeibeiYang_474326484\HighStreetGym_dev\HighStreetGym\tests\db_latency_write_summary_report.csv</stringProp>
           </ResultCollector>
           <hashTree/>
-          <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="false">
+          <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
               <name>saveConfig</name>
@@ -311,7 +313,7 @@
           </ResultCollector>
           <hashTree/>
         </hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="comment_data.csv">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="comment_data.csv" enabled="true">
           <stringProp name="filename">C:/Users/chris/OneDrive/TAFE Course/11_ICTCLS0064 (ICTWEB514 ICTWEB518 Web Services)/AT2/ICTWEB514_ICTWEB518_AT2_BeibeiYang_474326484/comment_data.csv</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
           <stringProp name="variableNames">userId,articleId,comment</stringProp>
